@@ -145,7 +145,7 @@ public:
     Q_PROPERTY(QGeoCoordinate       coordinate                  READ coordinate                                                     NOTIFY coordinateChanged)
     Q_PROPERTY(QGeoCoordinate       homePosition                READ homePosition                                                   NOTIFY homePositionChanged)
     Q_PROPERTY(QGeoCoordinate       armedPosition               READ armedPosition                                                  NOTIFY armedPositionChanged)
-    Q_PROPERTY(bool                 armed                       READ armed                      WRITE setArmed                      NOTIFY armedChanged)
+    Q_PROPERTY(bool                 armed                       READ armed                      WRITE setArmedShowError             NOTIFY armedChanged)
     Q_PROPERTY(bool                 autoDisarm                  READ autoDisarm                                                     NOTIFY autoDisarmChanged)
     Q_PROPERTY(bool                 flightModeSetAvailable      READ flightModeSetAvailable                                         CONSTANT)
     Q_PROPERTY(QStringList          flightModes                 READ flightModes                                                    NOTIFY flightModesChanged)
@@ -391,6 +391,9 @@ public:
     /// Removes the vehicle from the system
     Q_INVOKABLE void closeVehicle(void) { _vehicleLinkManager->closeVehicle(); }
 
+    /// Trigger camera using MAV_CMD_DO_DIGICAM_CONTROL command
+    Q_INVOKABLE void triggerSimpleCamera(void);
+
 #if !defined(NO_ARDUPILOT_DIALECT)
     Q_INVOKABLE void flashBootloader();
 #endif
@@ -439,8 +442,9 @@ public:
 
     QGeoCoordinate homePosition();
 
-    bool armed      () { return _armed; }
-    void setArmed   (bool armed);
+    bool armed              () { return _armed; }
+    void setArmed           (bool armed, bool showError);
+    void setArmedShowError  (bool armed) { setArmed(armed, true); }
 
     bool flightModeSetAvailable             ();
     QStringList flightModes                 ();

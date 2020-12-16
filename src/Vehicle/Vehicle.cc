@@ -1851,12 +1851,12 @@ QGeoCoordinate Vehicle::homePosition()
     return _homePosition;
 }
 
-void Vehicle::setArmed(bool armed)
+void Vehicle::setArmed(bool armed, bool showError)
 {
     // We specifically use COMMAND_LONG:MAV_CMD_COMPONENT_ARM_DISARM since it is supported by more flight stacks.
     sendMavCommand(_defaultComponentId,
                    MAV_CMD_COMPONENT_ARM_DISARM,
-                   true,    // show error if fails
+                   showError,
                    armed ? 1.0f : 0.0f);
 }
 
@@ -3825,4 +3825,13 @@ void Vehicle::sendJoystickDataThreadSafe(float roll, float pitch, float yaw, flo
                     buttons);
         sendMessageOnLinkThreadSafe(sharedLink.get(), message);
     }
+}
+
+void Vehicle::triggerSimpleCamera()
+{
+    sendMavCommand(_defaultComponentId,
+                   MAV_CMD_DO_DIGICAM_CONTROL,
+                   true,                        // show errors
+                   0.0, 0.0, 0.0, 0.0,          // param 1-4 unused
+                   1.0);                        // trigger camera
 }
