@@ -518,7 +518,9 @@ QString Vehicle::firmwareTypeString() const
 
 QString Vehicle::vehicleTypeString() const
 {
-    if (fixedWing()) {
+    if (airship()) {
+        return tr("Airship");
+    } else if (fixedWing()) {
         return tr("Fixed Wing");
     } else if (multiRotor()) {
         return tr("Multi-Rotor");
@@ -2150,6 +2152,11 @@ void Vehicle::_say(const QString& text)
     _toolbox->audioOutput()->say(text.toLower());
 }
 
+bool Vehicle::airship() const
+{
+    return QGCMAVLink::isAirship(vehicleType());
+}
+
 bool Vehicle::fixedWing() const
 {
     return QGCMAVLink::isFixedWing(vehicleType());
@@ -3150,9 +3157,9 @@ void Vehicle::setSoloFirmware(bool soloFirmware)
     }
 }
 
-void Vehicle::motorTest(int motor, int percent, int timeoutSecs)
+void Vehicle::motorTest(int motor, int percent, int timeoutSecs, bool showError)
 {
-    sendMavCommand(_defaultComponentId, MAV_CMD_DO_MOTOR_TEST, true, motor, MOTOR_TEST_THROTTLE_PERCENT, percent, timeoutSecs, 0, MOTOR_TEST_ORDER_BOARD);
+    sendMavCommand(_defaultComponentId, MAV_CMD_DO_MOTOR_TEST, showError, motor, MOTOR_TEST_THROTTLE_PERCENT, percent, timeoutSecs, 0, MOTOR_TEST_ORDER_BOARD);
 }
 
 QString Vehicle::brandImageIndoor() const

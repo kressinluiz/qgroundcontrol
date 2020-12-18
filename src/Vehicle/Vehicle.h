@@ -173,6 +173,7 @@ public:
     Q_PROPERTY(uint                 messagesReceived            READ messagesReceived                                               NOTIFY messagesReceivedChanged)
     Q_PROPERTY(uint                 messagesSent                READ messagesSent                                                   NOTIFY messagesSentChanged)
     Q_PROPERTY(uint                 messagesLost                READ messagesLost                                                   NOTIFY messagesLostChanged)
+    Q_PROPERTY(bool                 airship                     READ airship                                                        NOTIFY vehicleTypeChanged)
     Q_PROPERTY(bool                 fixedWing                   READ fixedWing                                                      NOTIFY vehicleTypeChanged)
     Q_PROPERTY(bool                 multiRotor                  READ multiRotor                                                     NOTIFY vehicleTypeChanged)
     Q_PROPERTY(bool                 vtol                        READ vtol                                                           NOTIFY vehicleTypeChanged)
@@ -372,7 +373,7 @@ public:
     ///     @param motor Motor number, 1-based
     ///     @param percent 0-no power, 100-full power
     ///     @param timeoutSec Disabled motor after this amount of time
-    Q_INVOKABLE void motorTest(int motor, int percent, int timeoutSecs);
+    Q_INVOKABLE void motorTest(int motor, int percent, int timeoutSecs, bool showError);
 
     Q_INVOKABLE void setPIDTuningTelemetryMode(bool pidTuning);
 
@@ -452,6 +453,7 @@ public:
     QString flightMode                      () const;
     void setFlightMode                      (const QString& flightMode);
 
+    bool airship() const;
     bool fixedWing() const;
     bool multiRotor() const;
     bool vtol() const;
