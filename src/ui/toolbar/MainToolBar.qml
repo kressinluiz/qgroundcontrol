@@ -207,7 +207,7 @@ Rectangle {
             anchors.margins:    _margin
             anchors.right:      parent.right
             anchors.bottom:     parent.bottom
-            text:               qsTr("Click anywhere to hide")
+            text:               qsTr("Clique na barra para escondê-la")
 
             property real _margin: ScreenTools.defaultFontPixelWidth / 2
         }
