@@ -79,7 +79,7 @@ Rectangle {
 
         QGCButton {
             id:                 disconnectButton
-            text:               qsTr("Disconnect")
+            text:               qsTr("Desconectar")
             onClicked:          _activeVehicle.closeVehicle()
             visible:            _activeVehicle && _communicationLost && currentToolbar === flyViewToolbar
         }
