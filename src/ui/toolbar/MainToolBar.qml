@@ -199,7 +199,7 @@ Rectangle {
 
         QGCLabel {
             anchors.centerIn:   parent
-            text:               qsTr("Downloading Parameters")
+            text:               qsTr("Baixando Parâmetros")
             font.pointSize:     ScreenTools.largeFontPointSize
         }
 
