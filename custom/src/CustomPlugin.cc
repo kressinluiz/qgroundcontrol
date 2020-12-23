@@ -113,11 +113,11 @@ QVariantList&
 CustomPlugin::settingsPages()
 {
     if(_customSettingsList.isEmpty()) {
-        _addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml",     "qrc:/res/gear-white.svg");
-        _addSettingsEntry(tr("Comm Links"),  "qrc:/qml/LinkSettings.qml",        "qrc:/res/waves.svg");
-        _addSettingsEntry(tr("Offline Maps"),"qrc:/qml/OfflineMap.qml",          "qrc:/res/waves.svg");
-        _addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml",     "qrc:/res/waves.svg");
-        _addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");
+        //_addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml",     "qrc:/res/gear-white.svg");
+        _addSettingsEntry(tr("Conexão ao Controle"),  "qrc:/qml/LinkSettings.qml",        "qrc:/res/waves.svg");
+        _addSettingsEntry(tr("Mapas"),"qrc:/qml/OfflineMap.qml",          "qrc:/res/waves.svg");
+        //_addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml",     "qrc:/res/waves.svg");
+        //_addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");
 #if defined(QT_DEBUG)
         //-- These are always present on Debug builds
         _addSettingsEntry(tr("Mock Link"),   "qrc:/qml/MockLink.qml");
@@ -368,4 +368,11 @@ QQmlApplicationEngine* CustomPlugin::createQmlApplicationEngine(QObject* parent)
     QQmlApplicationEngine* qmlEngine = QGCCorePlugin::createQmlApplicationEngine(parent);
     qmlEngine->addImportPath("qrc:/Custom/Widgets");
     return qmlEngine;
+}
+
+QList<int> CustomPlugin::firstRunPromptStdIds(void)
+{
+    //QList<int> rgStdIds = { unitsFirstRunPromptId, offlineVehicleFirstRunPromptId };
+    //return rgStdIds;
+    return QList<int>();
 }
