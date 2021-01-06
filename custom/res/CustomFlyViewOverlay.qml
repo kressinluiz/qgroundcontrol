@@ -94,9 +94,9 @@ Item {
                     case 90:    return "E"
                     case 135:   return "SE"
                     case 180:   return "S"
-                    case 225:   return "SW"
-                    case 270:   return "W"
-                    case 315:   return "NW"
+                    case 225:   return "SO"
+                    case 270:   return "O"
+                    case 315:   return "NO"
                     }
                     return ""
                 }

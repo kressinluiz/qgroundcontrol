@@ -196,7 +196,6 @@ public:
 
     // Custom builds can start there first run prompt ids from here
     static const int firstRunPromptIdsFirstCustomId = 10000;
-    static const int everyRunPromptIdsCommLink = 10001;
 
 signals:
     void settingsPagesChanged       ();

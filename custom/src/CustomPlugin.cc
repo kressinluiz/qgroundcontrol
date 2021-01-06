@@ -393,7 +393,7 @@ QList<int> CustomPlugin::firstRunPromptCustomIds(void)
 QString CustomPlugin::firstRunPromptResource(int id)
 {
     switch (id) {
-    case everyRunPromptIdsCommLink:
+    case firstRunPromptIdsFirstCustomId:
         return "qrc:/qml/res/Custom/CustomLinkSettings.qml";
         break;
     }

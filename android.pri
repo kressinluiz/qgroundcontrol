@@ -49,6 +49,12 @@ OTHER_FILES += \
 DISTFILES += \
     $$PWD/android/gradle/wrapper/gradle-wrapper.jar \
     $$PWD/android/gradlew \
+    $$PWD/android/res/drawable-hdpi/icon.png \
+    $$PWD/android/res/drawable-ldpi/icon.png \
+    $$PWD/android/res/drawable-mdpi/icon.png \
+    $$PWD/android/res/drawable-xhdpi/icon.png \
+    $$PWD/android/res/drawable-xxhdpi/icon.png \
+    $$PWD/android/res/drawable-xxxhdpi/icon.png \
     $$PWD/android/res/values/libs.xml \
     $$PWD/android/build.gradle \
     $$PWD/android/gradle/wrapper/gradle-wrapper.properties \
