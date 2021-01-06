@@ -18,7 +18,7 @@ QGCPopupDialog {
     buttons:    StandardButton.Ok
 
     property int  promptId
-    property bool markAsShownOnClose: false
+    property bool markAsShownOnClose: true
 
     onHideDialog: {
         if (markAsShownOnClose) {

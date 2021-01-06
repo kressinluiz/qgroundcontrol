@@ -131,6 +131,7 @@ Item {
         x:                  recalcXPosition()
         anchors.margins:    _toolsMargin
         anchors.bottom:     parent.bottom
+        visible:  false
 
         function recalcXPosition() {
             // First try centered

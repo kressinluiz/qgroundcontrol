@@ -124,6 +124,7 @@ Item {
             rowSpacing:             _rowSpacing
             columnSpacing:          _labelToValueSpacing
             Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+            visible: false
 
             QGCLabel {
                 text:               qsTr("Selected Waypoint")
@@ -236,7 +237,8 @@ Item {
             id:          uploadButton
             text:        _controllerDirty ? qsTr("Upload Required") : qsTr("Upload")
             enabled:     !_controllerSyncInProgress
-            visible:     !_controllerOffline && !_controllerSyncInProgress && !uploadCompleteText.visible
+            //visible:     !_controllerOffline && !_controllerSyncInProgress && !uploadCompleteText.visible
+            visible: false
             primary:     _controllerDirty
             onClicked:   _planMasterController.upload()
 

@@ -157,7 +157,7 @@ ApplicationWindow {
     }
 
     function showSetupTool() {
-        showTool(qsTr("Vehicle Setup"), "SetupView.qml", "/qmlimages/Gears.svg")
+        showTool(qsTr("Configurações"), "SetupView.qml", "/qmlimages/Gears.svg")
     }
 
     function showSettingsTool() {
@@ -364,7 +364,7 @@ ApplicationWindow {
                         id:                 setupButton
                         height:             toolSelectDrawer._toolButtonHeight
                         Layout.fillWidth:   true
-                        text:               qsTr("Vehicle Setup")
+                        text:               qsTr("Configurações")
                         imageColor:         qgcPal.text
                         imageResource:      "/qmlimages/Gears.svg"
                         onClicked: {
@@ -518,7 +518,7 @@ ApplicationWindow {
 
                 QGCLabel {
                     id:     backTextLabel
-                    text:   qsTr("Back")
+                    text:   qsTr("Voltar")
                 }
 
                 QGCLabel {

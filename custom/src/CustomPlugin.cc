@@ -408,8 +408,10 @@ QList<int> CustomPlugin::firstRunPromptCustomIds(void)
 QString CustomPlugin::firstRunPromptResource(int id)
 {
     switch (id) {
-    case firstRunPromptIdsFirstCustomId:
-        return "qrc:/qml/res/Custom/CustomLinkSettings.qml";
+    case unitsFirstRunPromptId:
+        return "/FirstRunPromptDialogs/UnitsFirstRunPrompt.qml";
+    case offlineVehicleFirstRunPromptId:
+        return "/FirstRunPromptDialogs/OfflineVehicleFirstRunPrompt.qml";
         break;
     }
 

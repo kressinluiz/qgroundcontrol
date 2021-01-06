@@ -615,7 +615,7 @@ Item {
             anchors.top:        parent.top
             z:                  QGroundControl.zOrderWidgets
             maxHeight:          parent.height - toolStrip.y
-            title:              qsTr("Plan")
+            title:              qsTr("ROTAS")
 
             readonly property int flyButtonIndex:       0
             readonly property int fileButtonIndex:      1
@@ -633,12 +633,12 @@ Item {
                 id: toolStripActionList
                 model: [
                     ToolStripAction {
-                        text:           qsTr("Fly")
+                        text:           qsTr("Voar")
                         iconSource:     "/qmlimages/PaperPlane.svg"
                         onTriggered:    mainWindow.showFlyView()
                     },
                     ToolStripAction {
-                        text:                   qsTr("File")
+                        text:                   qsTr("Carregar")
                         enabled:                !_planMasterController.syncInProgress
                         visible:                true
                         showAlternateIcon:      _planMasterController.dirty
@@ -650,7 +650,8 @@ Item {
                         text:       qsTr("Takeoff")
                         iconSource: "/res/takeoff.svg"
                         enabled:    _missionController.isInsertTakeoffValid
-                        visible:    toolStrip._isMissionLayer && !_planMasterController.controllerVehicle.rover
+                        //visible:    toolStrip._isMissionLayer && !_planMasterController.controllerVehicle.rover
+                        visible: false
                         onTriggered: {
                             toolStrip.allAddClickBoolsOff()
                             insertTakeItemAfterCurrent()
@@ -661,14 +662,16 @@ Item {
                         text:               _editingLayer == _layerRallyPoints ? qsTr("Rally Point") : qsTr("Waypoint")
                         iconSource:         "/qmlimages/MapAddMission.svg"
                         enabled:            toolStrip._isRallyLayer ? true : _missionController.flyThroughCommandsAllowed
-                        visible:            toolStrip._isRallyLayer || toolStrip._isMissionLayer
+                        //visible:            toolStrip._isRallyLayer || toolStrip._isMissionLayer
+                        visible: false
                         checkable:          true
                     },
                     ToolStripAction {
                         text:               _missionController.isROIActive ? qsTr("Cancel ROI") : qsTr("ROI")
                         iconSource:         "/qmlimages/MapAddMission.svg"
                         enabled:            !_missionController.onlyInsertTakeoffValid
-                        visible:            toolStrip._isMissionLayer && _planMasterController.controllerVehicle.roiModeSupported
+                        //visible:            toolStrip._isMissionLayer && _planMasterController.controllerVehicle.roiModeSupported
+                        visible: false
                         checkable:          !_missionController.isROIActive
                         onCheckedChanged:   _addROIOnClick = checked
                         onTriggered: {
@@ -684,7 +687,8 @@ Item {
                         text:               _singleComplexItem ? _missionController.complexMissionItemNames[0] : qsTr("Pattern")
                         iconSource:         "/qmlimages/MapDrawShape.svg"
                         enabled:            _missionController.flyThroughCommandsAllowed
-                        visible:            toolStrip._isMissionLayer
+                        //visible:            toolStrip._isMissionLayer
+                        visible: false
                         dropPanelComponent: _singleComplexItem ? undefined : patternDropPanel
                         onTriggered: {
                             toolStrip.allAddClickBoolsOff()
@@ -697,7 +701,8 @@ Item {
                         text:       _planMasterController.controllerVehicle.multiRotor ? qsTr("Return") : qsTr("Land")
                         iconSource: "/res/rtl.svg"
                         enabled:    _missionController.isInsertLandValid
-                        visible:    toolStrip._isMissionLayer
+                        //visible:    toolStrip._isMissionLayer
+                        visible: false
                         onTriggered: {
                             toolStrip.allAddClickBoolsOff()
                             insertLandItemAfterCurrent()
@@ -707,7 +712,7 @@ Item {
                         text:               qsTr("Center")
                         iconSource:         "/qmlimages/MapCenter.svg"
                         enabled:            true
-                        visible:            true
+                        visible:            false
                         dropPanelComponent: centerMapDropPanel
                     }
                 ]
@@ -1037,19 +1042,20 @@ Item {
                 visible:            _planMasterController.dirty
             }
 
-            SectionHeader {
-                id:                 createSection
-                Layout.fillWidth:   true
-                text:               qsTr("Create Plan")
-                showSpacer:         false
-            }
+//            SectionHeader {
+//                id:                 createSection
+//                Layout.fillWidth:   true
+//                text:               qsTr("Create Plan")
+//                showSpacer:         false
+//            }
 
             GridLayout {
                 columns:            2
                 columnSpacing:      _margin
                 rowSpacing:         _margin
                 Layout.fillWidth:   true
-                visible:            createSection.visible
+                //visible:            createSection.visible
+                visible: false
 
                 Repeater {
                     model: _planMasterController.planCreators
@@ -1108,17 +1114,18 @@ Item {
                 }
             }
 
-            SectionHeader {
-                id:                 storageSection
-                Layout.fillWidth:   true
-                text:               qsTr("Storage")
-            }
+//            SectionHeader {
+//                id:                 storageSection
+//                Layout.fillWidth:   true
+//                text:               qsTr("Storage")
+//            }
 
             GridLayout {
                 columns:            3
                 rowSpacing:         _margin
                 columnSpacing:      ScreenTools.defaultFontPixelWidth
-                visible:            storageSection.visible
+                //visible:            storageSection.visible
+                visible:            false
 
                 /*QGCButton {
                     text:               qsTr("New...")
@@ -1189,7 +1196,7 @@ Item {
             SectionHeader {
                 id:                 vehicleSection
                 Layout.fillWidth:   true
-                text:               qsTr("Vehicle")
+                text:               qsTr("Aeronave")
             }
 
             RowLayout {
@@ -1198,7 +1205,7 @@ Item {
                 visible:            vehicleSection.visible
 
                 QGCButton {
-                    text:               qsTr("Upload")
+                    text:               qsTr("CARREGAR ROTA")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.offline && !_planMasterController.syncInProgress && _planMasterController.containsItems
                     visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
@@ -1212,7 +1219,8 @@ Item {
                     text:               qsTr("Download")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.offline && !_planMasterController.syncInProgress
-                    visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
+                    //visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
+                    visible: false
                     onClicked: {
                         dropPanel.hide()
                         if (_planMasterController.dirty) {
@@ -1228,7 +1236,8 @@ Item {
                     Layout.fillWidth:   true
                     Layout.columnSpan:  2
                     enabled:            !_planMasterController.offline && !_planMasterController.syncInProgress
-                    visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
+                    //visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
+                    visible: false
                     onClicked: {
                         dropPanel.hide()
                         mainWindow.showComponentDialog(clearVehicleMissionDialog, text, mainWindow.showDialogDefaultWidth, StandardButton.Yes | StandardButton.Cancel)

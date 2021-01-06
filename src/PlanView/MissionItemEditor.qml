@@ -22,6 +22,7 @@ Rectangle {
     opacity:        _currentItem ? 1.0 : 0.7
     border.width:   _readyForSave ? 0 : 2
     border.color:   qgcPal.warningText
+    visible: false
 
     property var    map                 ///< Map control
     property var    masterController
