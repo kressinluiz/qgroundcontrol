@@ -14,8 +14,8 @@ Item {
     property string title
     property var    buttons: StandardButton.Ok
 
-    width:  childrenRect.width
-    height: childrenRect.height
+    //width:  childrenRect.width
+    //height: childrenRect.height
 
     signal hideDialog
 

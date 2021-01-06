@@ -83,3 +83,6 @@ SOURCES += \
     $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.cc \
     $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.cc \
 
+DISTFILES += \
+    $$PWD/res/BluetoothRunPrompt.qml
+

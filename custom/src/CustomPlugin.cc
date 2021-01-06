@@ -355,10 +355,14 @@ void CustomPlugin::paletteOverride(QString colorName, QGCPalette::PaletteColorIn
         colorInfo[QGCPalette::Light][QGCPalette::ColorGroupDisabled] = QColor("#4a2c6d");
     }
     else if (colorName == QStringLiteral("brandingBlue")) {
-        colorInfo[QGCPalette::Dark][QGCPalette::ColorGroupEnabled]   = QColor("#6045c5");
-        colorInfo[QGCPalette::Dark][QGCPalette::ColorGroupDisabled]  = QColor("#48d6ff");
-        colorInfo[QGCPalette::Light][QGCPalette::ColorGroupEnabled]  = QColor("#6045c5");
-        colorInfo[QGCPalette::Light][QGCPalette::ColorGroupDisabled] = QColor("#48d6ff");
+        //colorInfo[QGCPalette::Dark][QGCPalette::ColorGroupEnabled]   = QColor("#6045c5");
+        //colorInfo[QGCPalette::Dark][QGCPalette::ColorGroupDisabled]  = QColor("#48d6ff");
+        //colorInfo[QGCPalette::Light][QGCPalette::ColorGroupEnabled]  = QColor("#6045c5");
+        //colorInfo[QGCPalette::Light][QGCPalette::ColorGroupDisabled] = QColor("#48d6ff");
+        colorInfo[QGCPalette::Dark][QGCPalette::ColorGroupEnabled]   = QColor("#43b5ff");
+        colorInfo[QGCPalette::Dark][QGCPalette::ColorGroupDisabled]  = QColor("#6045c5");
+        colorInfo[QGCPalette::Light][QGCPalette::ColorGroupEnabled]  = QColor("#43b5ff");
+        colorInfo[QGCPalette::Light][QGCPalette::ColorGroupDisabled] = QColor("#6045c5");
     }
 }
 
@@ -370,9 +374,31 @@ QQmlApplicationEngine* CustomPlugin::createQmlApplicationEngine(QObject* parent)
     return qmlEngine;
 }
 
+
+// Override to stop standard first run prompts
 QList<int> CustomPlugin::firstRunPromptStdIds(void)
 {
     //QList<int> rgStdIds = { unitsFirstRunPromptId, offlineVehicleFirstRunPromptId };
     //return rgStdIds;
     return QList<int>();
 }
+
+QList<int> CustomPlugin::firstRunPromptCustomIds(void)
+{
+    //QList<int> rgCustomIds = {everyRunPromptIdsCommLink};
+    //return rgCustomIds;
+    return QList<int>();
+}
+
+QString CustomPlugin::firstRunPromptResource(int id)
+{
+    switch (id) {
+    case everyRunPromptIdsCommLink:
+        return "qrc:/qml/res/Custom/CustomLinkSettings.qml";
+        break;
+    }
+
+    return QString();
+}
+
+

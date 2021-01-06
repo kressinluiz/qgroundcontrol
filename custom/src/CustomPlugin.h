@@ -65,6 +65,8 @@ public:
     void                    paletteOverride                 (QString colorName, QGCPalette::PaletteColorInfo_t& colorInfo) final;
     QQmlApplicationEngine*  createQmlApplicationEngine      (QObject* parent) final;
     virtual QList<int>      firstRunPromptStdIds            (void);
+    QString                 firstRunPromptResource          (int id);
+    QList<int>              firstRunPromptCustomIds         (void);
 
     // Overrides from QGCTool
     void                    setToolbox                      (QGCToolbox* toolbox);

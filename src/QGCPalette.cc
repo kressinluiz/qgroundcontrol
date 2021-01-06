@@ -20,7 +20,7 @@
 
 QList<QGCPalette*>   QGCPalette::_paletteObjects;
 
-QGCPalette::Theme QGCPalette::_theme = QGCPalette::Dark;
+QGCPalette::Theme QGCPalette::_theme = QGCPalette::Light;
 
 QMap<int, QMap<int, QMap<QString, QColor>>> QGCPalette::_colorInfoMap;
 

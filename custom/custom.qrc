@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/custom">
         <file alias="CustomFlyViewOverlay.qml">res/CustomFlyViewOverlay.qml</file>
+        <file alias="BluetoothRunPrompt.qml">res/Custom/BluetoothRunPrompt.qml</file>
     </qresource>
     <qresource prefix="/custom/img">
         <file alias="altitude.svg">res/Images/altitude.svg</file>
@@ -33,5 +34,10 @@
     </qresource>
     <qresource prefix="/qml">
         <file alias="QGroundControl/FlightDisplay/FlyViewCustomLayer.qml">res/CustomFlyViewOverlay.qml</file>
+        <file>res/Custom/BluetoothRunPrompt.qml</file>
+        <file>res/Custom/CustomLinkSettings.qml</file>
+    </qresource>
+    <qresource prefix="/res">
+        <file alias="QGCLogoFull">res/VigiAppLogo.png</file>
     </qresource>
 </RCC>
