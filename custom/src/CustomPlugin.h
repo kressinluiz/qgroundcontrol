@@ -42,6 +42,9 @@ public:
     // Overrides from QGCOptions
     bool                    wifiReliableForCalibration  (void) const final;
     bool                    showFirmwareUpgrade         (void) const final;
+    bool                    enablePlanViewSelector      (void) final;
+    bool                    showMissionStatus           (void) final;
+    bool                    combineSettingsAndSetup     (void) final;
     QGCFlyViewOptions*      flyViewOptions(void) final;
 
 private:

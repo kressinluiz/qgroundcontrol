@@ -57,6 +57,21 @@ QGCFlyViewOptions* CustomOptions::flyViewOptions(void)
     return _flyViewOptions;
 }
 
+// Enable Plan View Selector (Mission, Fence or Rally)
+bool CustomOptions::enablePlanViewSelector()
+{
+    return false;
+}
+// Should the mission status indicator (Plan View) be shown?
+bool CustomOptions::showMissionStatus()
+{
+    return false;
+}
+//Should QGC hide its settings menu and colapse it into one single menu?
+bool CustomOptions::combineSettingsAndSetup()
+{
+    return true;
+}
 // Firmware upgrade page is only shown in Advanced Mode.
 bool CustomOptions::showFirmwareUpgrade() const
 {

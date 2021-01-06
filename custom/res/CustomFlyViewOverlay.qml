@@ -25,7 +25,7 @@ Item {
     property var totalToolInsets:   _totalToolInsets    // The insets updated for the custom overlay additions
     property var mapControl
 
-    readonly property string noGPS:         qsTr("NO GPS")
+    readonly property string noGPS:         qsTr("SEM GPS")
     readonly property real   indicatorValueWidth:   ScreenTools.defaultFontPixelWidth * 7
 
     property var    _activeVehicle:         QGroundControl.multiVehicleManager.activeVehicle
