@@ -536,13 +536,14 @@ Item {
                         spacing:    ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter: parent.horizontalCenter
                         visible:    _defaultSet
-                        QGCLabel { text: qsTr("Size:"); width: infoView._labelWidth; }
+                        QGCLabel { text: qsTr("Tamanho:"); width: infoView._labelWidth; }
                         QGCLabel { text: offlineMapView._currentSelection ? offlineMapView._currentSelection.savedTileSizeStr  : ""; horizontalAlignment: Text.AlignRight; width: infoView._valueWidth; }
                     }
                     Row {
                         spacing:    ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter: parent.horizontalCenter
-                        visible:    _defaultSet
+                        //visible:    _defaultSet
+                        visible: false
                         QGCLabel { text: qsTr("Tile Count:"); width: infoView._labelWidth; }
                         QGCLabel { text: offlineMapView._currentSelection ? offlineMapView._currentSelection.savedTileCountStr : ""; horizontalAlignment: Text.AlignRight; width: infoView._valueWidth; }
                     }
@@ -568,7 +569,7 @@ Item {
                             }
                         }
                         QGCButton {
-                            text:       qsTr("Delete")
+                            text:       qsTr("Apagar")
                             width:      ScreenTools.defaultFontPixelWidth * (infoView._extraButton ? 6 : 10)
                             onClicked:  mainWindow.showComponentDialog(deleteConfirmationDialogComponent, qsTr("Confirm Delete"), mainWindow.showDialogDefaultWidth, StandardButton.Yes | StandardButton.No)
                         }
@@ -586,7 +587,7 @@ Item {
                             }
                         }
                         QGCButton {
-                            text:       _defaultSet ? qsTr("Close") : qsTr("Cancel")
+                            text:       _defaultSet ? qsTr("Fechar") : qsTr("Cancelar")
                             width:      ScreenTools.defaultFontPixelWidth * (infoView._extraButton ? 6 : 10)
                             onClicked: {
                                 leaveInfoView()
@@ -647,7 +648,7 @@ Item {
                             QGCMapLabel {
                                 anchors.centerIn:   parent
                                 map:                minZoomPreview
-                                text:               qsTr("Min Zoom: %1").arg(sliderMinZoom.value)
+                                text:               qsTr("Zoom Mín: %1").arg(sliderMinZoom.value)
                             }
                             MouseArea {
                                 anchors.fill:   parent
@@ -687,7 +688,7 @@ Item {
                             QGCMapLabel {
                                 anchors.centerIn:   parent
                                 map:                maxZoomPreview
-                                text:               qsTr("Max Zoom: %1").arg(sliderMaxZoom.value)
+                                text:               qsTr("Zoom Máx: %1").arg(sliderMaxZoom.value)
                             }
                             MouseArea {
                                 anchors.fill:   parent
@@ -733,7 +734,7 @@ Item {
                 anchors.left:       parent.left
                 anchors.right:      parent.right
                 wrapMode:           Text.WordWrap
-                text:               qsTr("Add New Set")
+                text:               qsTr("Adicionar Mapa")
                 font.pointSize:     _saveRealEstate ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -761,7 +762,7 @@ Item {
                         spacing:            ScreenTools.isTinyScreen ? 0 : ScreenTools.defaultFontPixelHeight * 0.25
                         anchors.left:       parent.left
                         anchors.right:      parent.right
-                        QGCLabel { text: qsTr("Name:") }
+                        QGCLabel { text: qsTr("Nome:") }
                         QGCTextField {
                             id:             setName
                             anchors.left:   parent.left
@@ -798,7 +799,9 @@ Item {
                             anchors.left:   parent.left
                             anchors.right:  parent.right
                             text:           qsTr("Fetch elevation data")
-                            checked:        QGroundControl.mapEngineManager.fetchElevation
+                            //checked:        QGroundControl.mapEngineManager.fetchElevation
+                            checked: true
+                            visible: false
                             onClicked: {
                                 QGroundControl.mapEngineManager.fetchElevation = checked
                                 handleChanges()
@@ -823,7 +826,7 @@ Item {
                             anchors.right:      parent.right
 
                             QGCLabel {
-                                text:           qsTr("Min/Max Zoom Levels")
+                                text:           qsTr("Níveis Mín/Máx de Zoom")
                                 font.pointSize: _adjustableFontPointSize
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
@@ -920,14 +923,16 @@ Item {
                                 QGCLabel {
                                     text:           qsTr("Tile Count:")
                                     font.pointSize: _adjustableFontPointSize
+                                    visible: false
                                 }
                                 QGCLabel {
                                     text:            QGroundControl.mapEngineManager.tileCountStr
                                     font.pointSize: _adjustableFontPointSize
+                                    visible: false
                                 }
 
                                 QGCLabel {
-                                    text:           qsTr("Est Size:")
+                                    text:           qsTr("Tamanho estimado:")
                                     font.pointSize: _adjustableFontPointSize
                                 }
                                 QGCLabel {
@@ -950,7 +955,7 @@ Item {
                         spacing: ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter: parent.horizontalCenter
                         QGCButton {
-                            text:       qsTr("Download")
+                            text:       qsTr("Baixar")
                             width:      (addNewSetColumn.width * 0.5) - (addButtonRow.spacing * 0.5)
                             enabled:    !_tooManyTiles && setName.text.length > 0
                             onClicked: {
@@ -963,7 +968,7 @@ Item {
                             }
                         }
                         QGCButton {
-                            text:       qsTr("Cancel")
+                            text:       qsTr("Cancelar")
                             width:      (addNewSetColumn.width * 0.5) - (addButtonRow.spacing * 0.5)
                             onClicked: {
                                 showList()
@@ -995,7 +1000,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 OfflineMapButton {
                     id:             firstButton
-                    text:           qsTr("Add New Set")
+                    text:           qsTr("Adicionar novo mapa")
                     width:          _cacheList.width
                     height:         ScreenTools.defaultFontPixelHeight * (ScreenTools.isMobile ? 3 : 2)
                     currentSet:     _currentSelection
@@ -1033,7 +1038,7 @@ Item {
             anchors.margins:    ScreenTools.defaultFontPixelWidth
             anchors.horizontalCenter: parent.horizontalCenter
             QGCButton {
-                text:           qsTr("Import")
+                text:           qsTr("Importar")
                 width:          _buttonSize
                 visible:        QGroundControl.corePlugin.options.showOfflineMapImport
                 onClicked: {
@@ -1042,13 +1047,14 @@ Item {
                 }
             }
             QGCButton {
-                text:           qsTr("Export")
+                text:           qsTr("Exportar")
                 width:          _buttonSize
                 visible:        QGroundControl.corePlugin.options.showOfflineMapExport
                 onClicked:      showExport()
             }
             QGCButton {
                 text:           qsTr("Options")
+                visible: false
                 width:          _buttonSize
                 onClicked:      mainWindow.showComponentDialog(optionsDialogComponent, qsTr("Offline Maps Options"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
             }

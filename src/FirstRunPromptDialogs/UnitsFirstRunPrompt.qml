@@ -39,7 +39,8 @@ FirstRunPrompt {
 
     function changeSystemOfUnits(metric) {
         if (_unitsSettings.horizontalDistanceUnits.visible) {
-            _unitsSettings.horizontalDistanceUnits.value = metric ? UnitsSettings.HorizontalDistanceUnitsMeters : UnitsSettings.HorizontalDistanceUnitsFeet
+            _unitsSettings.horizontalDistanceUnits.value = UnitsSettings.HorizontalDistanceUnitsMeters;
+            //_unitsSettings.horizontalDistanceUnits.value = metric ? UnitsSettings.HorizontalDistanceUnitsMeters : UnitsSettings.HorizontalDistanceUnitsFeet
         }
         if (_unitsSettings.verticalDistanceUnits.visible) {
             _unitsSettings.verticalDistanceUnits.value = metric ? UnitsSettings.VerticalDistanceUnitsMeters : UnitsSettings.VerticalDistanceUnitsFeet

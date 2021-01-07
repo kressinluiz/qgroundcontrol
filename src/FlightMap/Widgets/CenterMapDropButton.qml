@@ -159,7 +159,7 @@ DropButton {
         ColumnLayout {
             spacing: ScreenTools.defaultFontPixelWidth * 0.5
 
-            QGCLabel { text: qsTr("Center map on:") }
+            QGCLabel { text: qsTr("Centralizar mapa em:") }
 
             QGCButton {
                 text:               qsTr("Mission")
@@ -186,7 +186,7 @@ DropButton {
             }
 
             QGCButton {
-                text:               qsTr("Launch")
+                text:               qsTr("Início Rota")
                 Layout.fillWidth:   true
                 enabled:            !followVehicleCheckBox.checked
 
@@ -197,7 +197,7 @@ DropButton {
             }
 
             QGCButton {
-                text:               qsTr("Current Location")
+                text:               qsTr("Localização atual")
                 Layout.fillWidth:   true
                 enabled:            map.gcsPosition ? map.gcsPosition.isValid && !followVehicleCheckBox.checked : false
 
@@ -211,6 +211,7 @@ DropButton {
             QGCButton {
                 text:               qsTr("Specified Location")
                 Layout.fillWidth:   true
+                visible: false
 
                 onClicked: {
                     dropButton.hideDropDown()
@@ -219,7 +220,7 @@ DropButton {
             }
 
             QGCButton {
-                text:               qsTr("Vehicle")
+                text:               qsTr("Aeronave")
                 Layout.fillWidth:   true
                 enabled:            globals.activeVehicle && globals.activeVehicle.latitude != 0 && globals.activeVehicle.longitude != 0 && !followVehicleCheckBox.checked
 

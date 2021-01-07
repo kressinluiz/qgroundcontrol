@@ -37,8 +37,10 @@ DECLARE_SETTINGSFACT_NO_FUNC(UnitsSettings, horizontalDistanceUnits)
                 defaultHorizontalDistanceUnit = HorizontalDistanceUnitsMeters;
             } break;
             case QLocale::ImperialUSSystem:
+                defaultHorizontalDistanceUnit = HorizontalDistanceUnitsMeters;
             case QLocale::ImperialUKSystem:
-                defaultHorizontalDistanceUnit = HorizontalDistanceUnitsFeet;
+                //defaultHorizontalDistanceUnit = HorizontalDistanceUnitsFeet;
+                defaultHorizontalDistanceUnit = HorizontalDistanceUnitsMeters;
                 break;
         }
         metaData->setRawDefaultValue(defaultHorizontalDistanceUnit);
@@ -67,8 +69,9 @@ DECLARE_SETTINGSFACT_NO_FUNC(UnitsSettings, verticalDistanceUnits)
                 defaultVerticalAltitudeUnit = VerticalDistanceUnitsMeters;
             } break;
             case QLocale::ImperialUSSystem:
+                defaultVerticalAltitudeUnit = VerticalDistanceUnitsMeters;
             case QLocale::ImperialUKSystem:
-                defaultVerticalAltitudeUnit = VerticalDistanceUnitsFeet;
+                defaultVerticalAltitudeUnit = VerticalDistanceUnitsMeters;
                 break;
         }
         metaData->setRawDefaultValue(defaultVerticalAltitudeUnit);
@@ -103,8 +106,9 @@ DECLARE_SETTINGSFACT_NO_FUNC(UnitsSettings, areaUnits)
                 defaultAreaUnit = AreaUnitsSquareMeters;
             } break;
             case QLocale::ImperialUSSystem:
+                defaultAreaUnit = AreaUnitsSquareMeters;
             case QLocale::ImperialUKSystem:
-                defaultAreaUnit = AreaUnitsSquareMiles;
+                defaultAreaUnit = AreaUnitsSquareMeters;
                 break;
         }
         metaData->setRawDefaultValue(defaultAreaUnit);
@@ -138,8 +142,9 @@ DECLARE_SETTINGSFACT_NO_FUNC(UnitsSettings, speedUnits)
                 defaultSpeedUnit = SpeedUnitsMetersPerSecond;
             } break;
             case QLocale::ImperialUSSystem:
+                defaultSpeedUnit = SpeedUnitsMetersPerSecond;
             case QLocale::ImperialUKSystem:
-                defaultSpeedUnit = SpeedUnitsMilesPerHour;
+                defaultSpeedUnit = SpeedUnitsMetersPerSecond;
                 break;
         }
         metaData->setRawDefaultValue(defaultSpeedUnit);
@@ -168,8 +173,9 @@ DECLARE_SETTINGSFACT_NO_FUNC(UnitsSettings, temperatureUnits)
                 defaultTemperatureUnit = TemperatureUnitsCelsius;
             } break;
             case QLocale::ImperialUSSystem:
+                defaultTemperatureUnit = TemperatureUnitsCelsius;
             case QLocale::ImperialUKSystem:
-                defaultTemperatureUnit = TemperatureUnitsFarenheit;
+                defaultTemperatureUnit = TemperatureUnitsCelsius;
                 break;
         }
         metaData->setRawDefaultValue(defaultTemperatureUnit);
@@ -202,7 +208,7 @@ DECLARE_SETTINGSFACT_NO_FUNC(UnitsSettings, weightUnits)
                 defaultWeightUnit = WeightUnitsGrams;
             } break;
             case QLocale::ImperialUSSystem:
-                defaultWeightUnit = WeightUnitsOz;
+                defaultWeightUnit = WeightUnitsGrams;
                 break;
         }
         metaData->setRawDefaultValue(defaultWeightUnit);

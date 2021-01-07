@@ -129,7 +129,7 @@ CustomPlugin::settingsPages()
 {
     if(_customSettingsList.isEmpty()) {
         //_addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml",     "qrc:/res/gear-white.svg");
-        _addSettingsEntry(tr("Conexão ao Controle"),  "qrc:/qml/LinkSettings.qml",        "qrc:/res/waves.svg");
+        _addSettingsEntry(tr("Controle Remoto"),  "qrc:/qml/LinkSettings.qml",        "qrc:/res/waves.svg");
         _addSettingsEntry(tr("Mapas"),"qrc:/qml/OfflineMap.qml",          "qrc:/res/waves.svg");
         //_addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml",     "qrc:/res/waves.svg");
         //_addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");

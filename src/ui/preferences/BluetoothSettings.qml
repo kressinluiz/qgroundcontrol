@@ -28,7 +28,7 @@ Column {
     Row {
         spacing:    ScreenTools.defaultFontPixelWidth
         QGCLabel {
-            text:   qsTr("Device:")
+            text:   qsTr("Nome:")
             width:  _firstColumn
         }
         QGCLabel {
@@ -37,7 +37,8 @@ Column {
         }
     }
     Row {
-        visible:    !ScreenTools.isiOS
+        //visible:    !ScreenTools.isiOS
+        visible: false
         spacing:    ScreenTools.defaultFontPixelWidth
         QGCLabel {
             text:   qsTr("Address:")
@@ -53,7 +54,7 @@ Column {
         width:  parent.width
     }
     QGCLabel {
-        text:   qsTr("Bluetooth Devices:")
+        text:   qsTr("Aparelhos Bluetooth Localizados:")
     }
     Item {
         width:  hostRow.width
@@ -107,7 +108,7 @@ Column {
                         anchors.horizontalCenter: parent.horizontalCenter
                         QGCButton {
                             width:      ScreenTools.defaultFontPixelWidth * 10
-                            text:       qsTr("Scan")
+                            text:       qsTr("Procurar")
                             enabled:    subEditConfig && subEditConfig.linkType === LinkConfiguration.TypeBluetooth && !subEditConfig.scanning
                             onClicked: {
                                 if(subEditConfig)
@@ -116,7 +117,7 @@ Column {
                         }
                         QGCButton {
                             width:      ScreenTools.defaultFontPixelWidth * 10
-                            text:       qsTr("Stop")
+                            text:       qsTr("Parar")
                             enabled:    subEditConfig && subEditConfig.linkType === LinkConfiguration.TypeBluetooth && subEditConfig.scanning
                             onClicked: {
                                 if(subEditConfig)

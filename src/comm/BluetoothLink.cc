@@ -219,7 +219,7 @@ BluetoothConfiguration::~BluetoothConfiguration()
 QString BluetoothConfiguration::settingsTitle()
 {
     if(qgcApp()->toolbox()->linkManager()->isBluetoothAvailable()) {
-        return tr("Bluetooth Link Settings");
+        return tr("Conexão Bluetooth");
     } else {
         return tr("Bluetooth Not Available");
     }

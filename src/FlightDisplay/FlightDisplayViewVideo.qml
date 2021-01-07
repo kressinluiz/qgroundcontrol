@@ -44,7 +44,7 @@ Item {
         color:          Qt.rgba(0,0,0,0.75)
         visible:        !(QGroundControl.videoManager.decoding)
         QGCLabel {
-            text:               QGroundControl.settingsManager.videoSettings.streamEnabled.rawValue ? qsTr("WAITING FOR VIDEO") : qsTr("VIDEO DISABLED")
+            text:               QGroundControl.settingsManager.videoSettings.streamEnabled.rawValue ? qsTr("VÍDEO: CONECTE O CABO USB") : qsTr("VÍDEO DESABILITADO")
             font.family:        ScreenTools.demiboldFontFamily
             color:              "white"
             font.pointSize:     useSmallFont ? ScreenTools.smallFontPointSize : ScreenTools.largeFontPointSize

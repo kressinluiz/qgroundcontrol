@@ -82,7 +82,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         QGCButton {
             width:      ScreenTools.defaultFontPixelWidth * 10
-            text:       qsTr("Delete")
+            text:       qsTr("Apagar")
             enabled:    _currentSelection && !_currentSelection.dynamic
             onClicked: {
                 if(_currentSelection)
@@ -106,25 +106,25 @@ Rectangle {
             }
         }
         QGCButton {
-            text:       qsTr("Edit")
+            text:       qsTr("Editar")
             enabled:    _currentSelection && !_currentSelection.link
             onClicked: {
                 _linkRoot.openCommSettings(_currentSelection)
             }
         }
         QGCButton {
-            text:       qsTr("Add")
+            text:       qsTr("Adicionar")
             onClicked: {
                 _linkRoot.openCommSettings(null)
             }
         }
         QGCButton {
-            text:       qsTr("Connect")
+            text:       qsTr("Conectar")
             enabled:    _currentSelection && !_currentSelection.link
             onClicked:  QGroundControl.linkManager.createConnectedLink(_currentSelection)
         }
         QGCButton {
-            text:       qsTr("Disconnect")
+            text:       qsTr("Desconectar")
             enabled:    _currentSelection && _currentSelection.link
             onClicked:  _currentSelection.link.disconnect()
         }
@@ -159,9 +159,11 @@ Rectangle {
                 } else {
                     // Create new link configuration
                     if(ScreenTools.isSerialAvailable) {
-                        editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeSerial, "Unnamed")
+                        //editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeSerial, "Unnamed")
+                        editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeBluetooth, "Controle VigiAir")
                     } else {
-                        editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeUdp,    "Unnamed")
+                        //editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeUdp,    "Unnamed")
+                        editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeBluetooth, "Controle VigiAir")
                     }
                 }
             }
@@ -175,7 +177,7 @@ Rectangle {
                 id:                 settingsTitle
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.5
                 QGCLabel {
-                    text:   linkConfig ? qsTr("Edit Link Configuration Settings") : qsTr("Create New Link Configuration")
+                    text:   linkConfig ? qsTr("Alterar Controle Remoto") : qsTr("Adicionar Controle Remoto")
                     font.pointSize: ScreenTools.mediumFontPointSize
                 }
                 Rectangle {
@@ -207,6 +209,7 @@ Rectangle {
                         height:                     generalLabel.height
                         anchors.margins:            ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter:   parent.horizontalCenter
+                        visible: false
                         QGCLabel {
                             id:                     generalLabel
                             text:                   qsTr("General")
@@ -219,6 +222,7 @@ Rectangle {
                         color:                      qgcPal.windowShade
                         anchors.margins:            ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter:   parent.horizontalCenter
+                        visible: false
                         Column {
                             id:                     generalCol
                             anchors.centerIn:       parent
@@ -370,7 +374,7 @@ Rectangle {
                 anchors.right:      parent.right
                 QGCButton {
                     width:      ScreenTools.defaultFontPixelWidth * 10
-                    text:       qsTr("OK")
+                    text:       qsTr("Salvar")
                     enabled:    nameField.text !== ""
                     onClicked: {
                         // Save editting
@@ -390,7 +394,7 @@ Rectangle {
                 }
                 QGCButton {
                     width:      ScreenTools.defaultFontPixelWidth * 10
-                    text:       qsTr("Cancel")
+                    text:       qsTr("Cancelar")
                     onClicked: {
                         QGroundControl.linkManager.cancelConfigurationEditing(editConfig)
                         editConfig = null
