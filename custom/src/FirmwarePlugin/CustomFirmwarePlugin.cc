@@ -17,14 +17,14 @@
 //-----------------------------------------------------------------------------
 CustomFirmwarePlugin::CustomFirmwarePlugin()
 {
-    for (int i = 0; i < _flightModeInfoList.count(); i++) {
-        FlightModeInfo_t& info = _flightModeInfoList[i];
-        //-- Narrow the flight mode options to only these
-        if (info.name != _holdFlightMode && info.name != _rtlFlightMode && info.name != _missionFlightMode) {
-            // No other flight modes can be set
-            info.canBeSet = false;
-        }
-    }
+//    for (int i = 0; i < _flightModeInfoList.count(); i++) {
+//        FlightModeInfo_t& info = _flightModeInfoList[i];
+//        //-- Narrow the flight mode options to only these
+//        if (info.name != _holdFlightMode && info.name != _rtlFlightMode && info.name != _missionFlightMode) {
+//            // No other flight modes can be set
+//            info.canBeSet = false;
+//        }
+//    }
 }
 
 //-----------------------------------------------------------------------------
@@ -53,5 +53,5 @@ bool CustomFirmwarePlugin::hasGimbal(Vehicle* /*vehicle*/, bool& rollSupported, 
     pitchSupported = true;
     yawSupported = true;
 
-    return true;
+    return false;
 }

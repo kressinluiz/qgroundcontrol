@@ -25,8 +25,10 @@ CustomFirmwarePluginFactory::CustomFirmwarePluginFactory()
 QList<QGCMAVLink::FirmwareClass_t> CustomFirmwarePluginFactory::supportedFirmwareClasses() const
 {
     QList<QGCMAVLink::FirmwareClass_t> firmwareClasses;
-    firmwareClasses.append(QGCMAVLink::FirmwareClassPX4);
-    return firmwareClasses;
+       //firmwareClasses.append(QGCMAVLink::FirmwareClassPX4);
+       firmwareClasses.append(QGCMAVLink::FirmwareClassArduPilot);
+       //firmwareClasses.append(QGCMAVLink::FirmwareClassVigiair);
+       return firmwareClasses;
 }
 
 QList<QGCMAVLink::VehicleClass_t> CustomFirmwarePluginFactory::supportedVehicleClasses(void) const
@@ -38,11 +40,25 @@ QList<QGCMAVLink::VehicleClass_t> CustomFirmwarePluginFactory::supportedVehicleC
 
 FirmwarePlugin* CustomFirmwarePluginFactory::firmwarePluginForAutopilot(MAV_AUTOPILOT autopilotType, MAV_TYPE /*vehicleType*/)
 {
-    if (autopilotType == MAV_AUTOPILOT_PX4) {
-        if (!_pluginInstance) {
+    //if (autopilotType == MAV_AUTOPILOT_PX4) {
+    //    if (!_pluginInstance) {
+    //        _pluginInstance = new CustomFirmwarePlugin;
+    //    }
+    //    return _pluginInstance;
+    //}
+    if (autopilotType == MAV_AUTOPILOT_ARDUPILOTMEGA) {
+        if (!_pluginInstance)
+        {
             _pluginInstance = new CustomFirmwarePlugin;
         }
         return _pluginInstance;
     }
+
+//    if (autopilotType == MAV_AUTOPILOT_VIGIAIR) {
+//        if (!_pluginInstance) {
+//            _pluginInstance = new CustomFirmwarePlugin;
+//        }
+//        return _pluginInstance;
+//    }
     return nullptr;
 }
