@@ -82,14 +82,14 @@ RowLayout {
             }
         }
 
-        MouseArea {
-            anchors.left:           parent.left
-            anchors.right:          parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            height:                 _root.height
-            enabled:                _activeVehicle
-            onClicked:              mainWindow.showIndicatorPopup(mainStatusLabel, sensorStatusInfoComponent)
-        }
+//        MouseArea {
+//            anchors.left:           parent.left
+//            anchors.right:          parent.right
+//            anchors.verticalCenter: parent.verticalCenter
+//            height:                 _root.height
+//            enabled:                _activeVehicle
+//            onClicked:              mainWindow.showIndicatorPopup(mainStatusLabel, sensorStatusInfoComponent)
+//        }
     }
 
     Item {

@@ -147,7 +147,7 @@ Item {
             id:                     vehicleStatusGrid
             columnSpacing:          ScreenTools.defaultFontPixelWidth  * 1.5
             rowSpacing:             ScreenTools.defaultFontPixelHeight * 0.5
-            columns:                7
+            columns:                6
             anchors.centerIn:       parent
 
             //-- Compass
@@ -157,6 +157,7 @@ Item {
                 Layout.minimumWidth:    parent.height * 1.25
                 Layout.fillHeight:      true
                 Layout.fillWidth:       true
+                visible: false
                 //-- Large circle
                 Rectangle {
                     height:             parent.height

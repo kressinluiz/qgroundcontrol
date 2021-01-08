@@ -26,6 +26,7 @@ QGCComboBox {
     font.pointSize:         ScreenTools.mediumFontPointSize
     currentIndex:           -1
     sizeToContents:         true
+    visible: false
 
     property bool showIndicator: true
 

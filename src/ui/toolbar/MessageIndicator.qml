@@ -109,7 +109,7 @@ Item {
 
             QGCLabel {
                 anchors.centerIn:   parent
-                text:               qsTr("No Messages")
+                text:               qsTr("Sem Mensagens")
                 visible:            messageText.length === 0
             }
 
