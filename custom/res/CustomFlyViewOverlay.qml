@@ -26,7 +26,7 @@ Item {
     property var mapControl
 
     readonly property string noGPS:         qsTr("SEM GPS")
-    readonly property real   indicatorValueWidth:   ScreenTools.defaultFontPixelWidth * 7
+    readonly property real   indicatorValueWidth:   ScreenTools.defaultFontPixelWidth
 
     property var    _activeVehicle:         QGroundControl.multiVehicleManager.activeVehicle
     property real   _indicatorDiameter:     ScreenTools.defaultFontPixelWidth * 18
@@ -72,6 +72,7 @@ Item {
         anchors.top:                headingIndicator.bottom
         anchors.topMargin:          -headingIndicator.height / 2
         anchors.horizontalCenter:   parent.horizontalCenter
+        visible: false
         Repeater {
             model: 720
             QGCLabel {
@@ -111,6 +112,7 @@ Item {
         anchors.top:                parent.top
         anchors.topMargin:          _toolsMargin
         anchors.horizontalCenter:   parent.horizontalCenter
+        visible: false
         QGCLabel {
             text:                   _heading
             color:                  qgcPal.text
@@ -128,26 +130,33 @@ Item {
         anchors.top:                compassBar.bottom
         anchors.topMargin:          -height / 2
         anchors.horizontalCenter:   parent.horizontalCenter
+        visible: false
     }
     //-------------------------------------------------------------------------
     //-- Vehicle Indicator
     Rectangle {
         id:                     vehicleIndicator
         color:                  qgcPal.window
-        width:                  vehicleStatusGrid.width  + (ScreenTools.defaultFontPixelWidth  * 3)
-        height:                 vehicleStatusGrid.height + (ScreenTools.defaultFontPixelHeight * 1.5)
+        width:                  vehicleStatusGrid.width * 1.2
+        height:                 vehicleStatusGrid.height *1.2
+
         radius:                 2
         //anchors.bottomMargin:   parentToolInsets.bottomEdgeRightInset
-        anchors.bottom:         parent.bottom
-        anchors.bottomMargin:   _toolsMargin
-        anchors.right:          attitudeIndicator.left
-        anchors.rightMargin:    -ScreenTools.defaultFontPixelWidth
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left:           parent.left
+        anchors.leftMargin:     _toolsMargin
+        //anchors.top:            parent.top
+        //anchors.topMargin:      _toolsMargin
+        //anchors.bottom:         parent.bottom
+        //anchors.bottomMargin:   _toolsMargin
+        //anchors.right:          parent.right
+        //anchors.rightMargin:    -ScreenTools.defaultFontPixelWidth
 
         GridLayout {
             id:                     vehicleStatusGrid
             columnSpacing:          ScreenTools.defaultFontPixelWidth  * 1.5
             rowSpacing:             ScreenTools.defaultFontPixelHeight * 0.5
-            columns:                6
+            columns:                2
             anchors.centerIn:       parent
 
             //-- Compass
@@ -241,63 +250,64 @@ Item {
                 Layout.minimumWidth:    indicatorValueWidth
                 horizontalAlignment:    Text.AlignLeft
             }
-            //-- Ground Speed
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/horizontal_speed.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
-            }
-            QGCLabel {
-                text:                   _activeVehicle ? _activeVehicle.groundSpeed.value.toFixed(1) + ' ' + _activeVehicle.groundSpeed.units : "0.0"
-                color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
+//            //-- Ground Speed
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/horizontal_speed.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
+//            }
+//            QGCLabel {
+//                text:                   _activeVehicle ? _activeVehicle.groundSpeed.value.toFixed(1) + ' ' + _activeVehicle.groundSpeed.units : "0.0"
+//                color:                  _indicatorsColor
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    firstLabel.horizontalAlignment
+//            }
             //-- Vertical Speed
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/vertical_speed.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/vertical_speed.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
 
-            }
-            QGCLabel {
-                text:                   _activeVehicle ? _activeVehicle.climbRate.value.toFixed(1) + ' ' + _activeVehicle.climbRate.units : "0.0"
-                color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
+//            }
+//            QGCLabel {
+//                text:                   _activeVehicle ? _activeVehicle.climbRate.value.toFixed(1) + ' ' + _activeVehicle.climbRate.units : "0.0"
+//                color:                  _indicatorsColor
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    firstLabel.horizontalAlignment
+//            }
             //-- Third Row
             //-- Odometer
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/odometer.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/odometer.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
 
-            }
-            QGCLabel {
-                text:                   _activeVehicle ? ('00000' + _activeVehicle.flightDistance.value.toFixed(0)).slice(-5) + ' ' + _activeVehicle.flightDistance.units : "00000"
-                color:                  _indicatorsColor
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
+//            }
+//            QGCLabel {
+//                id:                     odometerText
+//                text:                   _activeVehicle ? ('00000' + _activeVehicle.flightDistance.value.toFixed(0)).slice(-5) + ' ' + _activeVehicle.flightDistance.units : "00000"
+//                color:                  _indicatorsColor
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                horizontalAlignment:    firstLabel.horizontalAlignment
+//            }
             //-- Altitude
             QGCColoredImage {
                 height:                 _indicatorsHeight
@@ -315,53 +325,54 @@ Item {
                 font.pointSize:         ScreenTools.smallFontPointSize
                 Layout.fillWidth:       true
                 Layout.minimumWidth:    indicatorValueWidth
+                Layout.alignment:       Qt.Center
                 horizontalAlignment:    firstLabel.horizontalAlignment
             }
             //-- Distance
-            QGCColoredImage {
-                height:                 _indicatorsHeight
-                width:                  height
-                source:                 "/custom/img/distance.svg"
-                fillMode:               Image.PreserveAspectFit
-                sourceSize.height:      height
-                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-                color:                  qgcPal.text
-
-            }
-            QGCLabel {
-                text:                   _distance ? _distanceStr : noGPS
-                color:                  _distance ? _indicatorsColor : qgcPal.colorOrange
-                font.pointSize:         ScreenTools.smallFontPointSize
-                Layout.fillWidth:       true
-                Layout.minimumWidth:    indicatorValueWidth
-                horizontalAlignment:    firstLabel.horizontalAlignment
-            }
+//            QGCColoredImage {
+//                height:                 _indicatorsHeight
+//                width:                  height
+//                source:                 "/custom/img/distance.svg"
+//                fillMode:               Image.PreserveAspectFit
+//                sourceSize.height:      height
+//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+//                color:                  qgcPal.text
+//            }
+//            QGCLabel {
+//                text:                   _distance ? _distanceStr : noGPS
+//                color:                  _distance ? _indicatorsColor : qgcPal.colorOrange
+//                font.pointSize:         ScreenTools.smallFontPointSize
+//                Layout.fillWidth:       true
+//                Layout.minimumWidth:    indicatorValueWidth
+//                Layout.alignment:       Qt.AlignBottom | Qt.AlignRight
+//                //horizontalAlignment:    odometerText.horizontalAlignment
+//            }
         }
     }
     //-------------------------------------------------------------------------
     //-- Attitude Indicator
-    Rectangle {
-        color:                  qgcPal.window
-        width:                  attitudeIndicator.width * 0.5
-        height:                 vehicleIndicator.height
-        anchors.top:            vehicleIndicator.top
-        anchors.left:           vehicleIndicator.right
-    }
-    Rectangle {
-        id:                     attitudeIndicator
-        anchors.bottom:         vehicleIndicator.bottom
-        anchors.bottomMargin:   ScreenTools.defaultFontPixelWidth * -0.5
-        anchors.right:          parent.right
-        anchors.rightMargin:    _toolsMargin
-        height:                 ScreenTools.defaultFontPixelHeight * 6
-        width:                  height
-        radius:                 height * 0.5
-        color:                  qgcPal.windowShade
-        CustomAttitudeWidget {
-            size:               parent.height * 0.95
-            vehicle:            _activeVehicle
-            showHeading:        false
-            anchors.centerIn:   parent
-        }
-    }
+//    Rectangle {
+//        color:                  qgcPal.window
+//        width:                  attitudeIndicator.width * 0.5
+//        height:                 vehicleIndicator.height
+//        anchors.top:            vehicleIndicator.top
+//        anchors.left:           vehicleIndicator.right
+//    }
+//    Rectangle {
+//        id:                     attitudeIndicator
+//        anchors.bottom:         vehicleIndicator.bottom
+//        anchors.bottomMargin:   ScreenTools.defaultFontPixelWidth * -0.5
+//        anchors.right:          parent.right
+//        anchors.rightMargin:    _toolsMargin
+//        height:                 ScreenTools.defaultFontPixelHeight * 6
+//        width:                  height
+//        radius:                 height * 0.5
+//        color:                  qgcPal.windowShade
+//        CustomAttitudeWidget {
+//            size:               parent.height * 0.95
+//            vehicle:            _activeVehicle
+//            showHeading:        false
+//            anchors.centerIn:   parent
+//        }
+//    }
 }

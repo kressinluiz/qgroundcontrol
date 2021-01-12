@@ -63,14 +63,14 @@ Item {
         source:         visible ? (QGroundControl.videoManager.uvcEnabled ? "qrc:/qml/FlightDisplayViewUVC.qml" : "qrc:/qml/FlightDisplayViewDummy.qml") : ""
     }
 
-    MouseArea {
-        anchors.fill:       parent
-        enabled:            pipState.state === pipState.fullState
-        onDoubleClicked:    QGroundControl.videoManager.fullScreen = !QGroundControl.videoManager.fullScreen
-    }
+    //MouseArea {
+    //    anchors.fill:       parent
+    //    enabled:            pipState.state === pipState.fullState
+    //    onDoubleClicked:    QGroundControl.videoManager.fullScreen = !QGroundControl.videoManager.fullScreen
+    //}
 
-    ProximityRadarVideoView{
-        anchors.fill:   parent
-        vehicle:        QGroundControl.multiVehicleManager.activeVehicle
-    }
+    //ProximityRadarVideoView{
+    //    anchors.fill:   parent
+    //    vehicle:        QGroundControl.multiVehicleManager.activeVehicle
+    //}
 }

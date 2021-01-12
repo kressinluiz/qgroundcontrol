@@ -95,8 +95,9 @@ Item {
     function _setPipIsExpanded(isExpanded) {
         QGroundControl.saveBoolGlobalSetting(_pipExpandedSettingsKey, isExpanded)
         _isExpanded = isExpanded
-        if (_pipOrWindowItem) {
-            _pipOrWindowItem.visible = isExpanded
+        if(_pipOrWindowItem)
+        {
+            _pipOrWindowItem.visible = _isExpanded
         }
     }
 
@@ -115,7 +116,8 @@ Item {
     MouseArea {
         id:             pipMouseArea
         anchors.fill:   parent
-        enabled:        _isExpanded
+        //enabled:        _isExpanded
+        enabled: false
         hoverEnabled:   true
         onClicked:      _swapPip()
     }
@@ -164,7 +166,8 @@ Item {
         mipmap: true
         anchors.right:  parent.right
         anchors.top:    parent.top
-        visible:        _isExpanded && (ScreenTools.isMobile || pipMouseArea.containsMouse)
+        //visible:        _isExpanded && (ScreenTools.isMobile || pipMouseArea.containsMouse)
+        visible: false
         height:         ScreenTools.defaultFontPixelHeight * 2.5
         width:          ScreenTools.defaultFontPixelHeight * 2.5
         sourceSize.height:  height
@@ -196,7 +199,8 @@ Item {
         fillMode:       Image.PreserveAspectFit
         anchors.left:   parent.left
         anchors.top:    parent.top
-        visible:        _isExpanded && !ScreenTools.isMobile && pipMouseArea.containsMouse
+        //visible:        _isExpanded && !ScreenTools.isMobile && pipMouseArea.containsMouse
+        visible: false
         height:         ScreenTools.defaultFontPixelHeight * 2.5
         width:          ScreenTools.defaultFontPixelHeight * 2.5
         sourceSize.height:  height
@@ -220,7 +224,7 @@ Item {
         sourceSize.height:  height
         MouseArea {
             anchors.fill:   parent
-            onClicked:      _root._setPipIsExpanded(false)
+            onClicked:      {_swapPip(); _root._setPipIsExpanded(false)}
         }
     }
 
@@ -245,7 +249,7 @@ Item {
         }
         MouseArea {
             anchors.fill:   parent
-            onClicked:      _root._setPipIsExpanded(true)
+            onClicked:      {_swapPip(); _root._setPipIsExpanded(true)}
         }
     }
 }
