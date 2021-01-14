@@ -237,8 +237,8 @@ Item {
             id:          uploadButton
             text:        _controllerDirty ? qsTr("Upload Required") : qsTr("Upload")
             enabled:     !_controllerSyncInProgress
-            //visible:     !_controllerOffline && !_controllerSyncInProgress && !uploadCompleteText.visible
-            visible: false
+            visible:     !_controllerOffline && !_controllerSyncInProgress && !uploadCompleteText.visible
+            //visible: false
             primary:     _controllerDirty
             onClicked:   _planMasterController.upload()
 

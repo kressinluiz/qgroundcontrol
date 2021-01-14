@@ -320,6 +320,7 @@ Item {
 
             }
             QGCLabel {
+                id:                     secondLabel
                 text:                   _altitude
                 color:                  _indicatorsColor
                 font.pointSize:         ScreenTools.smallFontPointSize
@@ -329,24 +330,24 @@ Item {
                 horizontalAlignment:    firstLabel.horizontalAlignment
             }
             //-- Distance
-//            QGCColoredImage {
-//                height:                 _indicatorsHeight
-//                width:                  height
-//                source:                 "/custom/img/distance.svg"
-//                fillMode:               Image.PreserveAspectFit
-//                sourceSize.height:      height
-//                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
-//                color:                  qgcPal.text
-//            }
-//            QGCLabel {
-//                text:                   _distance ? _distanceStr : noGPS
-//                color:                  _distance ? _indicatorsColor : qgcPal.colorOrange
-//                font.pointSize:         ScreenTools.smallFontPointSize
-//                Layout.fillWidth:       true
-//                Layout.minimumWidth:    indicatorValueWidth
-//                Layout.alignment:       Qt.AlignBottom | Qt.AlignRight
-//                //horizontalAlignment:    odometerText.horizontalAlignment
-//            }
+            QGCColoredImage {
+                height:                 _indicatorsHeight
+                width:                  height
+                source:                 "/custom/img/distance.svg"
+                fillMode:               Image.PreserveAspectFit
+                sourceSize.height:      height
+                Layout.alignment:       Qt.AlignVCenter | Qt.AlignHCenter
+                color:                  qgcPal.text
+            }
+            QGCLabel {
+                text:                   _distance ? _distanceStr : noGPS
+                color:                  _distance ? _indicatorsColor : qgcPal.colorOrange
+                font.pointSize:         ScreenTools.smallFontPointSize
+                Layout.fillWidth:       true
+                Layout.minimumWidth:    indicatorValueWidth
+                Layout.alignment:       Qt.AlignBottom | Qt.AlignRight
+                horizontalAlignment:    secondLabel.horizontalAlignment
+            }
         }
     }
     //-------------------------------------------------------------------------

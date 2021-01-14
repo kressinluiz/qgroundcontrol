@@ -16,6 +16,7 @@ import QGroundControl.FlightDisplay 1.0
 ToolStrip {
     id:     _root
     title:  qsTr("VOAR")
+    visible: false
 
     signal displayPreFlightChecklist
 

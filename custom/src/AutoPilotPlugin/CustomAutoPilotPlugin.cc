@@ -69,7 +69,7 @@ const QVariantList& CustomAutoPilotPlugin::vehicleComponents()
 
                     _flightModesComponent = new APMFlightModesComponent(_vehicle, this);
                     _flightModesComponent->setupTriggerSignals();
-                    _components.append(QVariant::fromValue(reinterpret_cast<VehicleComponent*>(_flightModesComponent)));
+                    _components.append(QVariant::fromValue((VehicleComponent*)_flightModesComponent));
 
                     _powerComponent = new APMPowerComponent(_vehicle, this);
                     _powerComponent->setupTriggerSignals();
@@ -80,9 +80,12 @@ const QVariantList& CustomAutoPilotPlugin::vehicleComponents()
                     _components.append(QVariant::fromValue(reinterpret_cast<VehicleComponent*>(_motorComponent)));
                 }
 
-                _safetyComponent = new APMSafetyComponent(_vehicle, this);
-                _safetyComponent->setupTriggerSignals();
-                _components.append(QVariant::fromValue(reinterpret_cast<VehicleComponent*>(_safetyComponent)));
+                //_safetyComponent = new APMSafetyComponent(_vehicle, this);
+                //_safetyComponent->setupTriggerSignals();
+                //_components.append(QVariant::fromValue(reinterpret_cast<VehicleComponent*>(_safetyComponent)));
+                _sensorsComponent = new APMSensorsComponent(_vehicle, this);
+                _sensorsComponent->setupTriggerSignals();
+                _components.append(QVariant::fromValue(reinterpret_cast<VehicleComponent*>(_sensorsComponent)));
 
                 if (showAdvanced) {
                     _tuningComponent = new APMTuningComponent(_vehicle, this);

@@ -18,7 +18,7 @@
 
 APMSensorsComponent::APMSensorsComponent(Vehicle* vehicle, AutoPilotPlugin* autopilot, QObject* parent) :
     VehicleComponent(vehicle, autopilot, parent),
-    _name(tr("Sensors"))
+    _name(tr("Sensores"))
 {
 
 }

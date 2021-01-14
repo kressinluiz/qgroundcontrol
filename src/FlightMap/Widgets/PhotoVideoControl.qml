@@ -149,7 +149,8 @@ Rectangle {
         sourceSize.height:  height
         color:              qgcPal.text
         fillMode:           Image.PreserveAspectFit
-        visible:            !_onlySimpleCameraAvailable
+        //visible:            !_onlySimpleCameraAvailable
+        visible:            false
 
         QGCMouseArea {
             fillItem:   parent

@@ -14,10 +14,14 @@
 #include "CustomFirmwarePlugin.h"
 #include "CustomAutoPilotPlugin.h"
 
+
 //-----------------------------------------------------------------------------
 CustomFirmwarePlugin::CustomFirmwarePlugin()
 {
-//    for (int i = 0; i < _flightModesList.count(); i++) {
+
+    //CustomAutoPilotPlugin customAPPlugin = CustomFirmwarePlugin::autopilotPlugin()
+    //QVariantList& vehicleComp = CustomAutoPilotPlugin::vehicleComponents();
+    //for (int i = 0; i < _flightModesList.count(); i++) {
 //        FlightModeInfo_t& info = _flightModeInfoList[i];
 //        //-- Narrow the flight mode options to only these
 //        if (info.name != _holdFlightMode && info.name != _rtlFlightMode && info.name != _missionFlightMode) {

@@ -147,7 +147,7 @@ Rectangle {
                 horizontalAlignment:    Text.AlignHCenter
                 wrapMode:               Text.WordWrap
                 font.pointSize:         ScreenTools.largeFontPointSize
-                text:                   qsTr("Vehicle settings and info will display after connecting your vehicle.") +
+                text:                   qsTr("As informações sobre a aeronave aparecem após conectar a aeronave.") +
                                         (ScreenTools.isMobile || !_corePlugin.options.showFirmwareUpgrade ? "" : " Click Firmware on the left to upgrade your vehicle.")
 
                 onLinkActivated: Qt.openUrlExternally(link)
@@ -228,10 +228,22 @@ Rectangle {
                 setupIndicator:     false
                 checked:            true
                 exclusiveGroup:     setupButtonGroup
-                text:               qsTr("Summary")
+                text:               qsTr("Aeronave")
                 Layout.fillWidth:   true
 
                 onClicked: showSummaryPanel()
+            }
+
+            SubMenuButton {
+                id:                 rotasButton
+                imageResource:      "/qmlimages/VehicleSummaryIcon.png"
+                setupIndicator:     false
+                checked:            false
+                exclusiveGroup:     setupButtonGroup
+                text:               qsTr("Rotas")
+                Layout.fillWidth:   true
+
+                onClicked: mainWindow.showPlanView()
             }
 
             SubMenuButton {

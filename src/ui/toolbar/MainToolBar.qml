@@ -69,7 +69,8 @@ Rectangle {
             Layout.preferredHeight: viewButtonRow.height
             icon.source:            "/res/QGCLogoFull"
             logo:                   true
-            onClicked:              toolSelectDrawer.visible = true
+            onClicked:              showTool(qsTr("Configurações"), "SetupView.qml", "/qmlimages/Gears.svg")
+            //onClicked:              toolSelectDrawer.visible = true
         }
 
         MainStatusIndicator {

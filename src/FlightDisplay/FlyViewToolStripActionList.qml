@@ -22,6 +22,7 @@ ToolStripActionList {
             text:           qsTr("Rotas")
             iconSource:     "/qmlimages/Plan.svg"
             onTriggered:    mainWindow.showPlanView()
+            visible: false
         },
         PreFlightCheckListShowAction { onTriggered: displayPreFlightChecklist() },
         GuidedActionTakeoff { },
