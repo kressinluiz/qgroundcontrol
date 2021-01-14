@@ -922,23 +922,6 @@ Set to 2 to use heading from motion capture</short_desc>
       <short_desc>Require all the ESCs to be detected to arm</short_desc>
       <long_desc>This param is specific for ESCs reporting status. Normal ESCs configurations are not affected by the change of this param.</long_desc>
     </parameter>
-    <parameter name="COM_ARM_EKF_AB" default="0.0022" type="FLOAT">
-      <short_desc>Maximum value of EKF accelerometer delta velocity bias estimate that will allow arming.
-Note: ekf2 will limit the delta velocity bias estimate magnitude to be less than EKF2_ABL_LIM * FILTER_UPDATE_PERIOD_MS * 0.001 so this parameter must be less than that to be useful</short_desc>
-      <min>0.001</min>
-      <max>0.01</max>
-      <unit>m/s</unit>
-      <decimal>4</decimal>
-      <increment>0.0001</increment>
-    </parameter>
-    <parameter name="COM_ARM_EKF_GB" default="0.0011" type="FLOAT">
-      <short_desc>Maximum value of EKF gyro delta angle bias estimate that will allow arming</short_desc>
-      <min>0.0001</min>
-      <max>0.0017</max>
-      <unit>rad</unit>
-      <decimal>4</decimal>
-      <increment>0.0001</increment>
-    </parameter>
     <parameter name="COM_ARM_EKF_HGT" default="1.0" type="FLOAT">
       <short_desc>Maximum EKF height innovation test ratio that will allow arming</short_desc>
       <min>0.1</min>
@@ -1381,12 +1364,12 @@ See COM_OBL_ACT and COM_OBL_RC_ACT to configure action</short_desc>
     </parameter>
     <parameter name="COM_RC_OVERRIDE" default="1" type="INT32">
       <short_desc>Enable RC stick override of auto and/or offboard modes</short_desc>
-      <long_desc>When RC stick override is enabled, moving the RC sticks according to COM_RC_STICK_OV immediately gives control back to the pilot (switches to manual position mode): bit 0: Enable for auto modes (except for in critical battery reaction), bit 1: Enable for offboard mode. Only has an effect on multicopters, and VTOLS in multicopter mode.</long_desc>
+      <long_desc>When RC stick override is enabled, moving the RC sticks more than COM_RC_STICK_OV from their center position immediately gives control back to the pilot by switching to Position mode. Note: Only has an effect on multicopters, and VTOLs in multicopter mode.</long_desc>
       <min>0</min>
       <max>3</max>
       <bitmask>
-        <bit index="0">Enable override in auto modes</bit>
-        <bit index="1">Enable override in offboard mode</bit>
+        <bit index="0">Enable override during auto modes (except for in critical battery reaction)</bit>
+        <bit index="1">Enable override during offboard mode</bit>
       </bitmask>
     </parameter>
     <parameter name="COM_RC_STICK_OV" default="30.0" type="FLOAT">
@@ -1445,6 +1428,7 @@ See COM_OBL_ACT and COM_OBL_RC_ACT to configure action</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="MOT_POLE_COUNT" default="14" type="INT32">
@@ -1886,51 +1870,6 @@ If no airspeed measurements are avalable, the EKF-GSF AHRS calculation will assu
       <short_desc>Z position of IMU in body frame (down axis with origin relative to vehicle centre of gravity)</short_desc>
       <unit>m</unit>
       <decimal>3</decimal>
-    </parameter>
-    <parameter name="EKF2_MAGBIAS_ID" default="0" type="INT32" category="System">
-      <short_desc>ID of Magnetometer the learned bias is for</short_desc>
-      <reboot_required>true</reboot_required>
-    </parameter>
-    <parameter name="EKF2_MAGBIAS_X" default="0.0" type="FLOAT" volatile="true" category="System">
-      <short_desc>Learned value of magnetometer X axis bias.
-This is the amount of X-axis magnetometer bias learned by the EKF and saved from the last flight. It must be set to zero if the ground based magnetometer calibration is repeated</short_desc>
-      <min>-0.5</min>
-      <max>0.5</max>
-      <unit>gauss</unit>
-      <decimal>3</decimal>
-      <reboot_required>true</reboot_required>
-    </parameter>
-    <parameter name="EKF2_MAGBIAS_Y" default="0.0" type="FLOAT" volatile="true" category="System">
-      <short_desc>Learned value of magnetometer Y axis bias.
-This is the amount of Y-axis magnetometer bias learned by the EKF and saved from the last flight. It must be set to zero if the ground based magnetometer calibration is repeated</short_desc>
-      <min>-0.5</min>
-      <max>0.5</max>
-      <unit>gauss</unit>
-      <decimal>3</decimal>
-      <reboot_required>true</reboot_required>
-    </parameter>
-    <parameter name="EKF2_MAGBIAS_Z" default="0.0" type="FLOAT" volatile="true" category="System">
-      <short_desc>Learned value of magnetometer Z axis bias.
-This is the amount of Z-axis magnetometer bias learned by the EKF and saved from the last flight. It must be set to zero if the ground based magnetometer calibration is repeated</short_desc>
-      <min>-0.5</min>
-      <max>0.5</max>
-      <unit>gauss</unit>
-      <decimal>3</decimal>
-      <reboot_required>true</reboot_required>
-    </parameter>
-    <parameter name="EKF2_MAGB_K" default="0.2" type="FLOAT">
-      <short_desc>Maximum fraction of learned mag bias saved at each disarm.
-Smaller values make the saved mag bias learn slower from flight to flight. Larger values make it learn faster. Must be &gt; 0.0 and &lt;= 1.0</short_desc>
-      <min>0.0</min>
-      <max>1.0</max>
-      <decimal>2</decimal>
-    </parameter>
-    <parameter name="EKF2_MAGB_VREF" default="2.5E-7" type="FLOAT">
-      <short_desc>State variance assumed for magnetometer bias storage.
-This is a reference variance used to calculate the fraction of learned magnetometer bias that will be used to update the stored value. Smaller values will make the stored bias data adjust more slowly from flight to flight. Larger values will make it adjust faster</short_desc>
-      <unit>gauss^2</unit>
-      <decimal>8</decimal>
-      <reboot_required>true</reboot_required>
     </parameter>
     <parameter name="EKF2_MAG_ACCLIM" default="0.5" type="FLOAT">
       <short_desc>Horizontal acceleration threshold used by automatic selection of magnetometer fusion method.
@@ -3293,7 +3232,22 @@ but also ignore less noise</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
+    </parameter>
+    <parameter name="GPS_1_GNSS" default="0" type="INT32">
+      <short_desc>GNSS Systems for Primary GPS (integer bitmask)</short_desc>
+      <long_desc>This integer bitmask controls the set of GNSS systems used by the receiver. Check your receiver's documentation on how many systems are supported to be used in parallel. Currently this functionality is just implemented for u-blox receivers. When no bits are set, the receiver's default configuration should be used. Set bits true to enable: 0 : Use GPS (with QZSS) 1 : Use SBAS (multiple GPS augmentation systems) 2 : Use Galileo 3 : Use BeiDou 4 : Use GLONASS</long_desc>
+      <min>0</min>
+      <max>31</max>
+      <reboot_required>true</reboot_required>
+      <bitmask>
+        <bit index="0">GPS (with QZSS)</bit>
+        <bit index="1">SBAS</bit>
+        <bit index="2">Galileo</bit>
+        <bit index="3">BeiDou</bit>
+        <bit index="4">GLONASS</bit>
+      </bitmask>
     </parameter>
     <parameter name="GPS_1_PROTOCOL" default="1" type="INT32">
       <short_desc>Protocol for Main GPS</short_desc>
@@ -3324,7 +3278,22 @@ but also ignore less noise</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
+    </parameter>
+    <parameter name="GPS_2_GNSS" default="0" type="INT32">
+      <short_desc>GNSS Systems for Secondary GPS (integer bitmask)</short_desc>
+      <long_desc>This integer bitmask controls the set of GNSS systems used by the receiver. Check your receiver's documentation on how many systems are supported to be used in parallel. Currently this functionality is just implemented for u-blox receivers. When no bits are set, the receiver's default configuration should be used. Set bits true to enable: 0 : Use GPS (with QZSS) 1 : Use SBAS (multiple GPS augmentation systems) 2 : Use Galileo 3 : Use BeiDou 4 : Use GLONASS</long_desc>
+      <min>0</min>
+      <max>31</max>
+      <reboot_required>true</reboot_required>
+      <bitmask>
+        <bit index="0">GPS (with QZSS)</bit>
+        <bit index="1">SBAS</bit>
+        <bit index="2">Galileo</bit>
+        <bit index="3">BeiDou</bit>
+        <bit index="4">GLONASS</bit>
+      </bitmask>
     </parameter>
     <parameter name="GPS_2_PROTOCOL" default="1" type="INT32">
       <short_desc>Protocol for Secondary GPS</short_desc>
@@ -3440,12 +3409,12 @@ but also ignore less noise</short_desc>
     </parameter>
     <parameter name="GF_ALTMODE" default="0" type="INT32">
       <short_desc>Geofence altitude mode</short_desc>
-      <long_desc>Select which altitude reference should be used 0 = WGS84, 1 = AMSL</long_desc>
+      <long_desc>Select which altitude (AMSL) source should be used for geofence calculations.</long_desc>
       <min>0</min>
       <max>1</max>
       <values>
-        <value code="0">WGS84</value>
-        <value code="1">AMSL</value>
+        <value code="0">Autopilot estimator global position altitude (GPS)</value>
+        <value code="1">Raw barometer altitude (assuming standard atmospheric pressure)</value>
       </values>
     </parameter>
     <parameter name="GF_COUNT" default="-1" type="INT32">
@@ -3524,6 +3493,7 @@ but also ignore less noise</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="ISBD_READ_INT" default="0" type="INT32">
@@ -3972,6 +3942,7 @@ Used to calculate increased terrain random walk nosie due to movement</short_des
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="MAV_0_FORWARD" default="1" type="INT32">
@@ -4021,6 +3992,7 @@ Used to calculate increased terrain random walk nosie due to movement</short_des
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="MAV_1_FORWARD" default="0" type="INT32">
@@ -4070,6 +4042,7 @@ Used to calculate increased terrain random walk nosie due to movement</short_des
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="MAV_2_FORWARD" default="0" type="INT32">
@@ -6101,6 +6074,7 @@ default 1.5 turns per second</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="RTPS_MAV_CONFIG" default="0" type="INT32">
@@ -6118,6 +6092,7 @@ default 1.5 turns per second</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
   </group>
@@ -7813,6 +7788,7 @@ default 1.5 turns per second</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
   </group>
@@ -9609,6 +9585,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="SENS_CM8JL65_R_0" default="25" type="INT32">
@@ -9807,6 +9784,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="SENS_MAG_MODE" default="1" type="INT32" category="System">
@@ -10248,6 +10226,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="SENS_TEMP_ID" default="0" type="INT32" category="System">
@@ -10268,6 +10247,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="SENS_TFMINI_CFG" default="0" type="INT32">
@@ -10285,6 +10265,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="SENS_ULAND_CFG" default="0" type="INT32">
@@ -10302,6 +10283,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="VOXLPM_SHUNT_BAT" default="0.00063" type="FLOAT">
@@ -10337,6 +10319,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="SER_GPS1_BAUD" default="0" type="INT32">
@@ -10606,6 +10589,39 @@ How often the sensor is readout</short_desc>
     <parameter name="SER_URT6_BAUD" default="57600" type="INT32">
       <short_desc>Baudrate for the UART 6 Serial Port</short_desc>
       <long_desc>Configure the Baudrate for the UART 6 Serial Port. Note: certain drivers such as the GPS can determine the Baudrate automatically.</long_desc>
+      <reboot_required>true</reboot_required>
+      <values>
+        <value code="0">Auto</value>
+        <value code="50">50 8N1</value>
+        <value code="75">75 8N1</value>
+        <value code="110">110 8N1</value>
+        <value code="134">134 8N1</value>
+        <value code="150">150 8N1</value>
+        <value code="200">200 8N1</value>
+        <value code="300">300 8N1</value>
+        <value code="600">600 8N1</value>
+        <value code="1200">1200 8N1</value>
+        <value code="1800">1800 8N1</value>
+        <value code="2400">2400 8N1</value>
+        <value code="4800">4800 8N1</value>
+        <value code="9600">9600 8N1</value>
+        <value code="19200">19200 8N1</value>
+        <value code="38400">38400 8N1</value>
+        <value code="57600">57600 8N1</value>
+        <value code="115200">115200 8N1</value>
+        <value code="230400">230400 8N1</value>
+        <value code="460800">460800 8N1</value>
+        <value code="500000">500000 8N1</value>
+        <value code="921600">921600 8N1</value>
+        <value code="1000000">1000000 8N1</value>
+        <value code="1500000">1500000 8N1</value>
+        <value code="2000000">2000000 8N1</value>
+        <value code="3000000">3000000 8N1</value>
+      </values>
+    </parameter>
+    <parameter name="SER_WIFI_BAUD" default="1" type="INT32">
+      <short_desc>Baudrate for the Wifi Port Serial Port</short_desc>
+      <long_desc>Configure the Baudrate for the Wifi Port Serial Port. Note: certain drivers such as the GPS can determine the Baudrate automatically.</long_desc>
       <reboot_required>true</reboot_required>
       <values>
         <value code="0">Auto</value>
@@ -10945,6 +10961,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
     <parameter name="TEL_HOTT_CONFIG" default="0" type="INT32">
@@ -10962,6 +10979,7 @@ How often the sensor is readout</short_desc>
         <value code="202">GPS 2</value>
         <value code="203">GPS 3</value>
         <value code="300">Radio Controller</value>
+        <value code="301">Wifi Port</value>
       </values>
     </parameter>
   </group>
@@ -12003,6 +12021,13 @@ to fixed wing mode. Zero or negative values will produce an instant throttle ris
     </parameter>
     <parameter name="RV_YAW_P" default="0.1" type="FLOAT">
       <short_desc>RV_YAW_P</short_desc>
+    </parameter>
+    <parameter name="UUV_SKIP_CTRL" default="0" type="INT32">
+      <short_desc>Skip the controller</short_desc>
+      <values>
+        <value code="0">use the module's controller</value>
+        <value code="1">skip the controller and feedthrough the setpoints</value>
+      </values>
     </parameter>
   </group>
 </parameters>
