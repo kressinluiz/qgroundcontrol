@@ -14,6 +14,8 @@
 
 #include <memory>
 
+
+
 #ifndef NO_SERIAL_LINK
 #include "QGCSerialPortInfo.h"
 #endif
