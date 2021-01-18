@@ -276,6 +276,20 @@ void LinkManager::saveLinkConfigurationList()
     settings.setValue(root + "/count", trueCount);
 }
 
+bool LinkManager::isThereMoreThanOneLinkConfiguration()
+{
+    QSettings settings;
+    bool isThereMoreThanOne;
+
+    int count = settings.value(LinkConfiguration::settingsRoot() + "/count").toInt();
+    if(count >= 1)
+        isThereMoreThanOne = true;
+    else
+        isThereMoreThanOne = false;
+
+    return isThereMoreThanOne;
+}
+
 void LinkManager::loadLinkConfigurationList()
 {
     QSettings settings;

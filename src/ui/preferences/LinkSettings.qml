@@ -68,6 +68,8 @@ Rectangle {
                     onClicked: {
                         checked = true
                         _currentSelection = object
+                        connectButton.enabled = _currentSelection && !_currentSelection.link
+                        disconnectButton.enabled = _currentSelection && _currentSelection.link
                     }
                 }
             }
@@ -93,11 +95,14 @@ Rectangle {
                 visible:    false
                 icon:       StandardIcon.Warning
                 standardButtons: StandardButton.Yes | StandardButton.No
-                title:      qsTr("Remove Link Configuration")
-                text:       _currentSelection ? qsTr("Remove %1. Is this really what you want?").arg(_currentSelection.name) : ""
+                title:      qsTr("Remover Controle Remoto")
+                text:       _currentSelection ? qsTr("Remover %1. Isso é mesmo o que você quer?").arg(_currentSelection.name) : ""
                 onYes: {
                     if(_currentSelection)
                         QGroundControl.linkManager.removeConfiguration(_currentSelection)
+                    addLinkConfigButton.enabled = !QGroundControl.linkManager.isThereMoreThanOneLinkConfiguration()
+                    connectButton.enabled = _currentSelection && !_currentSelection.link
+                    disconnectButton.enabled = _currentSelection && _currentSelection.link
                     deleteDialog.visible = false
                 }
                 onNo: {
@@ -108,25 +113,38 @@ Rectangle {
         QGCButton {
             text:       qsTr("Editar")
             enabled:    _currentSelection && !_currentSelection.link
+            visible:    false
             onClicked: {
                 _linkRoot.openCommSettings(_currentSelection)
             }
         }
         QGCButton {
+            id:         addLinkConfigButton
             text:       qsTr("Adicionar")
+            enabled:    !QGroundControl.linkManager.isThereMoreThanOneLinkConfiguration()
             onClicked: {
                 _linkRoot.openCommSettings(null)
             }
         }
         QGCButton {
+            id:         connectButton
             text:       qsTr("Conectar")
             enabled:    _currentSelection && !_currentSelection.link
-            onClicked:  QGroundControl.linkManager.createConnectedLink(_currentSelection)
+            onClicked:  {
+                            QGroundControl.linkManager.createConnectedLink(_currentSelection)
+                            connectButton.enabled = _currentSelection && !_currentSelection.link
+                            disconnectButton.enabled = _currentSelection && _currentSelection.link
+                        }
         }
         QGCButton {
+            id:         disconnectButton
             text:       qsTr("Desconectar")
             enabled:    _currentSelection && _currentSelection.link
-            onClicked:  _currentSelection.link.disconnect()
+            onClicked:  {
+                            _currentSelection.link.disconnect()
+                            connectButton.enabled = _currentSelection && !_currentSelection.link
+                            disconnectButton.enabled = _currentSelection && _currentSelection.link
+                        }
         }
         QGCButton {
             text:       qsTr("MockLink Options")
@@ -158,13 +176,12 @@ Rectangle {
                     editConfig = QGroundControl.linkManager.startConfigurationEditing(linkConfig)
                 } else {
                     // Create new link configuration
-                    if(ScreenTools.isSerialAvailable) {
-                        //editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeSerial, "Unnamed")
-                        editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeBluetooth, "Controle VigiAir")
-                    } else {
-                        //editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeUdp,    "Unnamed")
-                        editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeBluetooth, "Controle VigiAir")
-                    }
+                    editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeBluetooth, "Controle VigiAir")
+//                    if(ScreenTools.isSerialAvailable) {
+//                        editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeSerial, "Unnamed")
+//                    } else {
+//                        editConfig = QGroundControl.linkManager.createConfiguration(LinkConfiguration.TypeUdp,    "Unnamed")
+//                    }
                 }
             }
             Component.onDestruction: {
@@ -390,6 +407,7 @@ Rectangle {
                         linkSettingLoader.source = ""
                         editConfig = null
                         _linkRoot.closeCommSettings()
+                         addLinkConfigButton.enabled = !QGroundControl.linkManager.isThereMoreThanOneLinkConfiguration()
                     }
                 }
                 QGCButton {
