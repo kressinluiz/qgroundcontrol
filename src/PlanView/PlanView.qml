@@ -634,6 +634,7 @@ Item {
                 model: [
                     ToolStripAction {
                         text:           qsTr("Voar")
+                        visible:        false
                         iconSource:     "/qmlimages/PaperPlane.svg"
                         onTriggered:    mainWindow.showFlyView()
                     },

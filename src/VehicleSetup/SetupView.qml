@@ -58,7 +58,9 @@ Rectangle {
         } else {
             panelLoader.setSourceComponent(disconnectedVehicleSummaryComponent)
         }
-        summaryButton.checked = true
+        panelLoader.setSource("qrc:/qml/LinkSettings.qml")
+        summaryButton.checked = false
+        controleRemotoButton.checked = true
     }
 
     function showPanel(button, qmlSource) {
@@ -111,7 +113,8 @@ Rectangle {
                     //      A new vehicle shows up
                     //      The summary panel is already showing and the active vehicle goes away
                     //      The active vehicle goes away and we are not on the Firmware panel.
-                    summaryButton.checked = true
+                    summaryButton.checked = false
+                    controleRemotoButton.checked = true
                     _showSummaryPanel()
                 }
             }
@@ -208,35 +211,21 @@ Rectangle {
             id:         buttonColumn
             spacing:    _defaultTextHeight / 2
 
-            Repeater {
-                model:                  _corePlugin ? _corePlugin.settingsPages : []
-                visible:                _corePlugin && _corePlugin.options.combineSettingsAndSetup
-                SubMenuButton {
-                    imageResource:      modelData.icon
-                    setupIndicator:     false
-                    exclusiveGroup:     setupButtonGroup
-                    text:               modelData.title
-                    visible:            _corePlugin && _corePlugin.options.combineSettingsAndSetup
-                    onClicked:          showPanel(this, modelData.url)
-                    Layout.fillWidth:   true
-                }
-            }
-
             SubMenuButton {
-                id:                 summaryButton
-                imageResource:      "/qmlimages/VehicleSummaryIcon.png"
+                id:                 controleRemotoButton
+                imageResource:      "qrc:/qmlimages/RC.svg"
                 setupIndicator:     false
-                checked:            true
                 exclusiveGroup:     setupButtonGroup
-                text:               qsTr("Aeronave")
+                text:               "Controle Remoto"
+                checked:            true
+                visible:            _corePlugin && _corePlugin.options.combineSettingsAndSetup
+                onClicked:          showPanel(this, "qrc:/qml/LinkSettings.qml")
                 Layout.fillWidth:   true
-
-                onClicked: showSummaryPanel()
             }
 
             SubMenuButton {
                 id:                 rotasButton
-                imageResource:      "/qmlimages/VehicleSummaryIcon.png"
+                imageResource:      "/qmlimages/Plan.svg"
                 setupIndicator:     false
                 checked:            false
                 exclusiveGroup:     setupButtonGroup
@@ -244,6 +233,41 @@ Rectangle {
                 Layout.fillWidth:   true
 
                 onClicked: mainWindow.showPlanView()
+            }
+
+            SubMenuButton {
+                id:                 voarButton
+                imageResource:      "qrc:/qmlimages/PaperPlane.svg"
+                setupIndicator:     false
+                checked:            false
+                exclusiveGroup:     setupButtonGroup
+                text:               qsTr("Voar")
+                Layout.fillWidth:   true
+
+                onClicked: mainWindow.showFlyView()
+            }
+
+            SubMenuButton {
+                id:                 mapasButton
+                imageResource:      "qrc:/res/waypoint.svg"
+                setupIndicator:     false
+                exclusiveGroup:     setupButtonGroup
+                text:               "Mapas"
+                visible:            _corePlugin && _corePlugin.options.combineSettingsAndSetup
+                onClicked:          showPanel(this, "qrc:/qml/OfflineMap.qml")
+                Layout.fillWidth:   true
+            }
+
+            SubMenuButton {
+                id:                 summaryButton
+                imageResource:      "qrc:/qmlimages/VehicleSummaryIcon.png"
+                setupIndicator:     false
+                checked:            false
+                exclusiveGroup:     setupButtonGroup
+                text:               qsTr("Drone")
+                Layout.fillWidth:   true
+
+                onClicked: showSummaryPanel()
             }
 
             SubMenuButton {

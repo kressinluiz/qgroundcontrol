@@ -129,8 +129,8 @@ CustomPlugin::settingsPages()
 {
     if(_customSettingsList.isEmpty()) {
         //_addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml",     "qrc:/res/gear-white.svg");
-        _addSettingsEntry(tr("Controle Remoto"),  "qrc:/qml/LinkSettings.qml",        "qrc:/res/waves.svg");
-        _addSettingsEntry(tr("Mapas"),"qrc:/qml/OfflineMap.qml",          "qrc:/res/waves.svg");
+        _addSettingsEntry(tr("Controle Remoto"),  "qrc:/qml/LinkSettings.qml",        "qrc:/qmlimages/RC.svg");
+        _addSettingsEntry(tr("Mapas"),"qrc:/qml/OfflineMap.qml",          "qrc:/res/waypoint.svg");
         //_addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml",     "qrc:/res/waves.svg");
 #if defined(QT_DEBUG)
         //-- These are always present on Debug builds
