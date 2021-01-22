@@ -55,7 +55,7 @@ Rectangle {
         spacing:            _margin
 
         QGCLabel {
-            text:           qsTr("All Altitudes")
+            text:           qsTr("Todas as altitudes: ")
             font.pointSize: ScreenTools.smallFontPointSize
         }
         QGCComboBox {
@@ -70,7 +70,7 @@ Rectangle {
                 QGroundControl.altitudeModeShortDescription(QGroundControl.AltitudeModeAbsolute),
                 QGroundControl.altitudeModeShortDescription(QGroundControl.AltitudeModeAboveTerrain),
                 QGroundControl.altitudeModeShortDescription(QGroundControl.AltitudeModeTerrainFrame),
-                qsTr("Mixed Modes") ]
+                qsTr("Modos mistos") ]
             readonly property var enumValuesBase:    [QGroundControl.AltitudeModeRelative, QGroundControl.AltitudeModeAbsolute, QGroundControl.AltitudeModeAboveTerrain, QGroundControl.AltitudeModeTerrainFrame, QGroundControl.AltitudeModeNone  ]
 
             property var enumStrings:   [ ]
@@ -121,7 +121,7 @@ Rectangle {
         }
 
         QGCLabel {
-            text:           qsTr("Initial Waypoint Alt")
+            text:           qsTr("Altitude de parada inicial:")
             font.pointSize: ScreenTools.smallFontPointSize
         }
         AltitudeFactTextField {
@@ -176,7 +176,7 @@ Rectangle {
                 id:             vehicleInfoSectionHeader
                 anchors.left:   parent.left
                 anchors.right:  parent.right
-                text:           qsTr("Vehicle Info")
+                text:           qsTr("Informações do Drone")
                 visible:        !_waypointsOnlyMode
                 checked:        false
             }
@@ -243,7 +243,7 @@ Rectangle {
                 }
 
                 QGCLabel {
-                    text:               qsTr("Hover speed")
+                    text:               qsTr("Velocidade")
                     visible:            _showHoverSpeed
                     Layout.fillWidth:   true
                 }
@@ -258,7 +258,7 @@ Rectangle {
                 id:             plannedHomePositionSection
                 anchors.left:   parent.left
                 anchors.right:  parent.right
-                text:           qsTr("Launch Position")
+                text:           qsTr("Posição de decolagem")
                 visible:        !_vehicleHasHomePosition
                 checked:        false
             }
@@ -289,12 +289,12 @@ Rectangle {
                     width:                  parent.width
                     wrapMode:               Text.WordWrap
                     font.pointSize:         ScreenTools.smallFontPointSize
-                    text:                   qsTr("Actual position set by vehicle at flight time.")
+                    text:                   qsTr("Posição da decolagem é definida pelo drone no momento do vôo.")
                     horizontalAlignment:    Text.AlignHCenter
                 }
 
                 QGCButton {
-                    text:                       qsTr("Set To Map Center")
+                    text:                       qsTr("Posicionar no centro do mapa")
                     onClicked:                  missionItem.coordinate = map.center
                     anchors.horizontalCenter:   parent.horizontalCenter
                 }

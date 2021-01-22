@@ -23,7 +23,7 @@
 
 QGC_LOGGING_CATEGORY(StructureScanComplexItemLog, "StructureScanComplexItemLog")
 
-const QString StructureScanComplexItem::name(tr("Structure Scan"));
+const QString StructureScanComplexItem::name(tr("Inspeção Estrutura"));
 
 const char* StructureScanComplexItem::settingsGroup =               "StructureScan";
 const char* StructureScanComplexItem::_entranceAltName =            "EntranceAltitude";

@@ -648,7 +648,7 @@ Item {
                         dropPanelComponent:     syncDropPanel
                     },
                     ToolStripAction {
-                        text:       qsTr("Takeoff")
+                        text:       qsTr("Decolar")
                         iconSource: "/res/takeoff.svg"
                         enabled:    _missionController.isInsertTakeoffValid
                         visible:    toolStrip._isMissionLayer && !_planMasterController.controllerVehicle.rover
@@ -660,7 +660,7 @@ Item {
                     },
                     ToolStripAction {
                         id:                 addWaypointRallyPointAction
-                        text:               _editingLayer == _layerRallyPoints ? qsTr("Rally Point") : qsTr("Waypoint")
+                        text:               _editingLayer == _layerRallyPoints ? qsTr("Rally Point") : qsTr("Parada")
                         iconSource:         "/qmlimages/MapAddMission.svg"
                         enabled:            toolStrip._isRallyLayer ? true : _missionController.flyThroughCommandsAllowed
                         visible:            toolStrip._isRallyLayer || toolStrip._isMissionLayer
@@ -671,7 +671,7 @@ Item {
                         text:               _missionController.isROIActive ? qsTr("Cancel ROI") : qsTr("ROI")
                         iconSource:         "/qmlimages/MapAddMission.svg"
                         enabled:            !_missionController.onlyInsertTakeoffValid
-                        //visible:            toolStrip._isMissionLayer && _planMasterController.controllerVehicle.roiModeSupported
+                        visible:            toolStrip._isMissionLayer && _planMasterController.controllerVehicle.roiModeSupported
                         //visible: false
                         checkable:          !_missionController.isROIActive
                         onCheckedChanged:   _addROIOnClick = checked
@@ -685,7 +685,7 @@ Item {
                         onMyAddROIOnClickChanged: checked = _addROIOnClick
                     },
                     ToolStripAction {
-                        text:               _singleComplexItem ? _missionController.complexMissionItemNames[0] : qsTr("Pattern")
+                        text:               _singleComplexItem ? _missionController.complexMissionItemNames[0] : qsTr("Padrão")
                         iconSource:         "/qmlimages/MapDrawShape.svg"
                         enabled:            _missionController.flyThroughCommandsAllowed
                         visible:            toolStrip._isMissionLayer
@@ -699,7 +699,7 @@ Item {
                         }
                     },
                     ToolStripAction {
-                        text:       _planMasterController.controllerVehicle.multiRotor ? qsTr("Return") : qsTr("Land")
+                        text:       _planMasterController.controllerVehicle.multiRotor ? qsTr("Retornar") : qsTr("Land")
                         iconSource: "/res/rtl.svg"
                         enabled:    _missionController.isInsertLandValid
                         visible:    toolStrip._isMissionLayer
@@ -710,7 +710,7 @@ Item {
                         }
                     },
                     ToolStripAction {
-                        text:               qsTr("Center")
+                        text:               qsTr("Centralizar")
                         iconSource:         "/qmlimages/MapCenter.svg"
                         enabled:            true
                         visible:            true
@@ -819,10 +819,10 @@ Item {
                     visible:    (!planControlColapsed || !_airspaceEnabled) && QGroundControl.corePlugin.options.enablePlanViewSelector
                     Component.onCompleted: currentIndex = 0
                     QGCTabButton {
-                        text:       qsTr("Mission")
+                        text:       qsTr("Rota")
                     }
                     QGCTabButton {
-                        text:       qsTr("Fence")
+                        text:       qsTr("Cerca")
                         enabled:    _geoFenceController.supported
                     }
                     QGCTabButton {
@@ -1038,15 +1038,15 @@ Item {
                 Layout.fillWidth:   true
                 wrapMode:           Text.WordWrap
                 text:               globals.activeVehicle ?
-                                        qsTr("You have unsaved changes. You should upload to your vehicle, or save to a file.") :
-                                        qsTr("You have unsaved changes.")
+                                        qsTr("Existem alterações não salvas. Mande para o veículo ou salve em um arquivo.") :
+                                        qsTr("Existem alterações não salvas. Salve em um arquivo.")
                 visible:            _planMasterController.dirty
             }
 
             SectionHeader {
                 id:                 createSection
                 Layout.fillWidth:   true
-                text:               qsTr("Create Plan")
+                text:               qsTr("Criar Rota")
                 showSpacer:         false
                 visible:            true
             }
@@ -1119,7 +1119,7 @@ Item {
             SectionHeader {
                 id:                 storageSection
                 Layout.fillWidth:   true
-                text:               qsTr("Storage")
+                text:               qsTr("Celular")
                 visible:            true
             }
 
@@ -1142,7 +1142,7 @@ Item {
                 }*/
 
                 QGCButton {
-                    text:               qsTr("Open...")
+                    text:               qsTr("Abrir")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress
                     onClicked: {
@@ -1156,7 +1156,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               qsTr("Save")
+                    text:               qsTr("Salvar")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.currentPlanFile !== ""
                     onClicked: {
@@ -1170,7 +1170,7 @@ Item {
                 }
 
                 QGCButton {
-                    text:               qsTr("Save As...")
+                    text:               qsTr("Salvar como...")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.syncInProgress && _planMasterController.containsItems
                     onClicked: {
@@ -1182,6 +1182,7 @@ Item {
                 QGCButton {
                     Layout.columnSpan:  3
                     Layout.fillWidth:   true
+                    visible:            false
                     text:               qsTr("Save Mission Waypoints As KML...")
                     enabled:            !_planMasterController.syncInProgress && _visualItems.count > 1
                     onClicked: {
@@ -1199,7 +1200,7 @@ Item {
             SectionHeader {
                 id:                 vehicleSection
                 Layout.fillWidth:   true
-                text:               qsTr("Aeronave")
+                text:               qsTr("Drone")
             }
 
             RowLayout {
@@ -1208,7 +1209,7 @@ Item {
                 visible:            vehicleSection.visible
 
                 QGCButton {
-                    text:               qsTr("CARREGAR ROTA")
+                    text:               qsTr("Carregar Rota")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.offline && !_planMasterController.syncInProgress && _planMasterController.containsItems
                     visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
@@ -1222,8 +1223,8 @@ Item {
                     text:               qsTr("Download")
                     Layout.fillWidth:   true
                     enabled:            !_planMasterController.offline && !_planMasterController.syncInProgress
-                    visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
-                    //visible: false
+                    //visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
+                    visible: false
                     onClicked: {
                         dropPanel.hide()
                         if (_planMasterController.dirty) {
@@ -1239,8 +1240,8 @@ Item {
                     Layout.fillWidth:   true
                     Layout.columnSpan:  2
                     enabled:            !_planMasterController.offline && !_planMasterController.syncInProgress
-                    visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
-                    //visible: false
+                    //visible:            !QGroundControl.corePlugin.options.disableVehicleConnection
+                    visible: false
                     onClicked: {
                         dropPanel.hide()
                         mainWindow.showComponentDialog(clearVehicleMissionDialog, text, mainWindow.showDialogDefaultWidth, StandardButton.Yes | StandardButton.Cancel)

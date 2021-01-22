@@ -287,11 +287,11 @@ QString QGroundControlQmlGlobal::altitudeModeShortDescription(AltitudeMode altMo
     case AltitudeModeNone:
         return QString();
     case AltitudeModeRelative:
-        return tr("Relative To Launch");
+        return tr("Relativas a decolagem");
     case AltitudeModeAbsolute:
-        return tr("Above Mean Sea Level");
+        return tr("Relativas ao nível do mar");
     case AltitudeModeAboveTerrain:
-        return tr("Above Terrain");
+        return tr("Relativas a altitude do terreno");
     case AltitudeModeTerrainFrame:
         return tr("Terrain Frame");
     }

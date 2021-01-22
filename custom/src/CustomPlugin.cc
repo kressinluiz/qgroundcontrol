@@ -60,12 +60,12 @@ QGCFlyViewOptions* CustomOptions::flyViewOptions(void)
 // Enable Plan View Selector (Mission, Fence or Rally)
 bool CustomOptions::enablePlanViewSelector()
 {
-    return false;
+    return true;
 }
 // Should the mission status indicator (Plan View) be shown?
 bool CustomOptions::showMissionStatus()
 {
-    return false;
+    return true;
 }
 //Should QGC hide its settings menu and colapse it into one single menu?
 bool CustomOptions::combineSettingsAndSetup()
