@@ -76,8 +76,8 @@ public:
     bool                isStandaloneCoordinate      (void) const final { return false; }
     bool                specifiesCoordinate         (void) const final { return true; }
     bool                specifiesAltitudeOnly       (void) const final { return false; }
-    QString             commandDescription          (void) const final { return tr("Structure Scan"); }
-    QString             commandName                 (void) const final { return tr("Structure Scan"); }
+    QString             commandDescription          (void) const final { return tr("Inspeção Estrutura"); }
+    QString             commandName                 (void) const final { return tr("Inspeção Estrutura"); }
     QString             abbreviation                (void) const final { return "S"; }
     QGeoCoordinate      coordinate                  (void) const final;
     QGeoCoordinate      exitCoordinate              (void) const final { return coordinate(); }

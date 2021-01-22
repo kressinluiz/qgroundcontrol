@@ -192,33 +192,39 @@ Rectangle {
                 QGCLabel {
                     text:               _firmwareLabel
                     Layout.fillWidth:   true
-                    visible:            _multipleFirmware
+                    //visible:            _multipleFirmware
+                    visible:            false
                 }
                 FactComboBox {
                     fact:                   QGroundControl.settingsManager.appSettings.offlineEditingFirmwareClass
                     indexModel:             false
                     Layout.preferredWidth:  _fieldWidth
-                    visible:                _multipleFirmware && _allowFWVehicleTypeSelection
+                    //visible:                _multipleFirmware && _allowFWVehicleTypeSelection
+                    visible:                false
                 }
                 QGCLabel {
                     text:       _controllerVehicle.firmwareTypeString
-                    visible:    _multipleFirmware && !_allowFWVehicleTypeSelection
+                    //visible:    _multipleFirmware && !_allowFWVehicleTypeSelection
+                    visible:                false
                 }
 
                 QGCLabel {
                     text:               _vehicleLabel
                     Layout.fillWidth:   true
-                    visible:            _multipleVehicleTypes
+                    //visible:            _multipleVehicleTypes
+                    visible:                false
                 }
                 FactComboBox {
                     fact:                   QGroundControl.settingsManager.appSettings.offlineEditingVehicleClass
                     indexModel:             false
                     Layout.preferredWidth:  _fieldWidth
-                    visible:                _multipleVehicleTypes && _allowFWVehicleTypeSelection
+                    //visible:                _multipleVehicleTypes && _allowFWVehicleTypeSelection
+                    visible:                false
                 }
                 QGCLabel {
                     text:       _controllerVehicle.vehicleTypeString
-                    visible:    _multipleVehicleTypes && !_allowFWVehicleTypeSelection
+                    //visible:    _multipleVehicleTypes && !_allowFWVehicleTypeSelection
+                    visible:                false
                 }
 
                 QGCLabel {
@@ -227,18 +233,20 @@ Rectangle {
                     Layout.fillWidth:       true
                     wrapMode:               Text.WordWrap
                     font.pointSize:         ScreenTools.smallFontPointSize
-                    text:                   qsTr("The following speed values are used to calculate total mission time. They do not affect the flight speed for the mission.")
+                    text:                   qsTr("A velocidade abaixo é usada para calcular o tempo da rota. Ela não afeta a velocidade do drone durante o vôo.")
                     visible:                _showCruiseSpeed || _showHoverSpeed
                 }
 
                 QGCLabel {
                     text:               qsTr("Cruise speed")
-                    visible:            _showCruiseSpeed
+                    //visible:            _showCruiseSpeed
+                    visible:                false
                     Layout.fillWidth:   true
                 }
                 FactTextField {
                     fact:                   QGroundControl.settingsManager.appSettings.offlineEditingCruiseSpeed
-                    visible:                _showCruiseSpeed
+                    //visible:                _showCruiseSpeed
+                    visible:                false
                     Layout.preferredWidth:  _fieldWidth
                 }
 

@@ -5,7 +5,7 @@
 [
 {
     "name":             "PlannedHomePositionAltitude",
-    "shortDesc": "Launch position altitude",
+    "shortDesc": "Altitude de decolagem",
     "type":             "double",
     "units":            "m",
     "decimalPlaces":    1,

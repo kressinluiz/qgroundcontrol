@@ -26,8 +26,9 @@ Column {
         id:             cameraSectionHeader
         anchors.left:   parent.left
         anchors.right:  parent.right
-        text:           qsTr("Camera")
+        text:           qsTr("Câmera")
         checked:        false
+        visible:        false
     }
 
     Column {
@@ -102,6 +103,7 @@ Column {
             columnSpacing:  ScreenTools.defaultFontPixelWidth / 2
             rowSpacing:     0
             columns:        3
+            visible:        false
 
             QGCLabel { text: qsTr("Gimbal") }
             QGCLabel { text: qsTr("Pitch") }

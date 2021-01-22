@@ -46,8 +46,8 @@ public:
     QString mapVisualQML        (void) const final { return QStringLiteral("CorridorScanMapVisual.qml"); }
 
     // Overrides from VisualMissionionItem
-    QString             commandDescription  (void) const final { return tr("Corridor Scan"); }
-    QString             commandName         (void) const final { return tr("Corridor Scan"); }
+    QString             commandDescription  (void) const final { return tr("Inspeção Corredor"); }
+    QString             commandName         (void) const final { return tr("Inspeção Corredor"); }
     QString             abbreviation        (void) const final { return tr("C"); }
     ReadyForSaveState   readyForSaveState   (void) const final;
     double              additionalTimeDelay (void) const final { return 0; }

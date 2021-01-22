@@ -148,12 +148,14 @@ Rectangle {
                     antialiasing:       true
                     color:              qgcPal.text
                     source:             "/qmlimages/arrow-down.png"
+                    visible:            false
                 }
             }
 
             QGCMouseArea {
                 fillItem:   parent
                 onClicked:  mainWindow.showComponentDialog(commandDialog, qsTr("Select Mission Command"), mainWindow.showDialogDefaultWidth, StandardButton.Cancel)
+                visible:    false
             }
 
             Component {
@@ -190,7 +192,8 @@ Rectangle {
         height:                 _hamburgerSize
         sourceSize.height:      _hamburgerSize
         source:                 "qrc:/qmlimages/Hamburger.svg"
-        visible:                missionItem.isCurrentItem && missionItem.sequenceNumber !== 0
+        //visible:                missionItem.isCurrentItem && missionItem.sequenceNumber !== 0
+        visible:                false
         color:                  qgcPal.text
 
         QGCMouseArea {

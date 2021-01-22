@@ -13,7 +13,7 @@
 },
 {
     "name":             "CorridorWidth",
-    "shortDesc": "Corridor width. Specify 0 width for a single pass scan.",
+    "shortDesc": "Largura do corredor.",
     "type":             "double",
     "units":            "m",
     "min":              0,

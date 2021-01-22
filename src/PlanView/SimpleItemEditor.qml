@@ -111,7 +111,7 @@ Rectangle {
             QGCLabel {
                 id:                 initialClickLabel
                 text:               missionItem.launchTakeoffAtSameLocation ?
-                                        qsTr("Click in map to set planned Takeoff location.") :
+                                        qsTr("Clique no mapa para definir local de decolagem.") :
                                         qsTr("Click in map to set planned Launch location.")
                 Layout.fillWidth:   true
                 wrapMode:           Text.WordWrap
@@ -290,7 +290,8 @@ Rectangle {
                     text:       qsTr("Flight Speed")
                     checked:    missionItem.speedSection.specifyFlightSpeed
                     onClicked:  missionItem.speedSection.specifyFlightSpeed = checked
-                    visible:    missionItem.speedSection.available
+                    //visible:    missionItem.speedSection.available
+                    visible:    false
                 }
 
 
@@ -320,7 +321,8 @@ Rectangle {
                     fact:               missionItem.speedSection.flightSpeed
                     Layout.fillWidth:   true
                     enabled:            flightSpeedCheckbox.checked
-                    visible:            missionItem.speedSection.available
+                    //visible:            missionItem.speedSection.available
+                    visible:            false
                 }
             }
 

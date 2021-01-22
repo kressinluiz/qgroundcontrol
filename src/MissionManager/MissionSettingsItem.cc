@@ -293,7 +293,7 @@ void MissionSettingsItem::_setHomeAltFromTerrain(double terrainAltitude)
 
 QString MissionSettingsItem::abbreviation(void) const
 {
-    return _flyView ? tr("L") : tr("Launch");
+    return _flyView ? tr("I") : tr("Início");
 }
 
 void MissionSettingsItem::_updateHomePosition(const QGeoCoordinate& homePosition)

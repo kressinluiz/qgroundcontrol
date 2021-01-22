@@ -27,7 +27,7 @@ QGCFlickable {
             anchors.margins:    _margin
             anchors.left:       parent.left
             anchors.top:        parent.top
-            text:               qsTr("Rally Points")
+            text:               qsTr("Locais de Pouso")
         }
 
         Rectangle {
@@ -48,7 +48,7 @@ QGCFlickable {
                 anchors.right:      parent.right
                 wrapMode:           Text.WordWrap
                 font.pointSize:     ScreenTools.smallFontPointSize
-                text:               qsTr("Rally Points provide alternate landing points when performing a Return to Launch (RTL).")
+                text:               qsTr("Clique em 'Local de Pouso' para adicionar locais alternativos de pouso quando o drone estiver retornando para o local de decolagem.")
             }
 
             /*

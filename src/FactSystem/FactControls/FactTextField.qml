@@ -37,7 +37,7 @@ QGCTextField {
         }
     }
 
-    onHelpClicked: mainWindow.showComponentDialog(helpDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+    onHelpClicked: mainWindow.showComponentDialog(helpDialogComponent, qsTr("Detalhes"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
 
     Component {
         id: validationErrorDialogComponent

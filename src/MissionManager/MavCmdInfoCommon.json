@@ -27,14 +27,14 @@
         {
             "id":                   16,
             "rawName":              "MAV_CMD_NAV_WAYPOINT",
-            "friendlyName":         "Waypoint",
-            "description":          "Travel to a position in 3D space.",
+            "friendlyName":         "Parada",
+            "description":          "Voa até uma posição especificada.",
             "specifiesCoordinate":  true,
             "friendlyEdit":         true,
             "category":             "Basic",
             "param1": {
-                "label":            "Hold",
-                "units":            "secs",
+                "label":            "Parar por:",
+                "units":            "segs",
                 "default":          0,
                 "decimalPlaces":    0
             },
@@ -152,16 +152,16 @@
         {
             "id":           20,
             "rawName":      "MAV_CMD_NAV_RETURN_TO_LAUNCH",
-            "friendlyName": "Return To Launch",
-            "description":  "Send the vehicle back to the launch position.",
+            "friendlyName": "Volta para decolagem",
+            "description":  "Envia o drone de volta para o local de decolagem.",
             "friendlyEdit": true,
             "category":     "Basic"
         },
         {
             "id":                   21,
             "rawName":              "MAV_CMD_NAV_LAND",
-            "friendlyName":         "Land",
-            "description":          "Land vehicle at the specified location.",
+            "friendlyName":         "Pousar",
+            "description":          "Pousa o drone na localização especificada.",
             "specifiesCoordinate":  true,
             "isLandCommand":        true,
             "friendlyEdit":         true,
@@ -191,8 +191,8 @@
         {
             "id":                   22,
             "rawName":              "MAV_CMD_NAV_TAKEOFF",
-            "friendlyName":         "Takeoff",
-            "description":          "Launch from the ground and travel towards the specified takeoff position.",
+            "friendlyName":         "Decolar",
+            "description":          "Decola do chão e sobe até a altitude especificada.",
             "specifiesCoordinate":  true,
             "isTakeoffCommand":     true,
             "friendlyEdit":         true,

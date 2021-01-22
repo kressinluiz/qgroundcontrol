@@ -660,7 +660,7 @@ Item {
                     },
                     ToolStripAction {
                         id:                 addWaypointRallyPointAction
-                        text:               _editingLayer == _layerRallyPoints ? qsTr("Rally Point") : qsTr("Parada")
+                        text:               _editingLayer == _layerRallyPoints ? qsTr("Local de Pouso") : qsTr("Parada")
                         iconSource:         "/qmlimages/MapAddMission.svg"
                         enabled:            toolStrip._isRallyLayer ? true : _missionController.flyThroughCommandsAllowed
                         visible:            toolStrip._isRallyLayer || toolStrip._isMissionLayer
@@ -685,7 +685,7 @@ Item {
                         onMyAddROIOnClickChanged: checked = _addROIOnClick
                     },
                     ToolStripAction {
-                        text:               _singleComplexItem ? _missionController.complexMissionItemNames[0] : qsTr("Padrão")
+                        text:               _singleComplexItem ? _missionController.complexMissionItemNames[0] : qsTr("Inspeção")
                         iconSource:         "/qmlimages/MapDrawShape.svg"
                         enabled:            _missionController.flyThroughCommandsAllowed
                         visible:            toolStrip._isMissionLayer
@@ -826,7 +826,7 @@ Item {
                         enabled:    _geoFenceController.supported
                     }
                     QGCTabButton {
-                        text:       qsTr("Rally")
+                        text:       qsTr("Pouso")
                         enabled:    _rallyPointController.supported
                     }
                 }
@@ -944,7 +944,7 @@ Item {
         id: syncLoadFromVehicleOverwrite
         QGCViewMessage {
             id:         syncLoadFromVehicleCheck
-            message:   qsTr("You have unsaved/unsent changes. Loading from the Vehicle will lose these changes. Are you sure you want to load from the Vehicle?")
+            message:   qsTr("Existe uma rota que não foi salva/enviada. Carregar do veículo irá apagar essas mudanças. Você tem certeza que deseja carregar uma rota do veículo?")
             function accept() {
                 hideDialog()
                 _planMasterController.loadFromVehicle()
@@ -956,7 +956,7 @@ Item {
         id: syncLoadFromFileOverwrite
         QGCViewMessage {
             id:         syncLoadFromVehicleCheck
-            message:   qsTr("You have unsaved/unsent changes. Loading from a file will lose these changes. Are you sure you want to load from a file?")
+            message:   qsTr("Existe uma rota que não foi salva/enviada. Carregar de um arquivo irá apagar essas mudanças. Você tem certeza que deseja carregar uma rota de um arquivo?")
             function accept() {
                 hideDialog()
                 _planMasterController.loadFromSelectedFile()
@@ -969,7 +969,7 @@ Item {
     Component {
         id: createPlanRemoveAllPromptDialog
         QGCViewMessage {
-            message: qsTr("Are you sure you want to remove current plan and create a new plan? ")
+            message: qsTr("Você tem certeza que deseja remover a rota atual e criar uma nova?")
             function accept() {
                 createPlanRemoveAllPromptDialogPlanCreator.createPlan(createPlanRemoveAllPromptDialogMapCenter)
                 hideDialog()
@@ -1006,7 +1006,7 @@ Item {
         ColumnLayout {
             spacing:    ScreenTools.defaultFontPixelWidth * 0.5
 
-            QGCLabel { text: qsTr("Create complex pattern:") }
+            QGCLabel { text: qsTr("Criar formato:") }
 
             Repeater {
                 model: _missionController.complexMissionItemNames
@@ -1031,7 +1031,7 @@ Item {
             id:         columnHolder
             spacing:    _margin
 
-            property string _overwriteText: (_editingLayer == _layerMission) ? qsTr("Mission overwrite") : ((_editingLayer == _layerGeoFence) ? qsTr("GeoFence overwrite") : qsTr("Rally Points overwrite"))
+            property string _overwriteText: (_editingLayer == _layerMission) ? qsTr("Rota não salva") : ((_editingLayer == _layerGeoFence) ? qsTr("GeoFence overwrite") : qsTr("Rally Points overwrite"))
 
             QGCLabel {
                 id:                 unsavedChangedLabel
@@ -1100,7 +1100,7 @@ Item {
                                 if (_planMasterController.containsItems) {
                                     createPlanRemoveAllPromptDialogMapCenter = _mapCenter()
                                     createPlanRemoveAllPromptDialogPlanCreator = object
-                                    mainWindow.showComponentDialog(createPlanRemoveAllPromptDialog, qsTr("Create Plan"), mainWindow.showDialogDefaultWidth, StandardButton.Yes | StandardButton.No)
+                                    mainWindow.showComponentDialog(createPlanRemoveAllPromptDialog, qsTr("Criar Rota"), mainWindow.showDialogDefaultWidth, StandardButton.Yes | StandardButton.No)
                                 } else {
                                     object.createPlan(_mapCenter())
                                 }

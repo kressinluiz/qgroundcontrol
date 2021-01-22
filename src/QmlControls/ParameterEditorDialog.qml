@@ -132,7 +132,7 @@ QGCViewDialog {
 
                 QGCButton {
                     visible:    _allowDefaultReset
-                    text:       qsTr("Reset to default")
+                    text:       qsTr("Resetar para padrão")
 
                     onClicked: {
                         fact.value = fact.defaultValue
@@ -239,8 +239,8 @@ QGCViewDialog {
             QGCLabel {
                 width:      parent.width
                 wrapMode:   Text.WordWrap
-                text:       qsTr("Warning: Modifying values while vehicle is in flight can lead to vehicle instability and possible vehicle loss. ") +
-                            qsTr("Make sure you know what you are doing and double-check your values before Save!")
+                text:       qsTr("Atenção: Modificar os valores durante o vôo pode levar a instabilidade do drone.") +
+                            qsTr("Tenha certeza do que está fazendo e verifique os valores novamente antes de salvar!")
                 visible:    fact.componentId != -1
             }
 

@@ -26,10 +26,10 @@ ColumnLayout {
     property bool   showMission:          true
     property bool   showAllItems:         true
 
-    QGCLabel { text: qsTr("Center map on:") }
+    QGCLabel { text: qsTr("Centralizar mapa em:") }
 
     QGCButton {
-        text:               qsTr("Mission")
+        text:               qsTr("Rota")
         Layout.fillWidth:   true
         visible:            showMission
 
@@ -40,7 +40,7 @@ ColumnLayout {
     }
 
     QGCButton {
-        text:               qsTr("All items")
+        text:               qsTr("Todos os itens")
         Layout.fillWidth:   true
         visible:            showAllItems
 
@@ -51,7 +51,7 @@ ColumnLayout {
     }
 
     QGCButton {
-        text:               qsTr("Launch")
+        text:               qsTr("Local de decolagem")
         Layout.fillWidth:   true
 
         onClicked: {
@@ -61,7 +61,7 @@ ColumnLayout {
     }
 
     QGCButton {
-        text:               qsTr("Vehicle")
+        text:               qsTr("Drone")
         Layout.fillWidth:   true
         enabled:            globals.activeVehicle && globals.activeVehicle.coordinate.isValid
 
@@ -72,7 +72,7 @@ ColumnLayout {
     }
 
     QGCButton {
-        text:               qsTr("Current Location")
+        text:               qsTr("Localização atual")
         Layout.fillWidth:   true
         enabled:            map.gcsPosition.isValid
 
@@ -83,8 +83,9 @@ ColumnLayout {
     }
 
     QGCButton {
-        text:               qsTr("Specified Location")
+        text:               qsTr("Localização especificada")
         Layout.fillWidth:   true
+        visible:            false
 
         onClicked: {
             dropPanel.hide()

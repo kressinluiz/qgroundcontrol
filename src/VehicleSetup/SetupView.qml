@@ -58,8 +58,11 @@ Rectangle {
         } else {
             panelLoader.setSourceComponent(disconnectedVehicleSummaryComponent)
         }
+        summaryButton.checked = true
+    }
+
+    function _showRemoteControl(){
         panelLoader.setSource("qrc:/qml/LinkSettings.qml")
-        summaryButton.checked = false
         controleRemotoButton.checked = true
     }
 
@@ -93,7 +96,7 @@ Rectangle {
         }
     }
 
-    Component.onCompleted: _showSummaryPanel()
+    Component.onCompleted: _showRemoteControl()
 
     Connections {
         target: QGroundControl.corePlugin
@@ -113,8 +116,8 @@ Rectangle {
                     //      A new vehicle shows up
                     //      The summary panel is already showing and the active vehicle goes away
                     //      The active vehicle goes away and we are not on the Firmware panel.
-                    summaryButton.checked = false
-                    controleRemotoButton.checked = true
+                    summaryButton.checked = true
+                    //controleRemotoButton.checked = true
                     _showSummaryPanel()
                 }
             }
@@ -150,7 +153,7 @@ Rectangle {
                 horizontalAlignment:    Text.AlignHCenter
                 wrapMode:               Text.WordWrap
                 font.pointSize:         ScreenTools.largeFontPointSize
-                text:                   qsTr("As informações sobre a aeronave aparecem após conectar a aeronave.") +
+                text:                   qsTr("As informações sobre o drone aparecem após conectar ao drone.") +
                                         (ScreenTools.isMobile || !_corePlugin.options.showFirmwareUpgrade ? "" : " Click Firmware on the left to upgrade your vehicle.")
 
                 onLinkActivated: Qt.openUrlExternally(link)

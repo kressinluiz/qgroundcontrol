@@ -75,7 +75,7 @@ Rectangle {
                     Layout.fillWidth:       true
                     wrapMode:               Text.WordWrap
                     horizontalAlignment:    Text.AlignHCenter
-                    text:                   qsTr("Use the Polygon Tools to create the polygon which outlines your survey area.")
+                    text:                   qsTr("Use as ferramentas de formatos para criar uma rota sobre a área de interesse.")
                 }
             }
         }
@@ -156,7 +156,7 @@ Rectangle {
                     }
 
                     QGCLabel {
-                        text:       qsTr("Turnaround dist")
+                        text:       qsTr("Curva")
                     }
                     FactTextField {
                         fact:               _missionItem.turnAroundDistance
@@ -165,7 +165,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    text:               qsTr("Rotate Entry Point")
+                    text:               qsTr("Rotacionar ponto de entrada")
                     onClicked:          _missionItem.rotateEntryPoint();
                 }
 
@@ -173,7 +173,8 @@ Rectangle {
                     anchors.left:   parent.left
                     anchors.right:  parent.right
                     spacing:        _margin
-                    visible:        transectsHeader.checked
+                    //visible:        transectsHeader.checked
+                    visible:        false
 
                     QGCOptionsComboBox {
                         Layout.fillWidth: true

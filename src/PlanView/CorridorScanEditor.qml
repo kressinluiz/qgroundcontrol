@@ -65,7 +65,7 @@ Rectangle {
             QGCLabel {
                 Layout.fillWidth:   true
                 wrapMode:           Text.WordWrap
-                text:               qsTr("Use the Polyline Tools to create the polyline which defines the corridor.")
+                text:               qsTr("Use as ferramentas de formatos para criar uma rota sobre a área de interesse.")
             }
 
             /*
@@ -96,8 +96,8 @@ Rectangle {
 
                 Component.onCompleted: currentIndex = 0
 
-                QGCTabButton { text: qsTr("Grid") }
-                QGCTabButton { text: qsTr("Camera") }
+                QGCTabButton { text: qsTr("Rota de vôo") }
+                //QGCTabButton { text: qsTr("Camera") }
             }
 
             Column {
@@ -124,14 +124,14 @@ Rectangle {
                                                         QGroundControl.AltitudeModeAboveTerrain :
                                                         (missionItem.cameraCalc.distanceToSurfaceRelative ? QGroundControl.AltitudeModeRelative : QGroundControl.AltitudeModeAbsolute)
                     frontalDistanceLabel:           qsTr("Trigger Dist")
-                    sideDistanceLabel:              qsTr("Spacing")
+                    sideDistanceLabel:              qsTr("Espaçamento")
                 }
 
                 SectionHeader {
                     id:             corridorHeader
                     anchors.left:   parent.left
                     anchors.right:  parent.right
-                    text:           qsTr("Corridor")
+                    text:           qsTr("Corredor")
                 }
 
                 GridLayout {
@@ -142,13 +142,13 @@ Rectangle {
                     columns:        2
                     visible:        corridorHeader.checked
 
-                    QGCLabel { text: qsTr("Width") }
+                    QGCLabel { text: qsTr("Largura") }
                     FactTextField {
                         fact:                   missionItem.corridorWidth
                         Layout.fillWidth:       true
                     }
 
-                    QGCLabel { text: qsTr("Turnaround dist") }
+                    QGCLabel { text: qsTr("Curva") }
                     FactTextField {
                         fact:                   missionItem.turnAroundDistance
                         Layout.fillWidth:       true
@@ -157,6 +157,7 @@ Rectangle {
                     QGCOptionsComboBox {
                         Layout.columnSpan:  2
                         Layout.fillWidth:   true
+                        visible:            false
 
                         model: [
                             {
@@ -183,7 +184,7 @@ Rectangle {
                 }
 
                 QGCButton {
-                    text:       qsTr("Rotate Entry Point")
+                    text:       qsTr("Rotacionar ponto de entrada")
                     onClicked:  missionItem.rotateEntryPoint()
                 }
 
@@ -191,7 +192,7 @@ Rectangle {
                     id:             terrainHeader
                     anchors.left:   parent.left
                     anchors.right:  parent.right
-                    text:           qsTr("Terrain")
+                    text:           qsTr("Terreno")
                     checked:        missionItem.followTerrain
                 }
 
@@ -203,7 +204,7 @@ Rectangle {
 
                     QGCCheckBox {
                         id:         followsTerrainCheckBox
-                        text:       qsTr("Vehicle follows terrain")
+                        text:       qsTr("Drone segue altitude terreno")
                         checked:    missionItem.followTerrain
                         onClicked:  missionItem.followTerrain = checked
                     }
@@ -240,16 +241,18 @@ Rectangle {
                     anchors.left:   parent.left
                     anchors.right:  parent.right
                     text:           qsTr("Statistics")
+                    visible:        false
                 }
 
-                TransectStyleComplexItemStats { }
+                //TransectStyleComplexItemStats { }
             } // Grid Column
 
             Column {
                 anchors.left:       parent.left
                 anchors.right:      parent.right
                 spacing:            _margin
-                visible:            tabBar.currentIndex == 1
+                //visible:            tabBar.currentIndex == 1
+                visible:            false
 
                 CameraCalcCamera {
                     cameraCalc: missionItem.cameraCalc

@@ -66,7 +66,7 @@ Rectangle {
             QGCLabel {
                 Layout.fillWidth:   true
                 wrapMode:           Text.WordWrap
-                text:               qsTr("Use the Polygon Tools to create the polygon which outlines the structure.")
+                text:               qsTr("Use as ferramentas de formatos para criar uma rota sobre a área de interesse.")
             }
 
             /*
