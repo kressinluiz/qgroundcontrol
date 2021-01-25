@@ -299,7 +299,7 @@ void APMSensorsComponentController::calibrateAccel(void)
     _vehicle->vehicleLinkManager()->setCommunicationLostEnabled(false);
     _startVisualCalibration();
     _cancelButton->setEnabled(false);
-    _orientationCalAreaHelpText->setProperty("text", tr("Hold still in the current orientation and press Next when ready"));
+    _orientationCalAreaHelpText->setProperty("text", tr("Segure parado na orientação atual e aperte em Próximo quando estiver pronto"));
 
     // Reset all progress indication
     _orientationCalDownSideDone = false;

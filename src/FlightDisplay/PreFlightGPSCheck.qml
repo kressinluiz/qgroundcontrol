@@ -17,7 +17,7 @@ PreFlightCheckButton {
     name:                           qsTr("GPS")
     telemetryFailure:               _3dLockFailure || _satCountFailure
     telemetryTextFailure:           _3dLockFailure ?
-                                        qsTr("Waiting for 3D lock.") :
+                                        qsTr("Aguardando GPS.") :
                                         (_satCountFailure ? _satCountFailureText : "")
     allowTelemetryFailureOverride:  !_3dLockFailure && _satCountFailure && allowOverrideSatCount
 

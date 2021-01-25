@@ -30,21 +30,21 @@ Item {
             model: 3
 
             VehicleSummaryRow {
-                labelText:  qsTr("Compass ") + (index + 1) + ""
+                labelText:  qsTr("Bússola ") + (index + 1) + ""
                 valueText:  sensorParams.rgCompassAvailable[index] ?
                                 (sensorParams.rgCompassCalibrated[index] ?
-                                     (sensorParams.rgCompassPrimary[index] ? "Primary" : "Secondary") +
+                                     (sensorParams.rgCompassPrimary[index] ? "Primária" : "Secundária") +
                                      (sensorParams.rgCompassExternalParamAvailable[index] ?
-                                          (sensorParams.rgCompassExternal[index] ? ", External" : ", Internal" ) :
+                                          (sensorParams.rgCompassExternal[index] ? ", Externa" : ", Interna" ) :
                                           "") :
-                                     qsTr("Setup required")) :
-                                qsTr("Not installed")
+                                     qsTr("Calibração necessária")) :
+                                qsTr("Não instalada")
             }
         }
 
         VehicleSummaryRow {
-            labelText: qsTr("Accelerometer(s)")
-            valueText: controller.accelSetupNeeded ? qsTr("Setup required") : qsTr("Ready")
+            labelText: qsTr("Accelerômetros")
+            valueText: controller.accelSetupNeeded ? qsTr("Calibração necessária") : qsTr("Pronto")
         }
     }
 }

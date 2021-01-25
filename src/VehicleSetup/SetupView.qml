@@ -333,6 +333,20 @@ Rectangle {
                 onClicked:          showPanel(this, "SetupParameterEditor.qml")
             }
 
+            Repeater {
+                            model:                  _corePlugin ? _corePlugin.settingsPages : []
+                            visible:                _corePlugin && _corePlugin.options.combineSettingsAndSetup
+                            SubMenuButton {
+                                imageResource:      modelData.icon
+                                setupIndicator:     false
+                                exclusiveGroup:     setupButtonGroup
+                                text:               modelData.title
+                                visible:            _corePlugin && _corePlugin.options.combineSettingsAndSetup
+                                onClicked:          showPanel(this, modelData.url)
+                                Layout.fillWidth:   true
+                            }
+                        }
+
         }
     }
 

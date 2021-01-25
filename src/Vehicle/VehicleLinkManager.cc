@@ -61,7 +61,7 @@ void VehicleLinkManager::_commRegainedOnLink(LinkInterface* link)
     if (_rgLinkInfo.count() > 1) {
         commRegainedMessage = tr("%1Communication regained on %2 link").arg(_vehicle->_vehicleIdSpeech()).arg(isPrimaryLink ? tr("primary") : tr("secondary"));
     } else {
-        commRegainedMessage = tr("%1Communication regained").arg(_vehicle->_vehicleIdSpeech());
+        commRegainedMessage = tr("%1Comunicação reestabelecida").arg(_vehicle->_vehicleIdSpeech());
     }
 
     // Try to switch to another link

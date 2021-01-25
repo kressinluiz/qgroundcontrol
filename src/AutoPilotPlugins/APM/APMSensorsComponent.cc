@@ -30,7 +30,7 @@ QString APMSensorsComponent::name(void) const
 
 QString APMSensorsComponent::description(void) const
 {
-    return tr("Sensors Setup is used to calibrate the sensors within your vehicle.");
+    return tr("Utilize as opções disponíveis aqui para calibrar os sensores do drone.");
 }
 
 QString APMSensorsComponent::iconResource(void) const
