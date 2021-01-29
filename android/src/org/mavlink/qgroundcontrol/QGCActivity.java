@@ -292,53 +292,53 @@ public class QGCActivity extends QtActivity
     /// Incrementally updates the list of drivers connected to the device
     private static void updateCurrentDrivers()
     {
-        List<UsbSerialDriver> currentDrivers = UsbSerialProber.findAllDevices(_usbManager);
+//        List<UsbSerialDriver> currentDrivers = UsbSerialProber.findAllDevices(_usbManager);
 
-        // Remove stale drivers
-        for (int i=_drivers.size()-1; i>=0; i--) {
-            boolean found = false;
-            for (UsbSerialDriver currentDriver: currentDrivers) {
-                if (_drivers.get(i).getDevice().getDeviceId() == currentDriver.getDevice().getDeviceId()) {
-                    found = true;
-                    break;
-                }
-            }
+//        // Remove stale drivers
+//        for (int i=_drivers.size()-1; i>=0; i--) {
+//            boolean found = false;
+//            for (UsbSerialDriver currentDriver: currentDrivers) {
+//                if (_drivers.get(i).getDevice().getDeviceId() == currentDriver.getDevice().getDeviceId()) {
+//                    found = true;
+//                    break;
+//                }
+//            }
 
-            if (!found) {
-                qgcLogDebug("Remove stale driver " + _drivers.get(i).getDevice().getDeviceName());
-                _drivers.remove(i);
-            }
-        }
+//            if (!found) {
+//                qgcLogDebug("Remove stale driver " + _drivers.get(i).getDevice().getDeviceName());
+//                _drivers.remove(i);
+//            }
+//        }
 
-        // Add new drivers
-        for (int i=0; i<currentDrivers.size(); i++) {
-            boolean found = false;
-            for (int j=0; j<_drivers.size(); j++) {
-                if (currentDrivers.get(i).getDevice().getDeviceId() == _drivers.get(j).getDevice().getDeviceId()) {
-                    found = true;
-                    break;
-                }
-            }
+//        // Add new drivers
+//        for (int i=0; i<currentDrivers.size(); i++) {
+//            boolean found = false;
+//            for (int j=0; j<_drivers.size(); j++) {
+//                if (currentDrivers.get(i).getDevice().getDeviceId() == _drivers.get(j).getDevice().getDeviceId()) {
+//                    found = true;
+//                    break;
+//                }
+//            }
 
-            if (!found) {
-                UsbSerialDriver newDriver =     currentDrivers.get(i);
-                UsbDevice       device =        newDriver.getDevice();
-                String          deviceName =    device.getDeviceName();
+//            if (!found) {
+//                UsbSerialDriver newDriver =     currentDrivers.get(i);
+//                UsbDevice       device =        newDriver.getDevice();
+//                String          deviceName =    device.getDeviceName();
 
-                _drivers.add(newDriver);
-                qgcLogDebug("Adding new driver " + deviceName);
+//                _drivers.add(newDriver);
+//                qgcLogDebug("Adding new driver " + deviceName);
 
-                // Request permission if needed
-                if (_usbManager.hasPermission(device)) {
-                    qgcLogDebug("Already have permission to use device " + deviceName);
-                    newDriver.setPermissionStatus(UsbSerialDriver.permissionStatusSuccess);
-                } else {
-                    qgcLogDebug("Requesting permission to use device " + deviceName);
-                    newDriver.setPermissionStatus(UsbSerialDriver.permissionStatusRequested);
-                    _usbManager.requestPermission(device, _usbPermissionIntent);
-                }
-            }
-        }
+//                // Request permission if needed
+//                if (_usbManager.hasPermission(device)) {
+//                    qgcLogDebug("Already have permission to use device " + deviceName);
+//                    newDriver.setPermissionStatus(UsbSerialDriver.permissionStatusSuccess);
+//                } else {
+//                    qgcLogDebug("Requesting permission to use device " + deviceName);
+//                    newDriver.setPermissionStatus(UsbSerialDriver.permissionStatusRequested);
+//                    _usbManager.requestPermission(device, _usbPermissionIntent);
+//                }
+//            }
+//        }
     }
 
     /// Returns array of device info for each unopened device.
