@@ -226,7 +226,7 @@ Rectangle {
                         height:                     generalLabel.height
                         anchors.margins:            ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter:   parent.horizontalCenter
-                        visible: false
+                        visible: true
                         QGCLabel {
                             id:                     generalLabel
                             text:                   qsTr("General")
@@ -239,7 +239,7 @@ Rectangle {
                         color:                      qgcPal.windowShade
                         anchors.margins:            ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter:   parent.horizontalCenter
-                        visible: false
+                        visible: true
                         Column {
                             id:                     generalCol
                             anchors.centerIn:       parent

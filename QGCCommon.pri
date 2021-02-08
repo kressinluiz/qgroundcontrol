@@ -51,7 +51,6 @@ linux {
         DEFINES += QGC_ENABLE_BLUETOOTH
         DEFINES += QGC_GST_TAISYNC_ENABLED
         DEFINES += QGC_GST_MICROHARD_ENABLED 
-        DEFINES += NO_SERIAL_LINK
         QMAKE_CXXFLAGS_WARN_ON += -Werror \
             -Wno-unused-parameter \             # gst_plugins-good has these errors
             -Wno-implicit-fallthrough \         # gst_plugins-good has these errors

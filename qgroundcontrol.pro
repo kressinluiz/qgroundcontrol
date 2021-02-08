@@ -12056,3 +12056,4 @@ DISTFILES += \
     gstreamer-1.0-android-universal-1.18.1/x86_64/share/licenses/zlib/README \
     gstreamer-1.0-android-universal-1.18.1/x86_64/share/licenses/zlib/README-LICENSE-INFO.txt \
     src/QmlControls/QGroundControl/Specific/qmldir
+android: include(/home/kressin/Android/Sdk/android_openssl/openssl.pri)
