@@ -28,7 +28,6 @@ exists($$PWD/custom/android/AndroidManifest.xml) {
 }
 
 OTHER_FILES += \
-    $$PWD/android/res/xml/device_filter.xml \
     $$PWD/android/src/com/hoho/android/usbserial/driver/CdcAcmSerialDriver.java \
     $$PWD/android/src/com/hoho/android/usbserial/driver/CommonUsbSerialDriver.java \
     $$PWD/android/src/com/hoho/android/usbserial/driver/Cp2102SerialDriver.java \
@@ -44,11 +43,18 @@ OTHER_FILES += \
     $$PWD/android/src/org/freedesktop/gstreamer/androidmedia/GstAhcCallback.java \
     $$PWD/android/src/org/freedesktop/gstreamer/androidmedia/GstAhsCallback.java \
     $$PWD/android/src/org/freedesktop/gstreamer/androidmedia/GstAmcOnFrameAvailableListener.java
+    $$PWD/android/res/xml/device_filter.xml
 
 
 DISTFILES += \
     $$PWD/android/gradle/wrapper/gradle-wrapper.jar \
     $$PWD/android/gradlew \
+    $$PWD/android/libs/armeabi-v7a/fpvlibrary-v1.0.3.aar \
+    $$PWD/android/libs/armeabi-v7a/libh12serial_port.so \
+    $$PWD/android/libs/armeabi-v7a/libopenh264.so \
+    $$PWD/android/libs/armeabi-v7a/libopenh264jni.so \
+    $$PWD/android/libs/armeabi-v7a/uartVideo.aar \
+    $$PWD/android/libs/d2xx.jar \
     $$PWD/android/res/drawable-hdpi/icon.png \
     $$PWD/android/res/drawable-ldpi/icon.png \
     $$PWD/android/res/drawable-mdpi/icon.png \
@@ -58,4 +64,7 @@ DISTFILES += \
     $$PWD/android/res/values/libs.xml \
     $$PWD/android/build.gradle \
     $$PWD/android/gradle/wrapper/gradle-wrapper.properties \
-    $$PWD/android/gradlew.bat
+    $$PWD/android/gradlew.bat \
+    $$PWD/android/res/xml/device_filter.xml \
+    $$PWD/android/src/org/mavlink/qgroundcontrol/CircularByteBuffer.java \
+    $$PWD/android/src/org/mavlink/qgroundcontrol/VideoClient.java

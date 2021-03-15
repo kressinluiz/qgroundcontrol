@@ -70,9 +70,9 @@ DECLARE_SETTINGGROUP(Video, "Video")
 void VideoSettings::_setDefaults()
 {
     if (_noVideo) {
-        _nameToMetaDataMap[videoSourceName]->setRawDefaultValue(videoSourceNoVideo);
+        _nameToMetaDataMap[videoSourceName]->setRawDefaultValue(videoSourceUDPH264);
     } else {
-        _nameToMetaDataMap[videoSourceName]->setRawDefaultValue(videoDisabled);
+        _nameToMetaDataMap[videoSourceName]->setRawDefaultValue(videoSourceUDPH264);
     }
 }
 

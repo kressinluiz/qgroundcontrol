@@ -423,8 +423,8 @@ void Vehicle::_commonInit()
 
     // Set video stream to udp if running ArduSub and Video is disabled
     //if (sub() && _settingsManager->videoSettings()->videoSource()->rawValue() == VideoSettings::videoDisabled) {
-        _settingsManager->videoSettings()->videoSource()->setRawValue(VideoSettings::videoSourceUDPH264);
-        _settingsManager->videoSettings()->lowLatencyMode()->setRawValue(true);
+     //   _settingsManager->videoSettings()->videoSource()->setRawValue(VideoSettings::videoSourceUDPH264);
+     //   _settingsManager->videoSettings()->lowLatencyMode()->setRawValue(true);
     //}
 
     //-- Airspace Management
@@ -3043,7 +3043,9 @@ void Vehicle::_rebootCommandResultHandler(void* resultHandlerData, int /*compId*
 
 void Vehicle::rebootVehicle()
 {
+    qCDebug(VehicleLog) << "Entering reboot vehicle";
     sendMavCommandWithHandler(_rebootCommandResultHandler, this, _defaultComponentId, MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, 1);
+    qCDebug(VehicleLog) << "Exiting reboot vehicle";
 }
 
 void Vehicle::startCalibration(Vehicle::CalibrationType calType)

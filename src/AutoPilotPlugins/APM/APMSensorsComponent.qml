@@ -289,7 +289,7 @@ SetupPage {
                             text:       qsTr("Reiniciar Drone")
                             onClicked: {
                                 controller.vehicle.rebootVehicle()
-                                hideDialog()
+                                //hideDialog()
                             }
                         }
                     }
@@ -317,7 +317,7 @@ SetupPage {
                             text:       qsTr("Reiniciar Drone")
                             onClicked: {
                                 controller.vehicle.rebootVehicle()
-                                hideDialog()
+                                //hideDialog()
                             }
                         }
                     }

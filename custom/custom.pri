@@ -46,7 +46,7 @@ QGC_APP_NAME        = "Custom QGroundControl"
 QGC_BINARY_NAME     = "VigiApp"
 QGC_ORG_NAME        = "Vigiair"
 QGC_ORG_DOMAIN      = "com.vigiair"
-QGC_ANDROID_PACKAGE = "com.vigiair.vigiapp"
+QGC_ANDROID_PACKAGE = "org.mavlink.qgroundcontrol"
 QGC_APP_DESCRIPTION = "VigiApp"
 QGC_APP_COPYRIGHT   = "Copyright (C) 2021 Vigiair Development Team. All rights reserved."
 
@@ -85,5 +85,12 @@ SOURCES += \
     $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.cc \
 
 DISTFILES += \
+    $$PWD/android/res/drawable-hdpi/icon.png \
+    $$PWD/android/res/drawable-ldpi/icon.png \
+    $$PWD/android/res/drawable-mdpi/icon.png \
+    $$PWD/android/res/drawable-xhdpi/icon.png \
+    $$PWD/android/res/drawable-xxhdpi/icon.png \
+    $$PWD/android/res/drawable-xxxhdpi/icon.png \
+    $$PWD/android/res/xml/device_filter.xml \
     $$PWD/res/BluetoothRunPrompt.qml
 
