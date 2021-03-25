@@ -37,6 +37,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Locale;
+
+import android.text.TextUtils;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.io.File;
+import android.os.Environment;
+
 import java.io.IOException;
 
 import android.app.Activity;
@@ -71,7 +79,8 @@ import com.skydroid.fpvlibrary.usbserial.UsbSerialControl;
 import com.skydroid.fpvlibrary.utils.BusinessUtils;
 import com.skydroid.fpvlibrary.video.FPVVideoClient;
 import com.skydroid.fpvlibrary.widget.GLHttpVideoSurface;
-
+import android.os.Handler;
+import android.os.Looper;
 
 public class QGCActivity extends QtActivity
 {
@@ -92,6 +101,10 @@ public class QGCActivity extends QtActivity
     public static Context m_context;
 
     private Context mContext;
+
+    private GLHttpVideoSurface mPreviewDualVideoView;
+
+    private Handler mainHanlder = new Handler(Looper.getMainLooper());
 
     private FPVVideoClient mFPVVideoClient;
 
@@ -311,12 +324,22 @@ public class QGCActivity extends QtActivity
            Log.e(TAG, "Exception onDestroy()");
         }
         super.onDestroy();
+        disconnected();
+             if(mUSBMonitor != null){
+                 mUSBMonitor.unregister();
+                 mUSBMonitor.destroy();
+                 mUSBMonitor = null;
+             }
     }
 
     public void onInit(int status) {
     }
 
 private void init(){
+
+        //mPreviewDualVideoView = findViewById(R.layout.activity_usbserial);
+        //mPreviewDualVideoView.init();
+
         //初始化usb连接
         mUsbSerialConnection = new UsbSerialConnection(mContext);
         mUsbSerialConnection.setDelegate(new UsbSerialConnection.Delegate() {
@@ -324,7 +347,7 @@ private void init(){
             public void onH264Received(byte[] bytes, int paySize) {
                 //Log.d("MyApp", "h264 rcv");
                 if(mFPVVideoClient != null){
-                    mVideoClient.received(bytes,4,paySize);
+                  mVideoClient.received(bytes,4,paySize);
                   //mFPVVideoClient.received(bytes,4,paySize);
                 }
             }
@@ -349,7 +372,7 @@ private void init(){
            mFPVVideoClient.setDelegate(new FPVVideoClient.Delegate() {
                @Override
                public void onStopRecordListener(String fileName) {
-                   //停止录像回调
+                   Log.d("VIGIAPP", "onStopRecord!!!");
                }
 
                @Override
@@ -362,7 +385,7 @@ private void init(){
                public void renderI420(byte[] frame, int width, int height) {
                    //mPreviewDualVideoView.renderI420(frame,width,height);
                    //System.out.println("here");
-                   Log.d("MyApp", "renders");
+                   //Log.d("MyApp", "renders");
                }
 
                @Override
@@ -457,7 +480,38 @@ private void init(){
                     }
                 }
             }
-        }
+//            if(BusinessUtils.deviceIsUartVideoDevice(device)){
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            while(mFPVVideoClient.isPlaying() == false){
+
+//                            }
+
+//                           String tempFolder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FUAV/video/";
+
+//                           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd.HH.mm.ss", Locale.US);
+//                           //String tempFileName = "/Ronda_" + format.format(new Date()) + ".mp4";
+//                           String tempFileName = "teste";
+
+//                            File path = new File(tempFolder);
+//                            if (!path.exists()){
+//                              path.mkdirs();
+//                            }
+
+//                            Log.d("VIGIAPP", tempFolder + tempFileName);
+
+//                            if(mFPVVideoClient.startRecord(tempFolder, tempFileName)){
+//                                Log.d("VIGIAPP", "video record ok");
+//                            }else{
+//                                Log.d("VIGIAPP", "video record not ok");
+//                            }
+//                        }
+
+//                    }).start();
+//                }
+            }
+
 
         // USB device disconnected
         @Override
@@ -490,6 +544,7 @@ private void init(){
 
         if(mFPVVideoClient != null){
             mFPVVideoClient.stopPlayback();
+            //mFPVVideoClient.stopRecord();
         }
 
         mUsbDevice = null;

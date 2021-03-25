@@ -31,7 +31,6 @@ public class VideoClient {
         try{
             //InetAddress serverAddr = InetAddress.getByName(null);
             //this.serverAddress = InetAddress.getByName("192.168.1.183");
-            this.serverAddress = InetAddress.getByName("192.168.1.93");
             this.localPort = 6000;
             this.serverPort = 5600;
             this.udpSocket = new DatagramSocket();
@@ -62,7 +61,7 @@ public class VideoClient {
 
        public void run() {
            android.os.Process.setThreadPriority(-18);
-            Log.d("MyApp", "h264 rcv and sent out");
+            //Log.d("MyApp", "h264 rcv and sent out");
          while (VideoClient.this.circularByteBuffer.available() > this.buffer.length) {
              //System.out.println("inside inside HERE!");
              //mSocketSky.sendMessage(byte[] msg)
@@ -82,7 +81,8 @@ public class VideoClient {
                  //mSocketSky.sendMessage(h264s);
                  //try{
                      //VideoClient.this.udpSocket = new DatagramSocket();
-                     DatagramPacket packetSend = new DatagramPacket(h264s, h264s.length, VideoClient.this.serverAddress, VideoClient.this.serverPort);
+                     //VideoClient.this.serverAddress = InetAddress.getLocalHost();
+                     DatagramPacket packetSend = new DatagramPacket(h264s, h264s.length, InetAddress.getLocalHost(), VideoClient.this.serverPort);
 
                          //try{
                      udpSocket.send(packetSend);

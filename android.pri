@@ -55,12 +55,14 @@ DISTFILES += \
     $$PWD/android/libs/armeabi-v7a/libopenh264jni.so \
     $$PWD/android/libs/armeabi-v7a/uartVideo.aar \
     $$PWD/android/libs/d2xx.jar \
+    $$PWD/android/res/activity_usbserial.xml \
     $$PWD/android/res/drawable-hdpi/icon.png \
     $$PWD/android/res/drawable-ldpi/icon.png \
     $$PWD/android/res/drawable-mdpi/icon.png \
     $$PWD/android/res/drawable-xhdpi/icon.png \
     $$PWD/android/res/drawable-xxhdpi/icon.png \
     $$PWD/android/res/drawable-xxxhdpi/icon.png \
+    $$PWD/android/res/layout/activity_usbserial.xml \
     $$PWD/android/res/values/libs.xml \
     $$PWD/android/build.gradle \
     $$PWD/android/gradle/wrapper/gradle-wrapper.properties \
