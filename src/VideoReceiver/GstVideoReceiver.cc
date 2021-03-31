@@ -704,7 +704,6 @@ GstVideoReceiver::_makeSource(const QString& uri)
     GstElement* parser  = nullptr;
     GstElement* bin     = nullptr;
     GstElement* srcbin  = nullptr;
-    GstElement* h264pay = nullptr;
 
     do {
         QUrl url(uri);
@@ -724,7 +723,7 @@ GstVideoReceiver::_makeSource(const QString& uri)
                 GstCaps* caps = nullptr;
                 //video/x-h264, width=1920, height=1080, framerate=24/1, stream-format=(string)byte-stream
                 if(isUdp264) {
-                    if ((caps = gst_caps_from_string("application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96")) == nullptr) {
+                    if ((caps = gst_caps_from_string("video/x-h264, width=1920, height=1080, framerate=24/1, stream-format=(string)byte-stream")) == nullptr) {
                         qCCritical(VideoReceiverLog) << "gst_caps_from_string() failed";
                         break;
                     }
@@ -760,12 +759,7 @@ GstVideoReceiver::_makeSource(const QString& uri)
             break;
         }
 
-        if ((h264pay = gst_element_factory_make("rtph264pay", "h264pay")) == nullptr) {
-            qCCritical(VideoReceiverLog) << "gst_element_factory_make('rtph264pay') failed";
-            break;
-        }
-
-        gst_bin_add_many(GST_BIN(bin), source, h264pay, parser, nullptr);
+        gst_bin_add_many(GST_BIN(bin), source, parser, nullptr);
 
         // FIXME: AV: Android does not determine MPEG2-TS via parsebin - have to explicitly state which demux to use
         // FIXME: AV: tsdemux handling is a bit ugly - let's try to find elegant solution for that later
@@ -799,7 +793,7 @@ GstVideoReceiver::_makeSource(const QString& uri)
 
                 gst_bin_add(GST_BIN(bin), buffer);
 
-                if (!gst_element_link_many(source, h264pay, buffer, parser, nullptr)) {
+                if (!gst_element_link_many(source, buffer, parser, nullptr)) {
                     qCCritical(VideoReceiverLog) << "gst_element_link() failed";
                     break;
                 }

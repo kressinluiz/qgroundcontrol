@@ -100,11 +100,11 @@ public class VideoClient {
                }
                start = i;
              }
-             int end = BusinessUtils.FindR(buffer, bufferCount, VideoClient.this.H264Header);
-             byte[] remainBuf = this.byteArrayOutputStream.toByteArray();
-             this.byteArrayOutputStream.reset();
-             this.byteArrayOutputStream.write(remainBuf, end, remainBuf.length - end);
-           } catch (Exception exception) {Log.d("MyApp", "exception!!!");}
+             //int end = BusinessUtils.FindR(buffer, bufferCount, VideoClient.this.H264Header);
+             //byte[] remainBuf = this.byteArrayOutputStream.toByteArray();
+             //this.byteArrayOutputStream.reset();
+             //this.byteArrayOutputStream.write(remainBuf, end, remainBuf.length - end);
+           } catch (Exception exception) {Log.d("MyApp", "exception!!!", exception);}
            finally{
                 //udpSocket.close();
            }

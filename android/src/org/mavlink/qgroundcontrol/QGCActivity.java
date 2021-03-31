@@ -28,6 +28,37 @@ package org.mavlink.qgroundcontrol;
 //  changing the corresponding calls in the C++ routines or you will break the interface.
 //
 ////////////////////////////////////////////////////////////////////////////////////////////
+import android.content.Context;
+import android.Manifest;
+import android.content.Intent;
+import android.hardware.usb.UsbDevice;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
+import android.widget.Toast;
+import androidx.core.app.ActivityCompat;
+
+//import androidx.annotation.Nullable;
+//import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
+
+import com.skydroid.android.usbserial.DeviceFilter;
+import com.skydroid.android.usbserial.USBMonitor;
+import com.skydroid.fpvlibrary.enums.PTZAction;
+import com.skydroid.fpvlibrary.usbserial.UsbSerialConnection;
+import com.skydroid.fpvlibrary.usbserial.UsbSerialControl;
+import com.skydroid.fpvlibrary.utils.BusinessUtils;
+import com.skydroid.fpvlibrary.video.FPVVideoClient;
+import com.skydroid.fpvlibrary.widget.GLHttpVideoSurface;
+import java.io.File;
+
+
+import java.util.List;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +115,30 @@ import android.os.Looper;
 
 public class QGCActivity extends QtActivity
 {
+    private Context mContext;
+
+    //Usb监视器
+    private USBMonitor mUSBMonitor;
+
+    //Usb设备
+    private UsbDevice mUsbDevice;
+
+    private GLHttpVideoSurface mPreviewDualVideoView;
+
+    //视频渲染
+    private FPVVideoClient mFPVVideoClient;
+
+    private VideoClient mVideoClient;
+
+    //usb连接实例
+    private UsbSerialConnection mUsbSerialConnection;
+
+    //摄像头控制
+    private UsbSerialControl mUsbSerialControl;
+
+    private Handler mainHanlder = new Handler(Looper.getMainLooper());
+
+
     public  static int                                  BAD_DEVICE_ID = 0;
     private static QGCActivity                          _instance = null;
     private static UsbManager                           _usbManager = null;
@@ -99,24 +154,6 @@ public class QGCActivity extends QtActivity
     private static WifiManager.MulticastLock            _wifiMulticastLock;
     
     public static Context m_context;
-
-    private Context mContext;
-
-    private GLHttpVideoSurface mPreviewDualVideoView;
-
-    private Handler mainHanlder = new Handler(Looper.getMainLooper());
-
-    private FPVVideoClient mFPVVideoClient;
-
-    private USBMonitor mUSBMonitor;
-
-    private UsbDevice mUsbDevice;
-
-   private VideoClient mVideoClient;
-
-   private UsbSerialConnection mUsbSerialConnection;
-
-   private UsbSerialControl mUsbSerialControl;
 
     private final static ExecutorService m_Executor = Executors.newSingleThreadExecutor();
 
@@ -292,9 +329,259 @@ public class QGCActivity extends QtActivity
            Log.e(TAG, "Exception: " + e);
         }
 
-        this.mContext = this;
-        init();
+    //setContentView(R.layout.activity_usbserial);
+    this.mContext = this;
+    requestPermissions();
+    //initView();
+    init();
+
     }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(
+                this, new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                }, 0
+        );
+    }
+
+private void init(){
+    //初始化usb连接
+    mUsbSerialConnection = new UsbSerialConnection(mContext);
+    mUsbSerialConnection.setDelegate(new UsbSerialConnection.Delegate() {
+        @Override
+        public void onH264Received(byte[] bytes, int paySize) {
+            //视频数据
+            if(mFPVVideoClient != null){
+                mVideoClient.received(bytes,4,paySize);
+                mFPVVideoClient.received(bytes,4,paySize);
+            }
+        }
+
+        @Override
+        public void onGPSReceived(byte[] bytes) {
+            //GPS数据
+        }
+
+        @Override
+        public void onDataReceived(byte[] bytes) {
+            //数传数据
+        }
+
+        @Override
+        public void onDebugReceived(byte[] bytes) {
+            //遥控器数据
+        }
+    });
+
+    //渲染视频相关
+    mFPVVideoClient = new FPVVideoClient();
+    mFPVVideoClient.setDelegate(new FPVVideoClient.Delegate() {
+        @Override
+        public void onStopRecordListener(final String fileName) {
+            //停止录像回调
+            System.out.println("onStopRecordListener!");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    sendBroadcast(
+                            new Intent(
+                                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                    Uri.fromFile(new File(fileName))
+                            )
+                    );
+                    MediaScannerConnection.scanFile(
+                            mContext,
+                            fileName.split(" "),
+                            null,
+                            null
+                    );
+                    Toast.makeText(
+                            mContext,
+                            fileName,
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
+            });
+        }
+
+        @Override
+        public void onSnapshotListener(final String fileName) {
+            //拍照回调
+
+            System.out.println("onSnapshotListener!");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    sendBroadcast(
+                            new Intent(
+                                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                    Uri.fromFile(new File(fileName))
+                            )
+                    );
+                    MediaScannerConnection.scanFile(
+                            mContext,
+                            fileName.split(" "),
+                            null,
+                            null
+                    );
+                    Toast.makeText(
+                            mContext,
+                            fileName,
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
+            });
+        }
+
+        //视频相关
+        @Override
+        public void renderI420(byte[] frame, int width, int height) {
+            //mPreviewDualVideoView.renderI420(frame,width,height);
+        }
+
+        @Override
+        public void setVideoSize(int picWidth, int picHeight) {
+            //mPreviewDualVideoView.setVideoSize(picWidth,picHeight,mainHanlder);
+        }
+
+        @Override
+        public void resetView() {
+            //mPreviewDualVideoView.resetView(mainHanlder);
+        }
+    });
+
+    mVideoClient = new VideoClient();
+
+    //FPV控制
+    mUsbSerialControl = new UsbSerialControl(mUsbSerialConnection);
+
+    mUSBMonitor = new USBMonitor(mContext,mOnDeviceConnectListener);
+    List<DeviceFilter> deviceFilters = DeviceFilter.getDeviceFilters(mContext, R.xml.device_filter);
+    mUSBMonitor.setDeviceFilter(deviceFilters);
+    mUSBMonitor.register();
+}
+
+//使用 USBMonitor 处理USB连接回调
+private USBMonitor.OnDeviceConnectListener mOnDeviceConnectListener = new USBMonitor.OnDeviceConnectListener() {
+    // USB device attach
+    // USB设备插入
+    @Override
+    public void onAttach(final UsbDevice device) {
+        if(deviceHasConnected(device) || mUsbDevice != null){
+            return;
+        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if(device == null){
+                        List<UsbDevice> devices = mUSBMonitor.getDeviceList();
+                        if(devices.size() == 1){
+                            mUSBMonitor.requestPermission(devices.get(0));
+                        }
+                    }else {
+                        mUSBMonitor.requestPermission(device);
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    // USB device detach
+    // USB设备物理断开
+    @Override
+    public void onDettach(UsbDevice device) {
+        if (!BusinessUtils.deviceIsUartVideoDevice(device)) {
+            return;
+        }
+        if (!deviceHasConnected(device)) {
+            return;
+        }
+        disconnected();
+    }
+
+    // USB device has obtained permission
+    // USB设备获得权限
+    @Override
+    public void onConnect(UsbDevice device, USBMonitor.UsbControlBlock var2, boolean var3) {
+        if (!BusinessUtils.deviceIsUartVideoDevice(device)) {
+            return;
+        }
+        if (deviceHasConnected(device)) {
+            return;
+        }
+
+        synchronized (this){
+            if (BusinessUtils.deviceIsUartVideoDevice(device)) {
+                try {
+                    //打开串口
+                    mUsbSerialConnection.openConnection(device);
+                    mUsbDevice = device;
+                    //开始渲染视频
+                    mFPVVideoClient.startPlayback();
+                    Thread.sleep(5000);
+                    boolean tmp = mFPVVideoClient.startRecord(null,null);
+                    if(tmp){
+                        System.out.println("start record OK");
+                    }else{
+                        System.out.println("start record NOT OK");
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    // USB device disconnected
+    // USB设备关闭连接
+    @Override
+    public void onDisconnect(UsbDevice device, USBMonitor.UsbControlBlock var2) {
+        if (!BusinessUtils.deviceIsUartVideoDevice(device)) {
+            return;
+        }
+        if (!deviceHasConnected(device)) {
+            return;
+        }
+        disconnected();
+    }
+
+    // USB device obtained permission failed
+    // USB设备权限获取失败
+    @Override
+    public void onCancel() {
+
+    }
+};
+
+//关闭连接
+private void disconnected(){
+    mFPVVideoClient.stopRecord();
+    if(mUsbSerialConnection != null){
+        try {
+            mUsbSerialConnection.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    if(mFPVVideoClient != null){
+        mFPVVideoClient.stopPlayback();
+    }
+
+    mUsbDevice = null;
+}
+
+private boolean deviceHasConnected(UsbDevice usbDevice){
+    return usbDevice != null && usbDevice == mUsbDevice;
+}
+
 
     @Override
     public void onResume() {
@@ -308,6 +595,13 @@ public class QGCActivity extends QtActivity
     @Override
     protected void onDestroy()
     {
+        disconnected();
+        if(mUSBMonitor != null){
+            mUSBMonitor.unregister();
+            mUSBMonitor.destroy();
+            mUSBMonitor = null;
+        }
+
         if (probeAccessoriesTimer != null) {
             probeAccessoriesTimer.cancel();
         }
@@ -324,236 +618,10 @@ public class QGCActivity extends QtActivity
            Log.e(TAG, "Exception onDestroy()");
         }
         super.onDestroy();
-        disconnected();
-             if(mUSBMonitor != null){
-                 mUSBMonitor.unregister();
-                 mUSBMonitor.destroy();
-                 mUSBMonitor = null;
-             }
     }
 
     public void onInit(int status) {
     }
-
-private void init(){
-
-        //mPreviewDualVideoView = findViewById(R.layout.activity_usbserial);
-        //mPreviewDualVideoView.init();
-
-        //初始化usb连接
-        mUsbSerialConnection = new UsbSerialConnection(mContext);
-        mUsbSerialConnection.setDelegate(new UsbSerialConnection.Delegate() {
-            @Override
-            public void onH264Received(byte[] bytes, int paySize) {
-                //Log.d("MyApp", "h264 rcv");
-                if(mFPVVideoClient != null){
-                  mVideoClient.received(bytes,4,paySize);
-                  //mFPVVideoClient.received(bytes,4,paySize);
-                }
-            }
-
-            @Override
-            public void onGPSReceived(byte[] bytes) {
-                //GPS数据
-            }
-
-            @Override
-            public void onDataReceived(byte[] bytes) {
-                //数传数据
-            }
-
-            @Override
-            public void onDebugReceived(byte[] bytes) {
-                //遥控器数据
-            }
-        });
-
-        mFPVVideoClient = new FPVVideoClient();
-           mFPVVideoClient.setDelegate(new FPVVideoClient.Delegate() {
-               @Override
-               public void onStopRecordListener(String fileName) {
-                   Log.d("VIGIAPP", "onStopRecord!!!");
-               }
-
-               @Override
-               public void onSnapshotListener(String fileName) {
-                   //拍照回调
-               }
-
-               //视频相关
-               @Override
-               public void renderI420(byte[] frame, int width, int height) {
-                   //mPreviewDualVideoView.renderI420(frame,width,height);
-                   //System.out.println("here");
-                   //Log.d("MyApp", "renders");
-               }
-
-               @Override
-               public void setVideoSize(int picWidth, int picHeight) {
-                   //mPreviewDualVideoView.setVideoSize(picWidth,picHeight,mainHanlder);
-               }
-
-               @Override
-               public void resetView() {
-                   //mPreviewDualVideoView.resetView(mainHanlder);
-               }
-           });
-
-        mVideoClient = new VideoClient();
-
-        //FPV控制
-        mUsbSerialControl = new UsbSerialControl(mUsbSerialConnection);
-
-        mUSBMonitor = new USBMonitor(mContext,mOnDeviceConnectListener);
-        List<DeviceFilter> deviceFilters = DeviceFilter.getDeviceFilters(mContext, R.xml.device_filter);
-        mUSBMonitor.setDeviceFilter(deviceFilters);
-        mUSBMonitor.register();
-    }
-
-//使用 USBMonitor 处理USB连接回调
-    private USBMonitor.OnDeviceConnectListener mOnDeviceConnectListener = new USBMonitor.OnDeviceConnectListener() {
-        // USB device attach
-        // USB设备插入
-        @Override
-        public void onAttach(final UsbDevice device) {
-            System.out.println("sky: onAttach");
-            if(deviceHasConnected(device) || mUsbDevice != null){
-                return;
-            }
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        if(device == null){
-                            List<UsbDevice> devices = mUSBMonitor.getDeviceList();
-                            if(devices.size() == 1){
-                                mUSBMonitor.requestPermission(devices.get(0));
-                            }
-                        }else {
-                            mUSBMonitor.requestPermission(device);
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-
-        // USB device detach
-        // USB设备物理断开
-        @Override
-        public void onDettach(UsbDevice device) {
-            System.out.println("sky: onDettach");
-            if (!BusinessUtils.deviceIsUartVideoDevice(device)) {
-                return;
-            }
-            if (!deviceHasConnected(device)) {
-                return;
-            }
-            disconnected();
-        }
-
-        // USB device has obtained permission
-        // USB设备获得权限
-        @Override
-        public void onConnect(UsbDevice device, USBMonitor.UsbControlBlock var2, boolean var3) {
-            System.out.println("sky: onConnect");
-            if (!BusinessUtils.deviceIsUartVideoDevice(device)) {
-                return;
-            }
-            if (deviceHasConnected(device)) {
-                return;
-            }
-
-            synchronized (this){
-                if (BusinessUtils.deviceIsUartVideoDevice(device)) {
-                    try {
-                        //打开串口
-                        mUsbSerialConnection.openConnection(device);
-                        mUsbDevice = device;
-                        //开始渲染视频
-                        mFPVVideoClient.startPlayback();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-//            if(BusinessUtils.deviceIsUartVideoDevice(device)){
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            while(mFPVVideoClient.isPlaying() == false){
-
-//                            }
-
-//                           String tempFolder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FUAV/video/";
-
-//                           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd.HH.mm.ss", Locale.US);
-//                           //String tempFileName = "/Ronda_" + format.format(new Date()) + ".mp4";
-//                           String tempFileName = "teste";
-
-//                            File path = new File(tempFolder);
-//                            if (!path.exists()){
-//                              path.mkdirs();
-//                            }
-
-//                            Log.d("VIGIAPP", tempFolder + tempFileName);
-
-//                            if(mFPVVideoClient.startRecord(tempFolder, tempFileName)){
-//                                Log.d("VIGIAPP", "video record ok");
-//                            }else{
-//                                Log.d("VIGIAPP", "video record not ok");
-//                            }
-//                        }
-
-//                    }).start();
-//                }
-            }
-
-
-        // USB device disconnected
-        @Override
-        public void onDisconnect(UsbDevice device, USBMonitor.UsbControlBlock var2) {
-            System.out.println("sky: onDisconnect");
-            if (!BusinessUtils.deviceIsUartVideoDevice(device)) {
-                return;
-            }
-            if (!deviceHasConnected(device)) {
-                return;
-            }
-            disconnected();
-        }
-
-        // USB device obtained permission failed
-        @Override
-        public void onCancel() {
-
-        }
-    };
-
-    private void disconnected(){
-        if(mUsbSerialConnection != null){
-            try {
-                mUsbSerialConnection.closeConnection();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(mFPVVideoClient != null){
-            mFPVVideoClient.stopPlayback();
-            //mFPVVideoClient.stopRecord();
-        }
-
-        mUsbDevice = null;
-    }
-
-    private boolean deviceHasConnected(UsbDevice usbDevice){
-        return usbDevice != null && usbDevice == mUsbDevice;
-    }
-
 
     /// Incrementally updates the list of drivers connected to the device
     private static void updateCurrentDrivers()
