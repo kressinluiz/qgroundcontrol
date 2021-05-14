@@ -56,14 +56,12 @@ void InitialConnectStateMachine::_stateRequestCapabilities(StateMachine* stateMa
 {
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
-    WeakLinkInterfacePtr        weakLink        = vehicle->vehicleLinkManager()->primaryLink();
+    SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
 
-    if (weakLink.expired()) {
+    if (!sharedLink) {
         qCDebug(InitialConnectStateMachineLog) << "_stateRequestCapabilities Skipping capability request due to no primary link";
         connectMachine->advance();
     } else {
-        SharedLinkInterfacePtr sharedLink = weakLink.lock();
-
         if (sharedLink->linkConfiguration()->isHighLatency() || sharedLink->isPX4Flow() || sharedLink->isLogReplay()) {
             qCDebug(InitialConnectStateMachineLog) << "Skipping capability request due to link type";
             connectMachine->advance();
@@ -168,14 +166,12 @@ void InitialConnectStateMachine::_stateRequestProtocolVersion(StateMachine* stat
 {
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
-    WeakLinkInterfacePtr        weakLink        = vehicle->vehicleLinkManager()->primaryLink();
+    SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
 
-    if (weakLink.expired()) {
+    if (!sharedLink) {
         qCDebug(InitialConnectStateMachineLog) << "_stateRequestProtocolVersion Skipping protocol version request due to no primary link";
         connectMachine->advance();
     } else {
-        SharedLinkInterfacePtr sharedLink = weakLink.lock();
-
         if (sharedLink->linkConfiguration()->isHighLatency() || sharedLink->isPX4Flow() || sharedLink->isLogReplay()) {
             qCDebug(InitialConnectStateMachineLog) << "_stateRequestProtocolVersion Skipping protocol version request due to link type";
             connectMachine->advance();
@@ -193,9 +189,10 @@ void InitialConnectStateMachine::_stateRequestProtocolVersion(StateMachine* stat
 
 void InitialConnectStateMachine::_protocolVersionCmdResultHandler(void* resultHandlerData, int /*compId*/, MAV_RESULT result, Vehicle::MavCmdResultFailureCode_t failureCode)
 {
+    InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(resultHandlerData);
+
     if (result != MAV_RESULT_ACCEPTED) {
-        InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(resultHandlerData);
-        Vehicle*                    vehicle         = connectMachine->_vehicle;
+        Vehicle* vehicle = connectMachine->_vehicle;
 
         switch (failureCode) {
         case Vehicle::MavCmdResultCommandResultOnly:
@@ -213,8 +210,8 @@ void InitialConnectStateMachine::_protocolVersionCmdResultHandler(void* resultHa
         vehicle->_mavlinkProtocolRequestComplete = true;
         vehicle->_setMaxProtoVersionFromBothSources();
         vehicle->_waitForMavlinkMessageClear();
-        connectMachine->advance();
     }
+    connectMachine->advance();
 }
 
 void InitialConnectStateMachine::_waitForProtocolVersionResultHandler(void* resultHandlerData, bool noResponsefromVehicle, const mavlink_message_t& message)
@@ -271,14 +268,12 @@ void InitialConnectStateMachine::_stateRequestMission(StateMachine* stateMachine
 {
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
-    WeakLinkInterfacePtr        weakLink        = vehicle->vehicleLinkManager()->primaryLink();
+    SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
 
-    if (weakLink.expired()) {
+    if (!sharedLink) {
         qCDebug(InitialConnectStateMachineLog) << "_stateRequestMission: Skipping first mission load request due to no primary link";
         connectMachine->advance();
     } else {
-        SharedLinkInterfacePtr sharedLink = weakLink.lock();
-
         if (sharedLink->linkConfiguration()->isHighLatency() || sharedLink->isPX4Flow() || sharedLink->isLogReplay()) {
             qCDebug(InitialConnectStateMachineLog) << "_stateRequestMission: Skipping first mission load request due to link type";
             vehicle->_firstMissionLoadComplete();
@@ -293,14 +288,12 @@ void InitialConnectStateMachine::_stateRequestGeoFence(StateMachine* stateMachin
 {
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
-    WeakLinkInterfacePtr        weakLink        = vehicle->vehicleLinkManager()->primaryLink();
+    SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
 
-    if (weakLink.expired()) {
+    if (!sharedLink) {
         qCDebug(InitialConnectStateMachineLog) << "_stateRequestGeoFence: Skipping first geofence load request due to no primary link";
         connectMachine->advance();
     } else {
-        SharedLinkInterfacePtr sharedLink = weakLink.lock();
-
         if (sharedLink->linkConfiguration()->isHighLatency() || sharedLink->isPX4Flow() || sharedLink->isLogReplay()) {
             qCDebug(InitialConnectStateMachineLog) << "_stateRequestGeoFence: Skipping first geofence load request due to link type";
             vehicle->_firstGeoFenceLoadComplete();
@@ -320,14 +313,12 @@ void InitialConnectStateMachine::_stateRequestRallyPoints(StateMachine* stateMac
 {
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
-    WeakLinkInterfacePtr        weakLink        = vehicle->vehicleLinkManager()->primaryLink();
+    SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
 
-    if (weakLink.expired()) {
+    if (!sharedLink) {
         qCDebug(InitialConnectStateMachineLog) << "_stateRequestRallyPoints: Skipping first rally point load request due to no primary link";
         connectMachine->advance();
     } else {
-        SharedLinkInterfacePtr sharedLink = weakLink.lock();
-
         if (sharedLink->linkConfiguration()->isHighLatency() || sharedLink->isPX4Flow() || sharedLink->isLogReplay()) {
             qCDebug(InitialConnectStateMachineLog) << "_stateRequestRallyPoints: Skipping first rally point load request due to link type";
             vehicle->_firstRallyPointLoadComplete();
