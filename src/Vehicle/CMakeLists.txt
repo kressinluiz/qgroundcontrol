@@ -20,8 +20,10 @@ add_library(Vehicle
 	CompInfo.h
 	CompInfoParam.cc
 	CompInfoParam.h
-	CompInfoVersion.cc
-	CompInfoVersion.h
+	CompInfoGeneral.cc
+	CompInfoGeneral.h
+	ComponentInformationCache.cc
+	ComponentInformationCache.h
 	ComponentInformationManager.cc
 	ComponentInformationManager.h
 	FTPManager.cc
@@ -32,6 +34,8 @@ add_library(Vehicle
 	InitialConnectStateMachine.h
 	MAVLinkLogManager.cc
 	MAVLinkLogManager.h
+	MAVLinkStreamConfig.cc
+	MAVLinkStreamConfig.h
 	MultiVehicleManager.cc
 	MultiVehicleManager.h
 	StateMachine.cc
@@ -55,8 +59,14 @@ add_library(Vehicle
 	VehicleEscStatusFactGroup.h
 	VehicleEstimatorStatusFactGroup.cc
 	VehicleEstimatorStatusFactGroup.h
+	VehicleLocalPositionFactGroup.cc
+	VehicleLocalPositionFactGroup.h
+	VehicleLocalPositionSetpointFactGroup.cc
+	VehicleLocalPositionSetpointFactGroup.h
 	VehicleGPSFactGroup.cc
 	VehicleGPSFactGroup.h
+	VehicleGPS2FactGroup.cc
+	VehicleGPS2FactGroup.h
 	Vehicle.h
 	VehicleLinkManager.cc
 	VehicleLinkManager.h
@@ -77,6 +87,7 @@ add_library(Vehicle
 target_link_libraries(Vehicle
 	PRIVATE
 		ui
+		compression
 	PUBLIC
 		qgc
 )

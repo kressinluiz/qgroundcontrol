@@ -21,7 +21,7 @@ class QGCPositionManager : public QGCTool {
     Q_OBJECT
 
 public:
-
+    static constexpr size_t MinHorizonalAccuracyMeters = 100;
     QGCPositionManager(QGCApplication* app, QGCToolbox* toolbox);
     ~QGCPositionManager();
 
@@ -36,7 +36,7 @@ public:
     };
 
     QGeoCoordinate      gcsPosition         (void) { return _gcsPosition; }
-    qreal               gcsHeading          (void) { return _gcsHeading; }
+    qreal               gcsHeading          (void) const{ return _gcsHeading; }
     QGeoPositionInfo    geoPositionInfo     (void) const { return _geoPositionInfo; }
     void                setPositionSource   (QGCPositionSource source);
     int                 updateInterval      (void) const;

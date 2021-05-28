@@ -49,6 +49,7 @@ if(BUILD_TESTING)
 
 	add_subdirectory(qgcunittest)
 
+	add_qgc_test(ComponentInformationCacheTest)
 	add_qgc_test(CameraCalcTest)
 	add_qgc_test(CameraSectionTest)
 	add_qgc_test(CorridorScanComplexItemTest)
@@ -119,8 +120,6 @@ add_library(qgc
 	QGCTemporaryFile.h
 	QGCToolbox.cc
 	QGCToolbox.h
-	QGCZlib.cc
-	QGCZlib.h
 	RunGuard.cc
 	RunGuard.h
 	ShapeFileHelper.cc
@@ -144,6 +143,7 @@ add_subdirectory(Audio)
 add_subdirectory(AutoPilotPlugins)
 add_subdirectory(Camera)
 add_subdirectory(comm)
+add_subdirectory(Compression)
 add_subdirectory(FactSystem)
 add_subdirectory(FirmwarePlugin)
 add_subdirectory(FlightDisplay)
@@ -168,14 +168,13 @@ add_subdirectory(VideoReceiver)
 target_link_libraries(qgc
 	PRIVATE
 		shp
-                Qt5::QuickControls2
-                z # zlib
+		Qt5::QuickControls2
 
 	PUBLIC
 		Qt5::QuickWidgets
 		Qt5::Widgets
 
-                ADSB
+		ADSB
 		Airmap
 		AnalyzeView
 		api
@@ -201,6 +200,7 @@ target_link_libraries(qgc
 		Vehicle
 		VehicleSetup
 		VideoManager
+		z # zlib
 )
 
 if(BUILD_TESTING)

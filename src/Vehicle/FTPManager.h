@@ -39,6 +39,10 @@ public:
     /// Signals downloadComplete, commandError, commandProgress
     bool download(const QString& fromURI, const QString& toDir);
 
+    /// Cancel the current operation
+    /// This will emit downloadComplete() when done, and if there's currently a download in progress
+    void cancel();
+
     static const char* mavlinkFTPScheme;
 
 signals:
@@ -53,7 +57,7 @@ signals:
     
     /// Signalled during a lengthy command to show progress
     ///     @param value Amount of progress: 0.0 = none, 1.0 = complete
-    void commandProgress(int value);
+    void commandProgress(float value);
 	
 private slots:
     void _ackOrNakTimeout(void);
@@ -63,18 +67,18 @@ private:
     typedef void (FTPManager::*StateAckNakFn)    (const MavlinkFTP::Request* ackOrNak);
     typedef void (FTPManager::*StateTimeoutFn)          (void);
 
-    typedef struct {
+    struct StateFunctions_t {
         StateBeginFn    beginFn;
         StateAckNakFn   ackNakFn;
         StateTimeoutFn  timeoutFn;
-    } StateFunctions_t;
+    };
 
-    typedef struct  {
+    struct MissingData_t {
         uint32_t offset;
         uint32_t cBytesMissing;
-    } MissingData_t;
+    };
 
-    typedef struct {
+    struct DownloadState_t {
         uint8_t                 sessionId;
         uint32_t                expectedOffset;         ///< offset which should be coming next
         uint32_t                bytesWritten;
@@ -85,6 +89,8 @@ private:
         uint32_t                fileSize;               ///< Size of file being downloaded
         QFile                   file;
         int                     retryCount;
+
+        bool inProgress() const { return fileSize > 0; }
 
         void reset() {
             sessionId       = 0;
@@ -97,7 +103,7 @@ private:
             rgMissingData.clear();
             file.close();
         }
-    } DownloadState_t;
+    };
 
 
     void    _mavlinkMessageReceived     (const mavlink_message_t& message);
@@ -124,6 +130,11 @@ private:
     void    _fillMissingBlocksWorker    (bool firstRequest);
     void    _burstReadFileWorker        (bool firstRequest);
     bool    _parseURI                   (const QString& uri, QString& parsedURI, uint8_t& compId);
+
+    void    _terminateSessionBegin      (void);
+    void    _terminateSessionAckOrNak   (const MavlinkFTP::Request* ackOrNak);
+    void    _terminateSessionTimeout    (void);
+    void    _terminateComplete          (void);
 
     Vehicle*                _vehicle;
     uint8_t                 _ftpCompId = MAV_COMP_ID_AUTOPILOT1;

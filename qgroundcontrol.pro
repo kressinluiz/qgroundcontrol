@@ -383,6 +383,7 @@ INCLUDEPATH += \
     src/api \
     src/AnalyzeView \
     src/Camera \
+    src/Compression \
     src/AutoPilotPlugins \
     src/FlightDisplay \
     src/FlightMap \
@@ -488,12 +489,14 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         src/MissionManager/TransectStyleComplexItemTest.h \
         src/MissionManager/TransectStyleComplexItemTestBase.h \
         src/MissionManager/VisualMissionItemTest.h \
+        src/qgcunittest/ComponentInformationCacheTest.h \
         src/qgcunittest/GeoTest.h \
         src/qgcunittest/MavlinkLogTest.h \
         src/qgcunittest/MultiSignalSpy.h \
         src/qgcunittest/MultiSignalSpyV2.h \
         src/qgcunittest/UnitTest.h \
         src/Vehicle/FTPManagerTest.h \
+        src/Vehicle/InitialConnectTest.h \
         src/Vehicle/RequestMessageTest.h \
         src/Vehicle/SendMavCommandWithHandlerTest.h \
         src/Vehicle/SendMavCommandWithSignallingTest.h \
@@ -534,6 +537,7 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         src/MissionManager/TransectStyleComplexItemTest.cc \
         src/MissionManager/TransectStyleComplexItemTestBase.cc \
         src/MissionManager/VisualMissionItemTest.cc \
+        src/qgcunittest/ComponentInformationCacheTest.cc \
         src/qgcunittest/GeoTest.cc \
         src/qgcunittest/MavlinkLogTest.cc \
         src/qgcunittest/MultiSignalSpy.cc \
@@ -541,6 +545,7 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         src/qgcunittest/UnitTest.cc \
         src/qgcunittest/UnitTestList.cc \
         src/Vehicle/FTPManagerTest.cc \
+        src/Vehicle/InitialConnectTest.cc \
         src/Vehicle/RequestMessageTest.cc \
         src/Vehicle/SendMavCommandWithHandlerTest.cc \
         src/Vehicle/SendMavCommandWithSignallingTest.cc \
@@ -568,6 +573,8 @@ HEADERS += \
     src/Camera/QGCCameraIO.h \
     src/Camera/QGCCameraManager.h \
     src/CmdLineOptParser.h \
+    src/Compression/QGCLZMA.h \
+    src/Compression/QGCZlib.h \
     src/FirmwarePlugin/PX4/px4_custom_mode.h \
     src/FollowMe/FollowMe.h \
     src/Joystick/Joystick.h \
@@ -639,7 +646,6 @@ HEADERS += \
     src/QGCQGeoCoordinate.h \
     src/QGCTemporaryFile.h \
     src/QGCToolbox.h \
-    src/QGCZlib.h \
     src/QmlControls/AppMessages.h \
     src/QmlControls/EditPositionDialogController.h \
     src/QmlControls/FlightPathSegment.h \
@@ -678,13 +684,19 @@ HEADERS += \
     src/Terrain/TerrainQuery.h \
     src/TerrainTile.h \
     src/Vehicle/CompInfo.h \
+    src/Vehicle/CompInfoEvents.h \
     src/Vehicle/CompInfoParam.h \
-    src/Vehicle/CompInfoVersion.h \
+    src/Vehicle/CompInfoGeneral.h \
+    src/Vehicle/ComponentInformationCache.h \
     src/Vehicle/ComponentInformationManager.h \
+    src/Vehicle/EventHandler.h \
     src/Vehicle/FTPManager.h \
     src/Vehicle/GPSRTKFactGroup.h \
+    src/Vehicle/HealthAndArmingChecks.h \
+    src/Vehicle/ImageProtocolManager.h \
     src/Vehicle/InitialConnectStateMachine.h \
     src/Vehicle/MAVLinkLogManager.h \
+    src/Vehicle/MAVLinkStreamConfig.h \
     src/Vehicle/MultiVehicleManager.h \
     src/Vehicle/StateMachine.h \
     src/Vehicle/SysStatusSensorInfo.h \
@@ -697,7 +709,10 @@ HEADERS += \
     src/Vehicle/VehicleClockFactGroup.h \
     src/Vehicle/VehicleDistanceSensorFactGroup.h \
     src/Vehicle/VehicleEstimatorStatusFactGroup.h \
+    src/Vehicle/VehicleLocalPositionFactGroup.h \
+    src/Vehicle/VehicleLocalPositionSetpointFactGroup.h \
     src/Vehicle/VehicleGPSFactGroup.h \
+    src/Vehicle/VehicleGPS2FactGroup.h \
     src/Vehicle/VehicleLinkManager.h \
     src/Vehicle/VehicleSetpointFactGroup.h \
     src/Vehicle/VehicleTemperatureFactGroup.h \
@@ -801,6 +816,8 @@ SOURCES += \
     src/Camera/QGCCameraIO.cc \
     src/Camera/QGCCameraManager.cc \
     src/CmdLineOptParser.cc \
+    src/Compression/QGCLZMA.cc \
+    src/Compression/QGCZlib.cc \
     src/FollowMe/FollowMe.cc \
     src/Joystick/Joystick.cc \
     src/Joystick/JoystickManager.cc \
@@ -868,7 +885,6 @@ SOURCES += \
     src/QGCQGeoCoordinate.cc \
     src/QGCTemporaryFile.cc \
     src/QGCToolbox.cc \
-    src/QGCZlib.cc \
     src/QmlControls/AppMessages.cc \
     src/QmlControls/EditPositionDialogController.cc \
     src/QmlControls/FlightPathSegment.cc \
@@ -907,13 +923,19 @@ SOURCES += \
     src/Terrain/TerrainQuery.cc \
     src/TerrainTile.cc\
     src/Vehicle/CompInfo.cc \
+    src/Vehicle/CompInfoEvents.cc \
     src/Vehicle/CompInfoParam.cc \
-    src/Vehicle/CompInfoVersion.cc \
+    src/Vehicle/CompInfoGeneral.cc \
+    src/Vehicle/ComponentInformationCache.cc \
     src/Vehicle/ComponentInformationManager.cc \
+    src/Vehicle/EventHandler.cc \
     src/Vehicle/FTPManager.cc \
     src/Vehicle/GPSRTKFactGroup.cc \
+    src/Vehicle/HealthAndArmingChecks.cc \
+    src/Vehicle/ImageProtocolManager.cc \
     src/Vehicle/InitialConnectStateMachine.cc \
     src/Vehicle/MAVLinkLogManager.cc \
+    src/Vehicle/MAVLinkStreamConfig.cc \
     src/Vehicle/MultiVehicleManager.cc \
     src/Vehicle/StateMachine.cc \
     src/Vehicle/SysStatusSensorInfo.cc \
@@ -926,7 +948,10 @@ SOURCES += \
     src/Vehicle/VehicleClockFactGroup.cc \
     src/Vehicle/VehicleDistanceSensorFactGroup.cc \
     src/Vehicle/VehicleEstimatorStatusFactGroup.cc \
+    src/Vehicle/VehicleLocalPositionFactGroup.cc \
+    src/Vehicle/VehicleLocalPositionSetpointFactGroup.cc \
     src/Vehicle/VehicleGPSFactGroup.cc \
+    src/Vehicle/VehicleGPS2FactGroup.cc \
     src/Vehicle/VehicleLinkManager.cc \
     src/Vehicle/VehicleSetpointFactGroup.cc \
     src/Vehicle/VehicleTemperatureFactGroup.cc \
@@ -1144,6 +1169,7 @@ PX4FirmwarePlugin {
         src/AutoPilotPlugins/PX4/PX4AdvancedFlightModesController.h \
         src/AutoPilotPlugins/PX4/PX4AirframeLoader.h \
         src/AutoPilotPlugins/PX4/PX4AutoPilotPlugin.h \
+        src/AutoPilotPlugins/PX4/PX4FlightBehavior.h \
         src/AutoPilotPlugins/PX4/PX4RadioComponent.h \
         src/AutoPilotPlugins/PX4/PX4SimpleFlightModesController.h \
         src/AutoPilotPlugins/PX4/PX4TuningComponent.h \
@@ -1164,6 +1190,7 @@ PX4FirmwarePlugin {
         src/AutoPilotPlugins/PX4/PX4AdvancedFlightModesController.cc \
         src/AutoPilotPlugins/PX4/PX4AirframeLoader.cc \
         src/AutoPilotPlugins/PX4/PX4AutoPilotPlugin.cc \
+        src/AutoPilotPlugins/PX4/PX4FlightBehavior.cc \
         src/AutoPilotPlugins/PX4/PX4RadioComponent.cc \
         src/AutoPilotPlugins/PX4/PX4SimpleFlightModesController.cc \
         src/AutoPilotPlugins/PX4/PX4TuningComponent.cc \

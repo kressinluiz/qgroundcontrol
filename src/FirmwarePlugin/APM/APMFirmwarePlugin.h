@@ -68,7 +68,7 @@ public:
     QString             missionFlightMode               (void) const override { return QString("Auto"); }
     void                pauseVehicle                    (Vehicle* vehicle) override;
     void                guidedModeRTL                   (Vehicle* vehicle, bool smartRTL) override;
-    void                guidedModeChangeAltitude        (Vehicle* vehicle, double altitudeChange) override;
+    void                guidedModeChangeAltitude        (Vehicle* vehicle, double altitudeChange, bool pauseVehicle) override;
     bool                adjustIncomingMavlinkMessage    (Vehicle* vehicle, mavlink_message_t* message) override;
     void                adjustOutgoingMavlinkMessageThreadSafe(Vehicle* vehicle, LinkInterface* outgoingLink, mavlink_message_t* message) override;
     virtual void        initializeStreamRates           (Vehicle* vehicle);
@@ -81,6 +81,7 @@ public:
     QObject*            _loadParameterMetaData          (const QString& metaDataFile) override;
     QString             brandImageIndoor                (const Vehicle* vehicle) const override { Q_UNUSED(vehicle); return QStringLiteral("/qmlimages/APM/BrandImage"); }
     QString             brandImageOutdoor               (const Vehicle* vehicle) const override { Q_UNUSED(vehicle); return QStringLiteral("/qmlimages/APM/BrandImage"); }
+    QString             getHobbsMeter                   (Vehicle* vehicle) override; 
 
 protected:
     /// All access to singleton is through stack specific implementation
@@ -119,6 +120,9 @@ private:
 
     static const char*      _artooIP;
     static const int        _artooVideoHandshakePort;
+
+    static uint8_t          _reencodeMavlinkChannel();
+    static QMutex&          _reencodeMavlinkChannelMutex();
 };
 
 #endif

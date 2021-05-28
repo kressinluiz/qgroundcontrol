@@ -7,10 +7,6 @@
  *
  ****************************************************************************/
 
-
-/// @file
-///     @author Don Gagne <don@thegagnes.com>
-
 #include "PX4FirmwarePlugin.h"
 #include "PX4ParameterMetaData.h"
 #include "QGCApplication.h"
@@ -62,7 +58,6 @@ PX4FirmwarePlugin::PX4FirmwarePlugin()
     qmlRegisterType<AirframeComponentController>        ("QGroundControl.Controllers", 1, 0, "AirframeComponentController");
     qmlRegisterType<SensorsComponentController>         ("QGroundControl.Controllers", 1, 0, "SensorsComponentController");
     qmlRegisterType<PowerComponentController>           ("QGroundControl.Controllers", 1, 0, "PowerComponentController");
-    qmlRegisterType<RadioComponentController>           ("QGroundControl.Controllers", 1, 0, "RadioComponentController");
 
     struct Modes2Name {
         uint8_t     main_mode;
@@ -462,7 +457,54 @@ void PX4FirmwarePlugin::guidedModeGotoLocation(Vehicle* vehicle, const QGeoCoord
     }
 }
 
-void PX4FirmwarePlugin::guidedModeChangeAltitude(Vehicle* vehicle, double altitudeChange)
+typedef struct {
+    PX4FirmwarePlugin*  plugin;
+    Vehicle*            vehicle;
+    double              newAMSLAlt;
+} PauseVehicleThenChangeAltData_t;
+
+static void _pauseVehicleThenChangeAltResultHandler(void* resultHandlerData, int /*compId*/, MAV_RESULT commandResult, Vehicle::MavCmdResultFailureCode_t failureCode)
+{
+    if (commandResult != MAV_RESULT_ACCEPTED) {
+        switch (failureCode) {
+        case Vehicle::MavCmdResultCommandResultOnly:
+            qDebug() << QStringLiteral("MAV_CMD_DO_REPOSITION error(%1)").arg(commandResult);
+            break;
+        case Vehicle::MavCmdResultFailureNoResponseToCommand:
+            qDebug() << "MAV_CMD_DO_REPOSITION no response from vehicle";
+            break;
+        case Vehicle::MavCmdResultFailureDuplicateCommand:
+            qDebug() << "Internal Error: MAV_CMD_DO_REPOSITION could not be sent due to duplicate command";
+            break;
+        }
+    }
+
+    PauseVehicleThenChangeAltData_t* pData = static_cast<PauseVehicleThenChangeAltData_t*>(resultHandlerData);
+    pData->plugin->_changeAltAfterPause(resultHandlerData, commandResult == MAV_RESULT_ACCEPTED /* pauseSucceeded */);
+}
+
+void PX4FirmwarePlugin::_changeAltAfterPause(void* resultHandlerData, bool pauseSucceeded)
+{
+    PauseVehicleThenChangeAltData_t* pData = static_cast<PauseVehicleThenChangeAltData_t*>(resultHandlerData);
+
+    if (pauseSucceeded) {
+        pData->vehicle->sendMavCommand(
+                    pData->vehicle->defaultComponentId(),
+                    MAV_CMD_DO_REPOSITION,
+                    true,                                   // show error is fails
+                    -1.0f,                                  // Don't change groundspeed
+                    MAV_DO_REPOSITION_FLAGS_CHANGE_MODE,
+                    0.0f,                                   // Reserved
+                    qQNaN(), qQNaN(), qQNaN(),              // No change to yaw, lat, lon
+                    static_cast<float>(pData->newAMSLAlt));
+    } else {
+        qgcApp()->showAppMessage(tr("Unable to pause vehicle."));
+    }
+
+    delete pData;
+}
+
+void PX4FirmwarePlugin::guidedModeChangeAltitude(Vehicle* vehicle, double altitudeChange, bool pauseVehicle)
 {
     if (!vehicle->homePosition().isValid()) {
         qgcApp()->showAppMessage(tr("Unable to change altitude, home position unknown."));
@@ -476,16 +518,24 @@ void PX4FirmwarePlugin::guidedModeChangeAltitude(Vehicle* vehicle, double altitu
     double currentAltRel = vehicle->altitudeRelative()->rawValue().toDouble();
     double newAltRel = currentAltRel + altitudeChange;
 
-    vehicle->sendMavCommand(vehicle->defaultComponentId(),
-                            MAV_CMD_DO_REPOSITION,
-                            true,   // show error is fails
-                            -1.0f,
-                            MAV_DO_REPOSITION_FLAGS_CHANGE_MODE,
-                            0.0f,
-                            NAN,
-                            NAN,
-                            NAN,
-                            static_cast<float>(vehicle->homePosition().altitude() + newAltRel));
+    PauseVehicleThenChangeAltData_t* resultData = new PauseVehicleThenChangeAltData_t;
+    resultData->plugin      = this;
+    resultData->vehicle     = vehicle;
+    resultData->newAMSLAlt  = vehicle->homePosition().altitude() + newAltRel;
+
+    if (pauseVehicle) {
+        vehicle->sendMavCommandWithHandler(
+                    _pauseVehicleThenChangeAltResultHandler,
+                    resultData,
+                    vehicle->defaultComponentId(),
+                    MAV_CMD_DO_REPOSITION,
+                    -1.0f,                                  // Don't change groundspeed
+                    MAV_DO_REPOSITION_FLAGS_CHANGE_MODE,
+                    0.0f,                                   // Reserved
+                    qQNaN(), qQNaN(), qQNaN(), qQNaN());    // No change to yaw, lat, lon, alt
+    } else {
+        _changeAltAfterPause(resultData, true /* pauseSucceeded */);
+    }
 }
 
 void PX4FirmwarePlugin::startMission(Vehicle* vehicle)
@@ -595,3 +645,25 @@ bool PX4FirmwarePlugin::supportsNegativeThrust(Vehicle* vehicle)
 {
     return vehicle->vehicleType() == MAV_TYPE_GROUND_ROVER;
 }
+
+QString PX4FirmwarePlugin::getHobbsMeter(Vehicle* vehicle) 
+{
+    static const char* HOOBS_HI = "LND_FLIGHT_T_HI";
+    static const char* HOOBS_LO = "LND_FLIGHT_T_LO";
+    uint64_t hobbsTimeSeconds = 0;
+
+    if (vehicle->parameterManager()->parameterExists(FactSystem::defaultComponentId, HOOBS_HI) &&
+            vehicle->parameterManager()->parameterExists(FactSystem::defaultComponentId, HOOBS_LO)) {
+        Fact* factHi = vehicle->parameterManager()->getParameter(FactSystem::defaultComponentId, HOOBS_HI);
+        Fact* factLo = vehicle->parameterManager()->getParameter(FactSystem::defaultComponentId, HOOBS_LO);
+        hobbsTimeSeconds = ((uint64_t)factHi->rawValue().toUInt() << 32 | (uint64_t)factLo->rawValue().toUInt()) / 1000000;
+        qCDebug(VehicleLog) << "Hobbs Meter raw PX4:" << "(" << factHi->rawValue().toUInt() << factLo->rawValue().toUInt() << ")";
+    } 
+
+    int hours   = hobbsTimeSeconds / 3600;
+    int minutes = (hobbsTimeSeconds % 3600) / 60;
+    int seconds = hobbsTimeSeconds % 60;
+    QString timeStr = QString::asprintf("%04d:%02d:%02d", hours, minutes, seconds);
+    qCDebug(VehicleLog) << "Hobbs Meter string:" << timeStr;
+    return timeStr;
+} 

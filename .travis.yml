@@ -14,16 +14,10 @@ jobs:
     include:
         - stage: "Build"
           name: "Linux Installer"
+          if: branch = master
           os: linux
           dist: bionic
           env: SPEC=linux-g++-64 CONFIG=installer
-          sudo: required
-        - stage: "Build"
-          name: "Linux Debug"
-          os: linux
-          dist: bionic
-          env: SPEC=linux-g++-64 CONFIG=debug
-          services: xvfb
           sudo: required
         - stage: "Build"
           name: "Android 32 bit"
@@ -39,6 +33,7 @@ jobs:
           sudo: false
         - stage: "Build"
           name: "OSX Installer"
+          if: branch = master
           os: osx
           osx_image: xcode11.3
           env: SPEC=macx-clang CONFIG=installer
@@ -85,9 +80,9 @@ addons:
 
 before_install:
   # fetch entire git repo to properly determine the version
-  - if [ "${CONFIG}" = "installer" ]; then
-        cd ${TRAVIS_BUILD_DIR} && git fetch --unshallow && git fetch --all --tags;
-    fi
+  - cd ${TRAVIS_BUILD_DIR}
+  - git fetch --unshallow
+  - git fetch --all --tags
 
   # compile threads
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
@@ -179,8 +174,9 @@ before_script:
         export CONFIG=release;
     fi
 
-  # insert QGC version in AndroidManifest.xml
-  - if [ "${SPEC}" = "android-clang" ]; then
+  # Update QGC version in AndroidManifest.xml based on git tag. We do not do this on pull requests
+  # since it is likely the tags out out of date on the pull and may cause an error.
+  - if [ "${SPEC}" = "android-clang"  && "${TRAVIS_PULL_REQUEST}" = "false" ]]; then
         git remote set-branches origin 'master' &&
         git fetch --tags origin master &&
         ./tools/update_android_version.sh ${BITNESS} ${TRAVIS_BRANCH};
